@@ -1,39 +1,47 @@
-<?php 
+<?php  
 // Pantalla de inicio de sesión del proyecto Hidden Sound Atlas.
-// Aquí los usuarios acceden a su cuenta antes de entrar a The Blue Room.
-// Mostramos aviso si hay problemas con el login.
+// Aquí los usuarios acceden a su cuenta antes de entrar en The Blue Room.
+// Si hay problemas con el login, mostramos el aviso correspondiente.
 ?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hidden Sound Atlas - Access</title>
+    <link rel="stylesheet" href="/Proyecto_BlogPHP/public/css/style.css">
+</head>
+<body class="auth-body">
 
-<?php if (isset($debug) && $debug === true): ?>
-    <pre style="background:#111;color:#0f0;padding:10px;">
-    DEBUG LOGIN -----------------------
-    EMAIL RECIBIDO:
-    <?php var_dump($email ?? null); ?>
+    <div class="auth-container">
+        <h1>Hidden Sound Atlas</h1>
+        <h2>The Blue Room Access</h2>
 
-    PASSWORD RECIBIDA (raw):
-    <?php var_dump($password ?? null); ?>
+        <?php if (isset($error)) : ?>
+            <p class="auth-error"><?php echo htmlspecialchars($error); ?></p>
+        <?php endif; ?>
 
-    USUARIO ENCONTRADO EN BD:
-    <?php var_dump($user ?? null); ?>
+        <form method="POST" action="/Proyecto_BlogPHP/public/?controller=auth&action=login" class="auth-form">
+            <label for="email">Correo</label>
+            <input type="email" name="email" id="email" required>
 
-    VERIFICACIÓN PASSWORD:
-    <?php var_dump($passwordCheck ?? null); ?>
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" required>
 
-    -----------------------------------
-    </pre>
-<?php endif; ?>
+            <button type="submit">Entrar en The Blue Room</button>
+        </form>
 
-<?php if (isset($error)) : ?>
-    <p style="color: red;"><?= $error ?></p>
-<?php endif; ?>
+        <p class="auth-footnote">
+            ¿No tienes cuenta?  
+            <a href="/Proyecto_BlogPHP/public/?controller=register&action=registerForm" class="auth-link">
+                Crear cuenta
+            </a>
+        </p>
 
-<form method="POST" action="/Proyecto_BlogPHP/public/?controller=auth&action=login" autocomplete="off">
-    
-    <label for="email">Correo:</label>
-    <input type="email" name="email" autocomplete="off" required>
+        <p class="auth-footnote">
+            Acceso privado a The Blue Room. Regístrate para entrar y participar.
+        </p>
 
-    <label for="password">Contraseña:</label>
-    <input type="password" name="password" autocomplete="new-password" required>
+    </div>
 
-    <button type="submit">Iniciar sesión</button>
-</form>
+</body>
+</html>

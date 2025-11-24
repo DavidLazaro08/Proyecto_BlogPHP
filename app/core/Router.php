@@ -4,12 +4,10 @@ class Router {
 
     public static function route() {
 
-        // Controlador por defecto
         $controller = isset($_GET['controller']) ? $_GET['controller'] : 'home';
-        $action = isset($_GET['action']) ? $_GET['action'] : 'index';
+        $action = isset($_GET['action']) ? $_GET['action'] : 'publicHome';
 
 
-        // Convertir a nombre de clase
         $controllerName = ucfirst($controller) . 'Controller';
 
         $controllerFile = __DIR__ . '/../controllers/' . $controllerName . '.php';
@@ -26,7 +24,6 @@ class Router {
             die("Acción no encontrada: $action");
         }
 
-        // Llamar al método dinámicamente
         $controllerObject->$action();
     }
 }
