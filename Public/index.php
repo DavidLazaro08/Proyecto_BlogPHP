@@ -1,2 +1,7 @@
 <?php
-echo "Proyecto BLOG_PHP iniciado correctamente.";
+
+require_once __DIR__ . '/../app/core/Database.php';
+
+$db = new Database();
+
+echo "Conexión OK.";
