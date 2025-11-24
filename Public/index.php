@@ -1,7 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../app/core/Database.php';
+require_once __DIR__ . '/../app/core/Router.php';
 
-$db = new Database();
-
-echo "Conexión OK.";
+// Iniciamos el enrutamiento del proyecto
+Router::route();
