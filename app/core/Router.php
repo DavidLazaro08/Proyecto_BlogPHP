@@ -5,8 +5,9 @@ class Router {
     public static function route() {
 
         // Controlador por defecto
-        $controller = isset($_GET['controller']) ? $_GET['controller'] : 'auth';
-        $action = isset($_GET['action']) ? $_GET['action'] : 'loginForm';
+        $controller = isset($_GET['controller']) ? $_GET['controller'] : 'home';
+        $action = isset($_GET['action']) ? $_GET['action'] : 'index';
+
 
         // Convertir a nombre de clase
         $controllerName = ucfirst($controller) . 'Controller';
