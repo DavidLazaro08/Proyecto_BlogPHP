@@ -11,55 +11,69 @@ class Post {
         $this->conn = $db->getConnection();
     }
 
-    // Obtener todos los posts públicos (zona pública del blog)
+    // ============================================================
+    //   Obtener posts públicos (todos)
+    // ============================================================
     public function getPublicPosts() {
-        $sql = "SELECT p.*, u.username AS author 
-                FROM posts p
-                LEFT JOIN users u ON p.author_id = u.id
-                WHERE p.is_public = 1
-                ORDER BY p.created_at DESC";
-
-        $stmt = $this->conn->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Obtener todos los posts (para zona privada)
-    public function getAllPosts() {
-        $sql = "SELECT p.*, u.username AS author 
-                FROM posts p
-                LEFT JOIN users u ON p.author_id = u.id
-                ORDER BY p.created_at DESC";
-
-        $stmt = $this->conn->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Obtener un post por ID (útil para leerlo completo)
-    public function getPostById($id) {
-        $sql = "SELECT p.*, u.username AS author 
-                FROM posts p
-                LEFT JOIN users u ON p.author_id = u.id
-                WHERE p.id = :id
-                LIMIT 1";
+        $sql = "SELECT posts.*, users.username, users.avatar
+                FROM posts
+                JOIN users ON posts.author_id = users.id
+                WHERE posts.visibility = 'public'
+                ORDER BY posts.created_at DESC";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":id", $id);
         $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Crear un post nuevo
-    public function create($title, $content, $slug, $authorId, $isPublic = 0) {
-        $sql = "INSERT INTO posts (title, content, slug, author_id, is_public)
-                VALUES (:title, :content, :slug, :author_id, :is_public)";
+    // ============================================================
+    //   Obtener posts públicos LIMITADOS (para home pública)
+    // ============================================================
+    public function getPublicPostsLimited($limit = 2) {
+        $sql = "SELECT posts.*, users.username, users.avatar
+                FROM posts
+                JOIN users ON posts.author_id = users.id
+                WHERE posts.visibility = 'public'
+                ORDER BY posts.created_at DESC
+                LIMIT :limit";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(":title", $title);
-        $stmt->bindParam(":content", $content);
-        $stmt->bindParam(":slug", $slug);
-        $stmt->bindParam(":author_id", $authorId);
-        $stmt->bindParam(":is_public", $isPublic);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // ============================================================
+    //   Obtener TODOS los posts (The Blue Room)
+    // ============================================================
+    public function getAllPosts() {
+        $sql = "SELECT posts.*, users.username, users.avatar
+                FROM posts
+                JOIN users ON posts.author_id = users.id
+                ORDER BY posts.created_at DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // ============================================================
+    //   Crear nuevo post
+    // ============================================================
+    public function createPost($title, $subtitle, $slug, $content, $visibility, $author_id, $image = null) {
+
+        $sql = "INSERT INTO posts (title, subtitle, slug, content, visibility, author_id, image)
+                VALUES (:title, :subtitle, :slug, :content, :visibility, :author_id, :image)";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':subtitle', $subtitle);
+        $stmt->bindParam(':slug', $slug);
+        $stmt->bindParam(':content', $content);
+        $stmt->bindParam(':visibility', $visibility);
+        $stmt->bindParam(':author_id', $author_id);
+        $stmt->bindParam(':image', $image);
 
         return $stmt->execute();
     }
