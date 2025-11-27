@@ -4,7 +4,9 @@ require_once __DIR__ . '/../models/Post.php';
 
 class HomeController {
 
-    // --- HOME PÚBLICA ---
+    // ==========================
+    //  HOME PÚBLICA
+    // ==========================
     public function publicHome() {
         session_start();
 
@@ -16,12 +18,13 @@ class HomeController {
         $postModel = new Post();
         $publicPosts = $postModel->getPublicPostsLimited(2);
 
-        $this->render("layout_public.php", "home/home_public.php", [
-            "publicPosts" => $publicPosts
-        ]);
+        // Vista PUBLICA
+        require __DIR__ . '/../views/home/home_public.php';
     }
 
-    // --- HOME PRIVADA (THE BLUE ROOM) ---
+    // ==========================
+    //  BLUE ROOM (PRIVADO)
+    // ==========================
     public function index() {
         session_start();
 
@@ -33,18 +36,20 @@ class HomeController {
         $postModel = new Post();
         $posts = $postModel->getAllPosts();
 
-        $this->render("layout_private.php", "home/home_private.php", [
-            "posts" => $posts
+        // Cargar contenido dentro del layout privado bonito
+        $this->renderPrivate("posts/index.php", [
+            'posts' => $posts
         ]);
     }
 
-    private function render($layout, $view, $data = []) {
+
+    private function renderPrivate($view, $data = []) {
         extract($data);
 
         ob_start();
         require __DIR__ . '/../views/' . $view;
         $content = ob_get_clean();
 
-        require __DIR__ . '/../views/layout/' . $layout;
+        require __DIR__ . '/../views/layout/layout_private.php';
     }
 }
