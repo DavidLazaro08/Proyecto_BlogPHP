@@ -1,52 +1,47 @@
-<div class="private-container">
+<h2 class="posts-title">Archivo completo del mapa sonoro</h2>
+<p class="posts-subtitle">Explora todas las publicaciones del atlas sonoro.</p>
 
-    <h2 class="private-title">Archivo completo del mapa sonoro</h2>
-    <p class="private-subtitle">Explora todas las publicaciones del proyecto Hidden Sound Atlas.</p>
+<a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm" class="btn-new-post-center">
+    + Crear nuevo post
+</a>
 
-    <p style="text-align:center; margin-bottom:35px;">
-        <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm"
-           class="btn-new-post">
-           + Crear nueva publicación
-        </a>
-    </p>
+<div class="posts-grid">
+    <?php foreach ($posts as $post): ?>
+        <article class="post-card">
 
-    <div class="posts-grid">
-
-        <?php foreach ($posts as $post): ?>
-
-            <article class="post-card">
-
+            <div class="post-card-image-wrap">
                 <?php if (!empty($post['image'])): ?>
-                    <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>"
-                         class="post-card-thumb">
+                    <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>" class="post-card-image">
+                <?php endif; ?>
+            </div>
+
+            <div class="post-card-body">
+                <h3 class="post-card-title"><?= htmlspecialchars($post['title']) ?></h3>
+
+                <?php if (!empty($post['subtitle'])): ?>
+                    <p class="post-card-subtitle">
+                        <em><?= htmlspecialchars($post['subtitle']) ?></em>
+                    </p>
                 <?php endif; ?>
 
-                <div class="post-card-body">
+                <p class="post-card-excerpt">
+                    <?= htmlspecialchars(mb_substr($post['content'], 0, 110)) ?>...
+                </p>
 
-                    <h3 class="post-card-title">
-                        <?= htmlspecialchars($post['title']) ?>
-                    </h3>
+                <div class="post-card-footer">
+                    <div class="post-card-author">
+                        <img src="/Proyecto_BlogPHP/public/avatars/<?= htmlspecialchars($post['avatar']) ?>"
+                             class="post-card-avatar">
+                        <span><?= htmlspecialchars($post['username']) ?></span>
+                    </div>
 
-                    <?php if (!empty($post['subtitle'])): ?>
-                        <p class="post-card-sub">
-                            <em><?= htmlspecialchars($post['subtitle']) ?></em>
-                        </p>
-                    <?php endif; ?>
-
-                    <p class="post-card-extract">
-                        <?= htmlspecialchars(mb_substr($post['content'], 0, 150)) ?>...
-                    </p>
-
-                    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=view&id=<?= $post['id'] ?>"
-                       class="post-card-readmore">
-                       Leer post completo →
+                    <a class="post-card-link"
+                       href="/Proyecto_BlogPHP/public/?controller=posts&action=view&id=<?= $post['id'] ?>">
+                        Leer más →
                     </a>
-
                 </div>
+            </div>
 
-            </article>
-
-        <?php endforeach; ?>
-
-    </div>
+        </article>
+    <?php endforeach; ?>
 </div>
