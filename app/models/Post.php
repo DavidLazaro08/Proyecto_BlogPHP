@@ -77,4 +77,15 @@ class Post {
 
         return $stmt->execute();
     }
+
+    // ============================================================
+    //   Obtener un post por ID
+    // ============================================================
+    public function getPostById($id)
+{
+    $stmt = $this->conn->prepare("SELECT * FROM posts WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
 }

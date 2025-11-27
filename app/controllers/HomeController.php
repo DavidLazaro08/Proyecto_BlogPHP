@@ -4,30 +4,24 @@ require_once __DIR__ . '/../models/Post.php';
 
 class HomeController {
 
-    // ============================
-    //   PARTE PÚBLICA
-    // ============================
-
+    // --- HOME PÚBLICA ---
     public function publicHome() {
         session_start();
 
-        // Si ya está logueado → ir a Blue Room
         if (isset($_SESSION['user_id'])) {
             header("Location: /Proyecto_BlogPHP/public/?controller=home&action=index");
             exit;
         }
 
-        // Cargar solo 3 posts públicos para el preview
         $postModel = new Post();
         $publicPosts = $postModel->getPublicPostsLimited(2);
 
-        require_once __DIR__ . '/../views/home_public.php';
+        $this->render("layout_public.php", "home/home_public.php", [
+            "publicPosts" => $publicPosts
+        ]);
     }
 
-    // ============================
-    //   THE BLUE ROOM
-    // ============================
-
+    // --- HOME PRIVADA (THE BLUE ROOM) ---
     public function index() {
         session_start();
 
@@ -36,17 +30,21 @@ class HomeController {
             exit;
         }
 
-        // Aquí sí cargamos TODOS
         $postModel = new Post();
         $posts = $postModel->getAllPosts();
 
-        $content = "
-            <h2>Bienvenido a The Blue Room</h2>
-            <p>Ya formas parte del corazón de Hidden Sound Atlas.</p>
-            <p>Aquí podrás ver los posts completos, comentar
-            y si eres editor o admin, crear nuevas entradas.</p>
-        ";
+        $this->render("layout_private.php", "home/home_private.php", [
+            "posts" => $posts
+        ]);
+    }
 
-        require_once __DIR__ . '/../views/layout.php';
+    private function render($layout, $view, $data = []) {
+        extract($data);
+
+        ob_start();
+        require __DIR__ . '/../views/' . $view;
+        $content = ob_get_clean();
+
+        require __DIR__ . '/../views/layout/' . $layout;
     }
 }

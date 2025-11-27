@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="/Proyecto_BlogPHP/public/css/style.css">
 </head>
 
-<body class="auth-body home-public-body">
+<body class="auth-body">
+
+<div class="home-public-wrapper">
 
     <!-- CUADRO CENTRAL -->
     <div class="auth-container home-welcome-box">
@@ -106,5 +108,7 @@
 
     </section>
 
+</div>
 </body>
 </html>
+

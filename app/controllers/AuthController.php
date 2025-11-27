@@ -5,7 +5,7 @@ require_once __DIR__ . '/../models/User.php';
 class AuthController {
 
     public function loginForm() {
-        require_once __DIR__ . '/../views/login.php';
+        require_once __DIR__ . '/../views/auth/login.php';
     }
 
     public function login() {
@@ -13,34 +13,26 @@ class AuthController {
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-            // Recibimos datos del formulario
             $email = trim($_POST['email']);
             $password = trim($_POST['password']);
 
-            // Modelo de usuario
             $userModel = new User();
             $user = $userModel->findByEmail($email);
 
-            // Verificación de contraseña
-            $passwordCheck = false;
-            if ($user) {
-                $passwordCheck = password_verify($password, $user['password']);
-            }
+            $passwordCheck = $user && password_verify($password, $user['password']);
 
-            // Si coincide → LOGIN OK
-            if ($user && $passwordCheck) {
+            if ($passwordCheck) {
 
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
 
-                header("Location: /Proyecto_BlogPHP/public/index.php");
+                header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");
                 exit;
             }
 
-            // Si NO coincide → error
             $error = "Correo o contraseña incorrectos.";
-            require __DIR__ . '/../views/login.php';
+            require __DIR__ . '/../views/auth/login.php';
         }
     }
 

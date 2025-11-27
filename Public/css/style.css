@@ -270,3 +270,80 @@ footer {
 .home-post-content {
     flex: 1;
 }
+
+/* ============================================================
+   WRAPPER DE ESCALADO PARA HOME PÚBLICA
+   (evita espacio inferior causado por transform en body)
+   ============================================================ */
+.home-public-wrapper {
+    transform: scale(0.80);
+    transform-origin: top center;
+    width: 100%;
+}
+
+/* ============================================================
+   ZONA PRIVADA — THE BLUE ROOM
+   ============================================================ */
+
+.private-body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1a2a3a 0%, #050608 55%, #000000 100%);
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+}
+
+.private-header {
+    text-align: center;
+    padding: 25px 10px 10px 10px;
+}
+
+.private-header h1 {
+    color: #66b3ff;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.private-nav {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.private-nav a {
+    color: #8fbaff;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.private-nav a:hover {
+    color: #b6d5ff;
+}
+
+.private-main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 10px 25px;
+}
+
+.post-full {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 25px;
+    background: rgba(0,0,0,0.22);
+    border-radius: 10px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.post-full-image {
+    width: 100%;
+    border-radius: 8px;
+    margin: 25px 0;
+}
+
+.post-full-content {
+    color: #dce6ff;
+    line-height: 1.6rem;
+    white-space: pre-line;
+}

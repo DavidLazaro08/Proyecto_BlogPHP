@@ -75,64 +75,92 @@ CREATE TABLE IF NOT EXISTS posts (
 --  USUARIOS SECUNDARIOS PARA POSTS DE EJEMPLO
 --  (Contraseña real para todos: 1234)
 
-INSERT INTO users (username, email, password, role, avatar)
-VALUES
+INSERT INTO users (username, email, password, role, avatar) VALUES
 ('DavidLazaro08', 'david@hatlas.com',
  '$2y$10$8Dcq4wtgaJnwwuQuAkTLIe6RvM5HKAPlE/eb3fa21ab9B8XdAZ97K',
- 'editor', '/avatars/david.jpg'),
+ 'editor', '/avatars/DavidLazaro08.jpg'),
 
 ('AuroraNoise', 'aurora@hatlas.com',
  '$2y$10$8Dcq4wtgaJnwwuQuAkTLIe6RvM5HKAPlE/eb3fa21ab9B8XdAZ97K',
- 'editor', '/avatars/aurora.jpg'),
+ 'editor', '/avatars/AuroraNoise.jpg'),
 
 ('MonoAmura', 'monoamura@hatlas.com',
  '$2y$10$8Dcq4wtgaJnwwuQuAkTLIe6RvM5HKAPlE/eb3fa21ab9B8XdAZ97K',
- 'user', '/avatars/mono.jpg');
+ 'user', '/avatars/MonoAmura.jpg'),
 
--- ========================================================================
+('Marrowline', 'marrow@hatlas.com',
+ '$2y$10$8Dcq4wtgaJnwwuQuAkTLIe6RvM5HKAPlE/eb3fa21ab9B8XdAZ97K',
+ 'editor', '/avatars/Marrowline.jpg'),
 
---  POSTS DE EJEMPLO (PÚBLICOS)
---  Solo visibles parcialment en home_public
+('Echoing_Fracture', 'fracture@hatlas.com',
+ '$2y$10$8Dcq4wtgaJnwwuQuAkTLIe6RvM5HKAPlE/eb3fa21ab9B8XdAZ97K',
+ 'editor', '/avatars/Echoing_Fracture.jpg'),
 
+('NightHeron', 'heron@hatlas.com',
+ '$2y$10$8Dcq4wtgaJnwwuQuAkTLIe6RvM5HKAPlE/eb3fa21ab9B8XdAZ97K',
+ 'editor', '/avatars/NightHeron.jpg');
+
+-- POSTS PÚBLICOS
 INSERT INTO posts (title, subtitle, slug, content, image, visibility, author_id)
 VALUES
 (
     'Películas — La Máquina de Hacer Pájaros',
     'Un clásico argentino que sigue respirando libertad',
     'peliculas-maquina-hacer-pajaros',
-    'El álbum "Películas" (1977), de La Máquina de Hacer Pájaros, sigue siendo un manifiesto sonoro de libertad creativa. El teclado protagonista, las armonías ricas y la estructura casi cinematográfica demuestran un nivel instrumental pocas veces visto en el rock progresivo latinoamericano...',
+    'El álbum "Películas" (1977), de La Máquina de Hacer Pájaros...',
     '/img_posts/peliculas.jpg',
     'public',
-    (SELECT id FROM users WHERE username='admin')
+    (SELECT id FROM users WHERE username='Echoing_Fracture')
 ),
 
 (
     'Biosphere — Substrata',
     'Un viaje hacia el silencio polar',
     'biosphere-substrata',
-    'Considerado uno de los pilares del ambient nórdico, "Substrata" (1997) se sumerge en paisajes helados, respiraciones mínimas y atmósferas que parecen congelar el aire. El disco se escucha como una expedición introspectiva más que como un álbum tradicional...',
+    'Considerado uno de los pilares del ambient nórdico...',
     '/img_posts/substrata.jpg',
+    'public',
+    (SELECT id FROM users WHERE username='Marrowline')
+),
+
+(
+    'Dalëk — From Filthy Tongue of Gods and Griots',
+    'Rap industrial desde las sombras',
+    'dalek-filthy-tongue',
+    'Un referente del hip hop industrial, donde...',
+    '/img_posts/dalek.jpg',
+    'public',
+    (SELECT id FROM users WHERE username='NightHeron')
+),
+
+(
+    'Ben Frost — By the Throat',
+    'Ambientes amenazantes y belleza helada',
+    'ben-frost-by-the-throat',
+    'Un disco brutal, frío y emocionalmente peligroso...',
+    '/img_posts/by_the_throat.jpg',
+    'public',
+    (SELECT id FROM users WHERE username='AuroraNoise')
+),
+
+(
+    'Ryoji Ikeda — Dataplex',
+    'La belleza matemática hecha sonido',
+    'ryoji-ikeda-dataplex',
+    'Minimalismo digital llevado al extremo...',
+    '/img_posts/dataplex.jpg',
     'public',
     (SELECT id FROM users WHERE username='DavidLazaro08')
 ),
 
 (
-    'Kamisama Undercity — Ruido devocional',
-    'Rap industrial desde los túneles de Tokio',
-    'kamisama-undercity',
-    'Un proyecto underground que mezcla rap japonés áspero, distorsión digital y percusiones metálicas. “Ruido devocional” es un disco denso, sucio y fascinante, donde cada verso parece grabado en un túnel de metro abandonado...',
-    '/img_posts/kamisama.jpg',
+    'Autechre — Confield',
+    'El caos hecho geometría',
+    'autechre-confield',
+    'Una obra clave del IDM abstracto...',
+    '/img_posts/confield.jpg',
     'public',
     (SELECT id FROM users WHERE username='MonoAmura')
-),
-
-(
-    'Aurora Noise Ensemble — The Sleeping Engine',
-    'Drones metálicos y belleza mecánica',
-    'aurora-noise-ensemble',
-    'Una obra contemporánea que combina drones profundos, texturas metálicas y ruidos procesados con elegancia quirúrgica. "The Sleeping Engine" es un álbum que late como si fuese un organismo creado enteramente con máquinas...',
-    '/img_posts/aurora_engine.jpg',
-    'public',
-    (SELECT id FROM users WHERE username='AuroraNoise')
 );
+
 
