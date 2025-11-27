@@ -348,9 +348,10 @@ footer {
     white-space: pre-line;
 }
 
-/* ===============================================
-   GRID DE POSTS PRIVADOS (Blue Room)
-================================================ */
+/* ============================================================
+   GRID DE POSTS PRIVADOS — THE BLUE ROOM (NUEVO)
+   ============================================================ */
+
 .posts-title {
     text-align: center;
     color: #8fbaff;
@@ -362,16 +363,23 @@ footer {
     text-align: center;
     color: #9bb0d3;
     font-size: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .btn-new-post-center {
     display: block;
     text-align: center;
     color: #76a9ff;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     font-size: 1.1rem;
+    transition: color .2s ease;
 }
+
+.btn-new-post-center:hover {
+    color: #a6c9ff;
+}
+
+/* ================= GRID ================= */
 
 .posts-grid {
     display: grid;
@@ -380,74 +388,107 @@ footer {
     padding: 20px;
     max-width: 1300px;
     margin: auto;
+    align-items: stretch;
 }
 
-/* ===============================================
-   TARJETA
-================================================ */
+/* ============================================================
+   TARJETA — DISEÑO PROFESIONAL ELEGANTE (VERSIÓN FINAL)
+   ============================================================ */
+
 .post-card {
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 12px;
+    background: rgba(0,0,0,0.18);                     /* más fino, menos tocho */
+    border-radius: 18px;                               /* premium */
+    border: 1px solid rgba(255,255,255,0.04);
     overflow: hidden;
-    padding-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    min-height: 340px;                                 /* altura ligera */
     backdrop-filter: blur(4px);
-    transition: transform .2s ease, box-shadow .2s ease;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);            /* sombra suave */
+    transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
 .post-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.55);
+    border-color: rgba(104,159,255,0.5);
 }
 
-/* Imagen */
+/* ================= IMAGEN ================= */
+
 .post-card-image-wrap {
     width: 100%;
-    height: 180px;
+    aspect-ratio: 16 / 9;                              /* proporción fija */
     overflow: hidden;
+    background: #0b0e15;
+    border-radius: 14px 14px 0 0;                      /* borde más delicado */
 }
 
 .post-card-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform .45s ease, filter .45s ease;
 }
 
-/* Contenido */
+.post-card:hover .post-card-image {
+    transform: scale(1.06);
+    filter: brightness(1.08);
+}
+
+/* ================= CUERPO ================= */
+
 .post-card-body {
-    padding: 18px;
+    flex: 1;
+    padding: 14px 18px;                                /* menos padding */
+    display: flex;
+    flex-direction: column;
 }
 
 .post-card-title {
     color: #dce6ff;
-    margin-bottom: 6px;
-    font-size: 17px;
+    margin-bottom: 4px;
+    font-size: 16px;                                   /* más fino */
+    font-weight: 600;
+    letter-spacing: .3px;
 }
 
 .post-card-subtitle {
     color: #9bb0d3;
-    font-size: 14px;
+    font-size: 13px;                                   /* más estilizado */
     margin-bottom: 8px;
+    font-style: italic;
 }
 
+/* Extracto elegante */
 .post-card-excerpt {
-    color: #9bb0d3;
+    color: #a9b8d8;
     font-size: 13px;
     margin-bottom: 14px;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.45rem;
 }
 
-/* Footer */
+/* ================= FOOTER ================= */
+
 .post-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: auto;
+    padding-top: 8px;                                  /* más compacto */
+    border-top: 1px solid rgba(255,255,255,0.06);
 }
 
 .post-card-author {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #c7d6ff;
+    color: #cbd9ff;
     font-size: 13px;
 }
 
@@ -456,21 +497,116 @@ footer {
     height: 28px;
     border-radius: 50%;
     object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.15);
 }
 
 .post-card-link {
     color: #8fbaff;
     font-size: 14px;
     text-decoration: none;
+    font-weight: 500;
+    transition: color .2s ease;
 }
 
 .post-card-link:hover {
+    color: #c5daff;
     text-decoration: underline;
 }
 
-/* ===============================================
+/* ============================================================
+   CABECERA FUTURISTA — THE BLUE ROOM
+   ============================================================ */
+
+.private-header-bar {
+    width: 100%;
+    background: #05070d;
+    border-bottom: 1px solid rgba(80,120,200,0.15);
+    box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(6px);
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 25px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+}
+
+.header-logo {
+    width: 48px;
+    height: 48px;
+    opacity: 0.9;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.header-center {
+    justify-self: center;
+    text-align: center;
+    flex: 1;
+}
+
+.header-title {
+    margin: 0;
+    color: #89b7ff;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(120,180,255,0.4);
+}
+
+.header-subtitle {
+    margin: 2px 0 0;
+    color: #6f95d7;
+    font-size: 12px;
+    letter-spacing: 3px;
+    opacity: 0.75;
+}
+
+.header-right a {
+    justify-self: end;
+    margin-left: 22px;
+    color: #8ebaff;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color .25s ease, text-shadow .25s ease;
+}
+
+.header-right a:hover {
+    color: #cfe4ff;
+    text-shadow: 0 0 8px rgba(140,180,255,0.6);
+}
+
+/* ============================================================
+   CABECERA INTELIGENTE AUTO-HIDE AL HACER SCROLL
+   ============================================================ */
+
+.private-header-bar {
+    transition: transform .35s ease;
+}
+
+.private-header-hidden {
+    transform: translateY(-100%);
+}
+
+
+/* ============================================================
    RESPONSIVE
-================================================ */
+   ============================================================ */
+
 @media (max-width: 1100px) {
     .posts-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -482,3 +618,4 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+

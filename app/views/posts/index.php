@@ -1,9 +1,12 @@
 <h2 class="posts-title">Archivo completo del mapa sonoro</h2>
 <p class="posts-subtitle">Explora todas las publicaciones del atlas sonoro.</p>
 
-<a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm" class="btn-new-post-center">
-    + Crear nuevo post
-</a>
+<?php if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'editor'): ?>
+    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm" class="btn-new-post-center">
+        + Crear nuevo post
+    </a>
+<?php endif; ?>
+
 
 <div class="posts-grid">
     <?php foreach ($posts as $post): ?>

@@ -98,9 +98,12 @@ INSERT INTO users (username, email, password, role, avatar) VALUES
 
 ('NightHeron', 'heron@hatlas.com',
  '$2y$10$8Dcq4wtgaJnwwuQuAkTLIe6RvM5HKAPlE/eb3fa21ab9B8XdAZ97K',
- 'editor', '/avatars/NightHeron.jpg');
+ 'editor', '/avatars/NightHeron.jpg')
+ON DUPLICATE KEY UPDATE
+    username = VALUES(username);
 
--- POSTS PÚBLICOS
+
+-- POSTS PÚBLICOS (con protección contra duplicados)
 INSERT INTO posts (title, subtitle, slug, content, image, visibility, author_id)
 VALUES
 (
@@ -112,7 +115,6 @@ VALUES
     'public',
     (SELECT id FROM users WHERE username='Echoing_Fracture')
 ),
-
 (
     'Biosphere — Substrata',
     'Un viaje hacia el silencio polar',
@@ -122,7 +124,6 @@ VALUES
     'public',
     (SELECT id FROM users WHERE username='Marrowline')
 ),
-
 (
     'Dalëk — From Filthy Tongue of Gods and Griots',
     'Rap industrial desde las sombras',
@@ -132,7 +133,6 @@ VALUES
     'public',
     (SELECT id FROM users WHERE username='NightHeron')
 ),
-
 (
     'Ben Frost — By the Throat',
     'Ambientes amenazantes y belleza helada',
@@ -142,7 +142,6 @@ VALUES
     'public',
     (SELECT id FROM users WHERE username='AuroraNoise')
 ),
-
 (
     'Ryoji Ikeda — Dataplex',
     'La belleza matemática hecha sonido',
@@ -152,7 +151,6 @@ VALUES
     'public',
     (SELECT id FROM users WHERE username='DavidLazaro08')
 ),
-
 (
     'Autechre — Confield',
     'El caos hecho geometría',
@@ -161,6 +159,18 @@ VALUES
     '/img_posts/confield.jpg',
     'public',
     (SELECT id FROM users WHERE username='MonoAmura')
-);
+)
+ON DUPLICATE KEY UPDATE
+    title = VALUES(title);   -- Update mínimo para evitar error
+;
+
+-- ==============================================
+-- NUEVO CAMPO STATUS EN POSTS
+-- ==============================================
+
+ALTER TABLE posts
+    ADD COLUMN status ENUM('draft','pending','approved') 
+    NOT NULL DEFAULT 'approved'
+    AFTER visibility;
 
 

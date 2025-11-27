@@ -60,23 +60,24 @@ class Post {
     // ============================================================
     //   Crear nuevo post
     // ============================================================
-    public function createPost($title, $subtitle, $slug, $content, $visibility, $author_id, $image = null) {
+    public function createPost($title, $subtitle, $slug, $content, $visibility, $author_id, $image = null, $status = 'pending') {
 
-        $sql = "INSERT INTO posts (title, subtitle, slug, content, visibility, author_id, image)
-                VALUES (:title, :subtitle, :slug, :content, :visibility, :author_id, :image)";
+    $sql = "INSERT INTO posts (title, subtitle, slug, content, visibility, author_id, image, status)
+            VALUES (:title, :subtitle, :slug, :content, :visibility, :author_id, :image, :status)";
 
-        $stmt = $this->conn->prepare($sql);
+    $stmt = $this->conn->prepare($sql);
 
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':subtitle', $subtitle);
-        $stmt->bindParam(':slug', $slug);
-        $stmt->bindParam(':content', $content);
-        $stmt->bindParam(':visibility', $visibility);
-        $stmt->bindParam(':author_id', $author_id);
-        $stmt->bindParam(':image', $image);
+    $stmt->bindParam(':title', $title);
+    $stmt->bindParam(':subtitle', $subtitle);
+    $stmt->bindParam(':slug', $slug);
+    $stmt->bindParam(':content', $content);
+    $stmt->bindParam(':visibility', $visibility);
+    $stmt->bindParam(':author_id', $author_id);
+    $stmt->bindParam(':image', $image);
+    $stmt->bindParam(':status', $status);
 
-        return $stmt->execute();
-    }
+    return $stmt->execute();
+}
 
     // ============================================================
     //   Obtener un post por ID

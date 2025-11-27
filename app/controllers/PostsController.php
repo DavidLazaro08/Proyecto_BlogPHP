@@ -23,49 +23,71 @@ class PostsController {
 
     // FORMULARIO DE CREAR POST
     public function createForm() {
-        session_start();
+    session_start();
 
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
-            exit;
-        }
-
-        $this->render("layout_private.php", "posts/create.php");
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
+        exit;
     }
+
+    // PROTECCIÓN NUEVA
+    if ($_SESSION['role'] === 'user') {
+        die("No tienes permisos para crear publicaciones.");
+    }
+
+    $this->render("layout_private.php", "posts/create.php");
+}
+
 
     // GUARDAR POST
-    public function store() {
-        session_start();
+public function store() {
+    session_start();
 
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
-            exit;
-        }
-
-        $title = $_POST['title'];
-        $subtitle = $_POST['subtitle'];
-        $content = $_POST['content'];
-        $visibility = $_POST['visibility'];
-        $author_id = $_SESSION['user_id'];
-
-        // Imagen
-        $imagePath = null;
-
-        if (!empty($_FILES['image']['name'])) {
-            $fileName = time() . "_" . basename($_FILES['image']['name']);
-            $target = __DIR__ . "/../../public/img_posts/" . $fileName;
-            move_uploaded_file($_FILES['image']['tmp_name'], $target);
-
-            $imagePath = "/img_posts/" . $fileName;
-        }
-
-        $slug = strtolower(str_replace(" ", "-", $title));
-
-        $postModel = new Post();
-        $postModel->createPost($title, $subtitle, $slug, $content, $visibility, $author_id, $imagePath);
-
-        header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
+        exit;
     }
+
+    $title = $_POST['title'];
+    $subtitle = $_POST['subtitle'];
+    $content = $_POST['content'];
+    $visibility = $_POST['visibility'];
+    $author_id = $_SESSION['user_id'];
+
+    // 🔹 OBTENER ROL DEL USUARIO
+    $role = $_SESSION['role'] ?? 'user';
+
+    // 🔹 DEFINIR STATUS SEGÚN EL ROL
+    $status = ($role === 'admin') ? 'approved' : 'pending';
+
+    // Imagen
+    $imagePath = null;
+
+    if (!empty($_FILES['image']['name'])) {
+        $fileName = time() . "_" . basename($_FILES['image']['name']);
+        $target = __DIR__ . "/../../public/img_posts/" . $fileName;
+        move_uploaded_file($_FILES['image']['tmp_name'], $target);
+
+        $imagePath = "/img_posts/" . $fileName;
+    }
+
+    $slug = strtolower(str_replace(" ", "-", $title));
+
+    $postModel = new Post();
+    $postModel->createPost(
+        $title, 
+        $subtitle, 
+        $slug, 
+        $content, 
+        $visibility, 
+        $author_id, 
+        $imagePath,
+        $status
+    );
+
+    header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");
+}
+
 
     // VER POST
     public function view() {
