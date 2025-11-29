@@ -4,27 +4,24 @@
     <meta charset="UTF-8">
     <title>The Blue Room — Hidden Sound Atlas</title>
     <link rel="stylesheet" href="/Proyecto_BlogPHP/public/css/style.css">
+
 </head>
 
 <body class="private-body">
 
 <?php
 // ==========================================================
-// AVATAR SEGÚN ROL — FIX RUTA
+// AVATAR — RUTA FIJA SEGÚN ROL
 // ==========================================================
 
-// Avatar por defecto
 $avatarFile = "/avatars/default.png";
 
-// Avatar admin
 if (($_SESSION['role'] ?? '') === 'admin') {
 
     $avatarFile = "/avatars/Admin.jpg";
 
 } else if (!empty($_SESSION['avatar'])) {
 
-    // Si el nombre NO contiene "/" significa que solo es "DavidLazaro08.jpg"
-    // → le añadimos "/avatars/"
     if (strpos($_SESSION['avatar'], "/") === false) {
         $avatarFile = "/avatars/" . $_SESSION['avatar'];
     } else {
@@ -32,40 +29,39 @@ if (($_SESSION['role'] ?? '') === 'admin') {
     }
 }
 
-// Ruta final completa
 $avatarPath = "/Proyecto_BlogPHP/public" . $avatarFile;
-
 ?>
 
 <header class="private-header-bar">
     <div class="header-inner">
 
-        <!-- LOGO IZQUIERDA -->
+        <!-- IZQUIERDA -->
         <div class="header-left">
-            <img src="/Proyecto_BlogPHP/public/img_posts/logo_hsaC.png" alt="HSA" class="header-logo">
+            <img src="/Proyecto_BlogPHP/public/img_posts/logo_hsaC.png"
+                 alt="HSA" class="header-logo">
         </div>
 
-        <!-- TÍTULO CENTRAL -->
+        <!-- CENTRO -->
         <div class="header-center">
             <h1 class="header-title">Hidden Sound Atlas</h1>
             <p class="header-subtitle">THE BLUE ROOM</p>
         </div>
 
-        <!-- ÁREA DE USUARIO -->
+        <!-- DERECHA — ÁREA DE USUARIO -->
         <nav class="header-user-area">
 
             <?php if (!empty($_SESSION['user_id'])): ?>
 
                 <div class="user-wrapper">
 
-                    <!-- ICONO HAMBURGUESA -->
+                    <!-- Icono hamburguesa -->
                     <div class="user-menu-icon" id="menuToggle">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
 
-                    <!-- BURBUJA DEL USUARIO -->
+                    <!-- Burbujita del usuario -->
                     <div class="user-bubble">
                         <img src="<?= $avatarPath ?>" class="user-avatar-mini">
 
@@ -76,27 +72,41 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatarFile;
                         </span>
                     </div>
 
-                    <!-- MENÚ DESPLEGABLE -->
+                    <!-- Menú dropdown -->
                     <div class="user-dropdown">
-                        <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index">Inicio</a>
+
+                        <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index">
+                            Inicio
+                        </a>
 
                         <?php if ($_SESSION['role'] === 'editor' || $_SESSION['role'] === 'admin'): ?>
-                            <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm">Nuevo post</a>
+                            <a href="/Proyecto_BlogPHP/public/?controller=post&action=createForm">
+                                Nuevo post
+                            </a>
                         <?php endif; ?>
+
+                        <a href="/Proyecto_BlogPHP/public/?controller=users&action=profile">
+                            Mi perfil
+                        </a>
 
                         <?php if ($_SESSION['role'] === 'admin'): ?>
-                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=dashboard">Panel de moderación</a>
-                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=users">Gestión de usuarios</a>
+                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=dashboard">
+                                Panel de moderación
+                            </a>
+
+                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=users">
+                                Gestión de usuarios
+                            </a>
                         <?php endif; ?>
-
-
-                        <a href="/Proyecto_BlogPHP/public/?controller=panel&action=profile">Mi perfil</a>
 
                         <?php if ($_SESSION['role'] === 'user'): ?>
-                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=requestEditor">Ser editor</a>
+                            <a href="/Proyecto_BlogPHP/public/?controller=users&action=requestEditor">
+                                Ser editor
+                            </a>
                         <?php endif; ?>
 
-                        <a href="/Proyecto_BlogPHP/public/?controller=auth&action=logout" style="color:#ff8c8c;">
+                        <a href="/Proyecto_BlogPHP/public/?controller=auth&action=logout"
+                           style="color:#ff8c8c;">
                             Salir
                         </a>
                     </div>
@@ -114,10 +124,12 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatarFile;
     </div>
 </header>
 
+<!-- CONTENIDO -->
 <main class="private-main">
     <?= $content ?? "" ?>
 </main>
 
+<!-- FOOTER -->
 <footer class="public-footer">
     © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room | Explorando lo oculto
 </footer>

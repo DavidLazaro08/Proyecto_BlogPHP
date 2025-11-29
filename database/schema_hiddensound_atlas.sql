@@ -70,6 +70,25 @@ CREATE TABLE IF NOT EXISTS posts (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+--  TABLA PARA SOLICITUDES DE SER EDITOR
+--  Permite a los usuarios pedir subir de rol.
+
+CREATE TABLE IF NOT EXISTS editor_requests (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    status ENUM('pending','approved','rejected') DEFAULT 'pending',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_editor_request_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+
 -- ========================================================================
 
 --  USUARIOS SECUNDARIOS PARA POSTS DE EJEMPLO
@@ -173,9 +192,11 @@ ON DUPLICATE KEY UPDATE
     NOT NULL DEFAULT 'approved'
     AFTER visibility; */
 
-ALTER TABLE posts 
+/* ALTER TABLE posts 
 MODIFY COLUMN status 
     ENUM('draft','pending','approved','rejected') 
     NOT NULL 
-    DEFAULT 'pending';
+    DEFAULT 'pending'; */
+    
+    
 

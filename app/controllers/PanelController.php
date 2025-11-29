@@ -113,6 +113,43 @@ class PanelController {
         ]);
     }
 
+    
+    // ==========================================================
+    //   NOTIFICACIONES DE SOLICITUDES DE EDITOR
+    // ==========================================================
+    public function editorRequests() {
+    $this->requireAdmin();
+
+    $userModel = new User();
+    $requests = $userModel->getEditorRequests();
+
+    $this->render("layout_private.php", "panel/editor_requests.php", [
+        "requests" => $requests
+    ]);
+}
+
+    public function approveEditor() {
+        $this->requireAdmin();
+
+        if (!empty($_GET['id'])) {
+            $userModel = new User();
+            $userModel->approveEditorRequest($_GET['id']);
+        }
+
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=editorRequests");
+    }
+
+    public function rejectEditor() {
+        $this->requireAdmin();
+
+        if (!empty($_GET['id'])) {
+            $userModel = new User();
+            $userModel->rejectEditorRequest($_GET['id']);
+        }
+
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=editorRequests");
+    }
+
 
     // ==========================================================
     //   MOTOR DE RENDER

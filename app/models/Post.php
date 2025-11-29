@@ -90,6 +90,13 @@ class Post {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getPostsByUser($userId) {
+        $sql = "SELECT * FROM posts WHERE author_id = :uid ORDER BY created_at DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':uid' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // ============================================================
     //   Posts según rol (CORREGIDO)
     // ============================================================
