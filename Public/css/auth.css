@@ -1,6 +1,6 @@
-/* ============================
-   AUTH (login / register)
-   ============================ */
+/* ============================================================
+   AUTH — Login / Register estilo Blue Room (versión corregida)
+   ============================================================ */
 
 .auth-body {
     min-height: 100vh;
@@ -9,37 +9,117 @@
     justify-content: center;
     align-items: center;
     color: #e0e0e0;
+    padding: 20px;
 }
 
+/* CONTENEDOR PRINCIPAL */
 .auth-container {
-    background: rgba(5, 5, 10, 0.9);
-    border: 1px solid #222;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
-    border-radius: 8px;
-    padding: 30px 40px;
-    max-width: 420px;
+    background: rgba(5, 5, 10, 0.92);
+    border: 1px solid rgba(120,160,255,0.10);
+    box-shadow: 0 0 28px rgba(0,0,0,0.65);
+    border-radius: 12px;
+    padding: 40px 46px;
+    max-width: 460px;
+    width: 100%;
+    transition: 0.35s ease;
 }
 
+.auth-container:hover {
+    border-color: rgba(120,160,255,0.20);
+    box-shadow:
+        0 0 22px rgba(80,140,255,0.22),
+        inset 0 0 18px rgba(80,140,255,0.08);
+    transform: translateY(-2px);
+}
+
+/* TÍTULO PRINCIPAL */
+.auth-container h1 {
+    margin: 0;
+    text-align: center;
+    color: #86b3ff;
+    letter-spacing: 3px;
+    font-size: 28px;
+    text-shadow: 0 0 10px rgba(120,180,255,0.35);
+}
+
+/* SUBTÍTULO */
+.auth-container h2 {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 15px;
+    color: #9fb4d6;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: .85;
+}
+
+/* FORM */
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
 }
 
+/* LABELS */
+.auth-form label {
+    font-size: 14px;
+    color: #cbd4e8;
+    margin-bottom: 3px;
+}
+
+/* INPUTS */
 .auth-form input {
-    padding: 8px 10px;
-    border-radius: 4px;
-    border: 1px solid #333;
-    background: #111;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #222;
+    background: #0c0e12;
     color: #e0e0e0;
+    transition: .25s ease;
 }
 
+.auth-form input:focus {
+    outline: none;
+    border-color: #66b3ff;
+    box-shadow: 0 0 8px rgba(102,179,255,0.35);
+}
+
+/* BOTÓN PRINCIPAL */
 .auth-form button {
-    margin-top: 15px;
-    padding: 10px;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 6px;
     border: none;
-    background: linear-gradient(90deg, #245f9e, #66b3ff);
+    background: linear-gradient(90deg, #2b68ac, #7ab3ff);
     color: #fff;
     font-weight: bold;
     cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: .25s ease;
+}
+
+.auth-form button:hover {
+    background: linear-gradient(90deg, #235487, #5d96da);
+    box-shadow: 0 0 12px rgba(120,160,255,0.35);
+}
+
+/* ENLACE DE “CREAR CUENTA” */
+.auth-link {
+    color: #8fbaff;
+    text-decoration: underline;
+    transition: .2s ease;
+}
+
+.auth-link:hover {
+    color: #cfe0ff;
+}
+
+/* NOTA / TEXTO PEQUEÑO */
+.auth-footnote {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #8a93a8;
+    text-align: center;
+    line-height: 1.45rem;
 }
