@@ -27,7 +27,7 @@ class AuthController {
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['role'] = $user['role'];
 
-                // ⭐⭐ IMPORTANTE: guardar el avatar en la sesión ⭐⭐
+                // Guardamos el avatar en la sesión
                 $_SESSION['avatar'] = $user['avatar'];
 
                 header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");

@@ -86,7 +86,6 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatarFile;
 
                         <?php if ($_SESSION['role'] === 'admin'): ?>
                             <a href="/Proyecto_BlogPHP/public/?controller=panel&action=dashboard">Panel de moderación</a>
-                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=allPosts">Moderar todos los posts</a>
                             <a href="/Proyecto_BlogPHP/public/?controller=panel&action=users">Gestión de usuarios</a>
                         <?php endif; ?>
 
@@ -119,8 +118,8 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatarFile;
     <?= $content ?? "" ?>
 </main>
 
-<footer class="private-footer">
-    © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room
+<footer class="public-footer">
+    © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room | Explorando lo oculto
 </footer>
 
 <script src="/Proyecto_BlogPHP/public/js/header-auto-hide.js"></script>

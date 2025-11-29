@@ -20,15 +20,14 @@ class PanelController {
     }
 
     // ==========================================================
-    //   PANEL PRINCIPAL → MUESTRA TODOS LOS POSTS
+    //   PANEL PRINCIPAL - MODERACIÓN COMPLETA
     // ==========================================================
     public function dashboard() {
         $this->requireAdmin();
 
         $postModel = new Post();
-        $posts = $postModel->getAllPosts();   // Ya trae TODOS
+        $posts = $postModel->getAllPostsForModeration();
 
-        // Ahora cargamos EL dashboard, que contiene el contenido fusionado del antiguo all_posts
         $this->render("layout_private.php", "panel/dashboard.php", [
             "posts" => $posts,
             "title" => "Panel de moderación"

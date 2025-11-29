@@ -199,5 +199,29 @@ class Post {
         return $stmt->execute([$postId]);
     }
 
+    // ============================================================
+    //   Obtener TODOS los posts para moderación (ordenados)
+    //   Pendientes → Borradores → Aprobados → Rechazados
+    // ============================================================
+    public function getAllPostsForModeration() {
+
+        $sql = "SELECT posts.*, users.username, users.avatar
+                FROM posts
+                JOIN users ON posts.author_id = users.id
+                ORDER BY 
+                    CASE 
+                        WHEN posts.status = 'pending' THEN 1
+                        WHEN posts.status = 'draft' THEN 2
+                        WHEN posts.status = 'approved' THEN 3
+                        WHEN posts.status = 'rejected' THEN 4
+                        ELSE 5
+                    END,
+                    posts.created_at DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }

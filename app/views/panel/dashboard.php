@@ -1,18 +1,48 @@
-<h2 class="posts-title" style="margin-bottom:25px;">
-    Moderación completa de publicaciones
-</h2>
+
+<div class="mod-header">
+    <a href="javascript:history.back()" class="btn-back">← Volver</a>
+
+    <h2 class="posts-title">
+        Moderación completa de publicaciones
+    </h2>
+</div>
+
 
 <?php foreach ($posts as $post): ?>
 
+    <?php 
+        // Normalizamos estado
+        $status = strtolower(trim($post['status']));
+        
+        // Traducción
+        $statusText = [
+            'approved' => 'Aprobado',
+            'pending'  => 'Pendiente',
+            'rejected' => 'Rechazado',
+            'draft'    => 'Borrador'
+        ];
+
+        $displayText = $statusText[$status] ?? 'Desconocido';
+
+        // Clase CSS correspondiente
+        $badgeClass = "status-unknown";
+        switch ($status) {
+            case 'approved': $badgeClass = "status-approved"; break;
+            case 'pending':  $badgeClass = "status-pending";  break;
+            case 'rejected': $badgeClass = "status-rejected"; break;
+            case 'draft':    $badgeClass = "status-draft";    break;
+        }
+    ?>
+
     <article class="moderation-card">
 
-        <!-- Imagen -->
+        <!-- IMAGEN -->
         <?php if (!empty($post['image'])): ?>
             <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>"
                  class="moderation-cover">
         <?php endif; ?>
 
-        <!-- Contenido -->
+        <!-- CONTENIDO -->
         <div class="moderation-body">
 
             <h3 class="moderation-title"><?= htmlspecialchars($post['title']) ?></h3>
@@ -32,26 +62,20 @@
             </p>
 
             <!-- ESTADO -->
-            <?php
-                $status = trim(strtolower($post['status']));
-                $badgeClass = "status-unknown";
-
-                switch ($status) {
-                    case 'approved': $badgeClass = "status-approved"; break;
-                    case 'pending':  $badgeClass = "status-pending";  break;
-                    case 'rejected': $badgeClass = "status-rejected"; break;
-                    case 'draft':    $badgeClass = "status-draft";    break;
-                }
-            ?>
-
             <span class="status-badge <?= $badgeClass ?>">
-                <?= htmlspecialchars(ucfirst($status)) ?>
+                <?= $displayText ?>
             </span>
 
         </div>
 
-        <!-- Acciones -->
+        <!-- ACCIONES -->
         <div class="moderation-actions">
+
+            <!-- Ver post -->
+            <a href="/Proyecto_BlogPHP/public/?controller=posts&action=view&id=<?= $post['id'] ?>"
+               class="btn-mod btn-view">
+                👁 Ver
+            </a>
 
             <?php if ($status !== 'approved'): ?>
                 <a href="/Proyecto_BlogPHP/public/?controller=panel&action=approve&id=<?= $post['id'] ?>"

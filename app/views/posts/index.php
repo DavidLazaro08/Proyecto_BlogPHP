@@ -60,17 +60,17 @@
 
                 switch ($status) {   // <--- AHORA SWITCH USA EL STATUS NORMALIZADO
                     case 'approved':
-                        $statusText = "✓ Aprobado";
+                        $statusText = "Aprobado";
                         $statusClass = "status-approved";
                         break;
 
                     case 'pending':
-                        $statusText = "⌛ Pendiente de aprobación";
+                        $statusText = "Pendiente de aprobación";
                         $statusClass = "status-pending";
                         break;
 
                     case 'rejected':
-                        $statusText = "✖ Rechazado";
+                        $statusText = "Rechazado";
                         $statusClass = "status-rejected";
                         break;
 

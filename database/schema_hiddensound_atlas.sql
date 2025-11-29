@@ -173,4 +173,9 @@ ON DUPLICATE KEY UPDATE
     NOT NULL DEFAULT 'approved'
     AFTER visibility; */
 
+ALTER TABLE posts 
+MODIFY COLUMN status 
+    ENUM('draft','pending','approved','rejected') 
+    NOT NULL 
+    DEFAULT 'pending';
 

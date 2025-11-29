@@ -104,8 +104,7 @@
 
     <!-- FOOTER -->
     <footer class="public-footer">
-        Hidden Sound Atlas — 2025 · Explorando lo oculto
-    </footer>
+    © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room | Explorando lo oculto    </footer>
 
 </div>
 
