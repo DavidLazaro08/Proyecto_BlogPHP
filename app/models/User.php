@@ -40,4 +40,12 @@ class User {
 
         return $stmt->execute();
     }
+
+    public function getAllUsers() {
+    $sql = "SELECT * FROM users ORDER BY created_at DESC";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

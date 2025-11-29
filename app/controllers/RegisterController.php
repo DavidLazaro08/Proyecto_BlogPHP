@@ -6,7 +6,7 @@ class RegisterController {
 
     // Mostrar formulario de registro
     public function registerForm() {
-        require_once __DIR__ . '/../views/register.php';
+        require_once __DIR__ . '/../views/auth/register.php';
     }
 
     // Procesar registro
@@ -23,13 +23,13 @@ class RegisterController {
             // Validaciones básicas
             if ($password !== $password2) {
                 $error = "Las contraseñas no coinciden.";
-                require __DIR__ . '/../views/register.php';
+                require __DIR__ . '/../views/auth/register.php';
                 return;
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $error = "El correo no es válido.";
-                require __DIR__ . '/../views/register.php';
+                require __DIR__ . '/../views/auth/register.php';
                 return;
             }
 
@@ -40,7 +40,7 @@ class RegisterController {
             $existing = $userModel->findByEmail($email);
             if ($existing) {
                 $error = "Ya existe un usuario con ese correo.";
-                require __DIR__ . '/../views/register.php';
+                require __DIR__ . '/../views/auth/register.php';
                 return;
             }
 
