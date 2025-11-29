@@ -16,5 +16,11 @@
     <label>Imagen (opcional)</label>
     <input type="file" name="image">
 
+        <label>Visibilidad</label>
+    <select name="visibility" required>
+        <option value="public">Público</option>
+        <option value="private">Privado</option>
+    </select>
+
     <button type="submit">Publicar</button>
 </form>

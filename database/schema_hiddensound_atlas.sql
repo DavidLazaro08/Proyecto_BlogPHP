@@ -168,9 +168,9 @@ ON DUPLICATE KEY UPDATE
 -- NUEVO CAMPO STATUS EN POSTS
 -- ==============================================
 
-ALTER TABLE posts
+/* ALTER TABLE posts
     ADD COLUMN status ENUM('draft','pending','approved') 
     NOT NULL DEFAULT 'approved'
-    AFTER visibility;
+    AFTER visibility; */
 
 

@@ -6,20 +6,24 @@ class PostsController {
 
     // LISTAR POSTS EN LA PARTE PRIVADA
     public function index() {
-        session_start();
+    session_start();
 
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
-            exit;
-        }
-
-        $postModel = new Post();
-        $posts = $postModel->getAllPosts();
-
-        $this->render("layout_private.php", "posts/index.php", [
-            "posts" => $posts
-        ]);
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
+        exit;
     }
+
+    // Obtener rol y user ID desde la sesión
+    $role = $_SESSION['role'];
+    $userId = $_SESSION['user_id'];
+
+    $postModel = new Post();
+    $posts = $postModel->getPostsByRole($role, $userId);
+
+    $this->render("layout_private.php", "posts/index.php", [
+        "posts" => $posts
+    ]);
+}
 
     // FORMULARIO DE CREAR POST
     public function createForm() {
@@ -51,7 +55,7 @@ public function store() {
     $title = $_POST['title'];
     $subtitle = $_POST['subtitle'];
     $content = $_POST['content'];
-    $visibility = $_POST['visibility'];
+$visibility = $_POST['visibility'] ?? 'public';
     $author_id = $_SESSION['user_id'];
 
     // 🔹 OBTENER ROL DEL USUARIO
@@ -71,7 +75,7 @@ public function store() {
         $imagePath = "/img_posts/" . $fileName;
     }
 
-    $slug = strtolower(str_replace(" ", "-", $title));
+    $slug = strtolower(str_replace(" ", "-", $title)) . "-" . time();
 
     $postModel = new Post();
     $postModel->createPost(
