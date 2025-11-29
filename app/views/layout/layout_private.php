@@ -10,27 +10,26 @@
 <body class="private-body">
 
 <?php
+
 // ==========================================================
-// AVATAR — RUTA FIJA SEGÚN ROL
+// AVATAR MINI — NORMALIZADO COMO EN EL PERFIL
 // ==========================================================
 
-$avatarFile = "/avatars/default.png";
+// Avatar crudo (puede venir NULL o vacío)
+$rawAvatar = $_SESSION['avatar'] ?? null;
 
-if (($_SESSION['role'] ?? '') === 'admin') {
+// Si no hay avatar, usar el default
+$avatar = $rawAvatar ?: '/avatars/default.jpg';
 
-    $avatarFile = "/avatars/Admin.jpg";
-
-} else if (!empty($_SESSION['avatar'])) {
-
-    if (strpos($_SESSION['avatar'], "/") === false) {
-        $avatarFile = "/avatars/" . $_SESSION['avatar'];
-    } else {
-        $avatarFile = $_SESSION['avatar'];
-    }
+// Normalizar siempre a ruta /avatars/xxx
+if (strpos($avatar, '/avatars/') !== 0) {
+    $avatar = '/avatars/' . ltrim($avatar, '/');
 }
 
-$avatarPath = "/Proyecto_BlogPHP/public" . $avatarFile;
+// Ruta absoluta pública para mostrar la imagen
+$avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
 ?>
+
 
 <header class="private-header-bar">
     <div class="header-inner">

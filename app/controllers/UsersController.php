@@ -56,6 +56,43 @@ class UsersController {
         exit;
     }
 
+    // ========================================================
+    //  PROCESAR CAMBIO DE AVATAR
+    // ========================================================
+    public function updateAvatar()
+    {
+        session_start();
+
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
+            exit;
+        }
+
+        if (!isset($_FILES['avatar']) || $_FILES['avatar']['error'] !== 0) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=users&action=profile");
+            exit;
+        }
+
+        $file = $_FILES['avatar'];
+
+        // Nombre único
+        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $newName = time() . "_" . $_SESSION['user_id'] . "." . $ext;
+
+        $target = __DIR__ . "/../../public/avatars/" . $newName;
+
+        move_uploaded_file($file['tmp_name'], $target);
+
+        // Guardar en BD
+        $userModel = new User();
+        $userModel->updateAvatar($_SESSION['user_id'], "/avatars/" . $newName);
+
+        // Actualizar sesión
+        $_SESSION['avatar'] = "/avatars/" . $newName;
+
+        header("Location: /Proyecto_BlogPHP/public/?controller=users&action=profile");
+        exit;
+    }
 
     // ========================================================
     //  RENDER — VERSIÓN CORRECTA PARA TU PROYECTO
@@ -71,4 +108,6 @@ class UsersController {
         // Cargamos el layout
         require __DIR__ . "/../views/layout/$layout";
     }
+
+    
 }

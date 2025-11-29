@@ -41,24 +41,30 @@ class User {
     }
 
 
-    // ============================================================
-    //  CREAR USUARIO
-    // ============================================================
+// ============================================================
+//  CREAR USUARIO (con avatar y devolución de ID)
+// ============================================================
 
-    public function create($username, $email, $password, $role = 'user') {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+public function create($username, $email, $password, $role = 'user', $avatar = '/avatars/default.jpg') {
 
-        $query = "INSERT INTO users (username, email, password, role)
-                  VALUES (:username, :email, :password, :role)";
-        
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $hash);
-        $stmt->bindParam(':role', $role);
+    $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        return $stmt->execute();
-    }
+    $query = "INSERT INTO users (username, email, password, role, avatar)
+              VALUES (:username, :email, :password, :role, :avatar)";
+    
+    $stmt = $this->conn->prepare($query);
+
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $hash);
+    $stmt->bindParam(':role', $role);
+    $stmt->bindParam(':avatar', $avatar);
+
+    $stmt->execute();
+
+    // Devuelve el ID del nuevo usuario
+    return $this->conn->lastInsertId();
+}
 
 
     // ============================================================
