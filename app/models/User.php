@@ -167,4 +167,49 @@ public function create($username, $email, $password, $role = 'user', $avatar = '
     ]);
 }
 
+    // ============================================================
+    public function updateUserAdmin($id, $username, $email, $role)
+    {
+        $sql = "UPDATE users 
+                SET username = :username,
+                    email = :email,
+                    role = :role
+                WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            ':username' => $username,
+            ':email'    => $email,
+            ':role'     => $role,
+            ':id'       => $id
+        ]);
+    }
+
+
+    // ============================================================
+    //  ELIMINAR USUARIO
+    // ============================================================
+    public function deleteUserById($id)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
+
+    // ============================================================
+    //  ACTIVAR /DESACTIVAR
+    // ============================================================
+    public function toggleActive($id, $newState)
+    {
+        $sql = "UPDATE users SET active = :state WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            ':state' => $newState,
+            ':id'    => $id
+        ]);
+    }
+
+
+
 }

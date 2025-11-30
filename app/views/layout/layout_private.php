@@ -8,6 +8,7 @@
 </head>
 
 <body class="private-body">
+    <canvas id="blueRoomCanvas"></canvas>
 
 <?php
 
@@ -83,7 +84,7 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
                         </a>
 
                         <?php if ($_SESSION['role'] === 'editor' || $_SESSION['role'] === 'admin'): ?>
-                            <a href="/Proyecto_BlogPHP/public/?controller=post&action=createForm">
+                            <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm">
                                 Nuevo post
                             </a>
                         <?php endif; ?>
@@ -96,6 +97,12 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
                             <a href="/Proyecto_BlogPHP/public/?controller=panel&action=users">
                                 Gestión de usuarios
                             </a>
+                        <?php endif; ?>
+
+                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <a href="/Proyecto_BlogPHP/public/?controller=panel&action=editorRequests">
+                            Solicitudes de editor
+                        </a>
                         <?php endif; ?>
 
                         <?php if ($_SESSION['role'] === 'user'): ?>
@@ -135,6 +142,9 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
 
 <script src="/Proyecto_BlogPHP/public/js/header-auto-hide.js"></script>
 <script src="/Proyecto_BlogPHP/public/js/user-menu.js"></script>
+<script src="/Proyecto_BlogPHP/public/js/avatar-upload.js"></script>
+<script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
 
 </body>
+
 </html>

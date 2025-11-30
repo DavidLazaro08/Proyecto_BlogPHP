@@ -1,0 +1,408 @@
+/* ============================
+   AVATAR EN PERFIL (CIRCULAR)
+   ============================ */
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(120,160,255,0.35);
+    box-shadow:
+        0 0 18px rgba(80,120,255,0.35),
+        inset 0 0 10px rgba(80,120,255,0.20);
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.04);
+}
+
+.profile-username {
+    color: #dce6ff;
+    font-size: 1.4rem;
+    margin-bottom: 5px;
+}
+
+.profile-email {
+    color: #9bb0d3;
+    margin-bottom: 5px;
+}
+
+.profile-role {
+    color: #88a0d0;
+    margin-bottom: 20px;
+}
+
+.role-badge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.role-admin { background:#6c3cff; }
+.role-editor { background:#2f8bff; }
+.role-user { background:#444; }
+
+
+/* BOTONES -------------------------------- */
+
+.btn-small {
+    display: block;
+    width: 100%;
+    max-width: 260px;
+    margin: 0 auto;
+    padding: 12px 16px;
+    background: #1f2a40;
+    border: 1px solid #3c4f70;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #cfd9ff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition: 0.2s ease;
+}
+
+.btn-small:hover {
+    background: #273554;
+}
+
+.btn-small:focus,
+.btn-small:active {
+    outline: none;
+}
+
+.profile-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.btn-request-editor {
+    display: block;
+    background:#275cff;
+    border:1px solid #4a87ff;
+    padding:10px;
+    border-radius:8px;
+    margin-top:20px;
+    text-align:center;
+    font-weight:600;
+    color:white;
+    text-decoration:none;
+}
+
+.btn-request-editor:hover {
+    background:#3d6eff;
+}
+
+.request-pending {
+    margin-top: 20px;
+    color:#ffda8c;
+    font-size: .95rem;
+}
+
+
+/* COLUMNA DERECHA ------------------------ */
+
+.profile-right {
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(120,160,255,0.12);
+    border-radius: 14px;
+}
+
+.profile-section-title {
+    color: #9fbdff;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+}
+
+.profile-post-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.profile-post-table th,
+.profile-post-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(120,160,255,0.15);
+    color: #dce6ff;
+}
+
+.profile-post-table th {
+    text-align: left;
+    color: #9bb0d3;
+}
+
+.view-eye {
+    text-decoration:none;
+    font-size:1.2rem;
+}
+
+/* ESTADOS */
+.post-status-badge {
+    padding: 4px 10px;
+    border-radius:8px;
+    font-size:0.8rem;
+    color: #fff;
+}
+
+.status-approved { background:#2e7f4e; }
+.status-pending  { background:#b89400; }
+.status-rejected { background:#9b2929; }
+
+
+/* =======================
+   MODAL AVATAR AMPLIADO
+   ======================= */
+
+.avatar-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .35s ease;
+}
+
+.avatar-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.avatar-modal-img {
+    width: 420px;
+    height: 420px;
+    border-radius: 20px;
+    object-fit: cover;
+    border: 4px solid rgba(120,160,255,0.55);
+    box-shadow: 
+        0 0 40px rgba(120,160,255,0.45),
+        inset 0 0 25px rgba(120,160,255,0.20);
+    animation: popIn .35s ease;
+}
+
+@keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+/* Botón cerrar */
+.avatar-close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 32px;
+    color: #d3ddff;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.avatar-close:hover {
+    color: #ffffff;
+    text-shadow: 0 0 14px rgba(140,180,255,0.6);
+}
+
+
+/* FORMULARIO DE EDICIÓN */
+
+.edit-form {
+    width: 380px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.edit-form input {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: none;
+    background: #111827;
+    color: #fff;
+}
+
+.btn-big {
+    padding: 12px;
+    background: #334155;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-big:hover {
+    background: #475569;
+}
+
+/* Contenedor del botón + título */
+.edit-header {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Botón volver alineado */
+.edit-header .btn-back {
+    position: absolute;
+    left: 3%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+/* ENLACE CREAR POST */
+.br-create-link {
+    display: block;
+    text-align: center;
+    margin: 25px auto 45px auto;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #9dc2ff;
+    text-decoration: none;
+    position: relative;
+    transition: .3s ease;
+}
+
+.br-create-link::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg,#8ab6ff,#bcd7ff);
+    border-radius: 100px;
+    transform: translateX(-50%);
+    transition: .3s ease;
+    box-shadow: 0 0 12px rgba(150,200,255,0.6);
+}
+
+.br-create-link:hover {
+    color: #dbe8ff;
+    text-shadow: 0 0 10px rgba(150,200,255,0.5);
+}
+
+.br-create-link:hover::after {
+    width: 30%;
+}
+
+/* ============================================================
+   6) FORMULARIO CREAR/EDITAR POST — BLUE ROOM STYLE
+   ============================================================ */
+
+.br-post-form-wrapper {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 25px;
+}
+
+.br-post-form-card {
+    transform: scale(0.95);
+    background: rgba(10,15,25,0.55);
+    border: 1px solid rgba(120,160,255,0.12);
+    border-radius: 18px;
+    padding: 40px 45px;
+    box-shadow: 0 0 25px rgba(0,0,0,0.35);
+    backdrop-filter: blur(8px);
+}
+
+/* Título del formulario */
+.br-post-title {
+    text-align: center;
+    color: #b7d2ff;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(140,180,255,0.4);
+}
+
+/* Etiquetas */
+.br-post-form-card label {
+    display: block;
+    margin-bottom: 6px;
+    color: #c6d7ff;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+/* Inputs */
+.br-input,
+.br-textarea,
+.br-select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(120,160,255,0.20);
+    color: #2d55b3;
+    font-size: 1rem;
+    margin-bottom: 22px;
+    outline: none;
+    transition: .25s ease;
+}
+
+.br-input:focus,
+.br-textarea:focus,
+.br-select:focus {
+    border-color: #7fb4ff;
+    background: rgba(20,28,40,0.55);
+    box-shadow: 0 0 12px rgba(120,160,255,0.35);
+}
+
+/* Textarea */
+.br-textarea {
+    height: 200px;
+    resize: vertical;
+}
+
+/* Botón enviar */
+.br-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg,#1f53c9,#3a7cff);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(80,140,255,0.25);
+    transition: .3s ease;
+}
+
+.br-submit-btn:hover {
+    background: linear-gradient(135deg,#3a7cff,#6ea4ff);
+    box-shadow: 0 0 25px rgba(120,180,255,0.45);
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width:700px) {
+    .moderation-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .moderation-actions {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width:900px) {
+    .profile-wrapper {
+        grid-template-columns: 1fr;
+    }
+}

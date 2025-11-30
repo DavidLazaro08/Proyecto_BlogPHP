@@ -1,0 +1,210 @@
+/* ============================================================
+   5) PANEL DE MODERACIÓN (The Blue Room)
+   ============================================================ */
+
+.moderation-card {
+    display: flex;
+    gap: 25px;
+    padding: 25px;
+    background: linear-gradient(145deg, #0d1118, #0f141d);
+    border: 1px solid #1e2635;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    transition: .25s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.moderation-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 22px rgba(72,121,255,.35),
+                0 0 40px rgba(72,121,255,.1);
+    border-color: #3d64ff;
+}
+
+/* Glow borde */
+.moderation-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+
+    background: linear-gradient(135deg,
+        rgba(76,125,255,0.5),
+        rgba(130,160,255,0),
+        rgba(76,125,255,0.5)
+    );
+
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
+                   linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+
+    opacity: 0;
+    transition: opacity .3s;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.moderation-card:hover::before {
+    opacity: 1;
+}
+
+/* Imagen */
+.moderation-cover {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #2a3142;
+}
+
+/* Contenido */
+.moderation-body {
+    flex: 1;
+}
+
+.moderation-title {
+    color: #dce6ff;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.moderation-subtitle {
+    color: #9bb0d3;
+    font-style: italic;
+}
+
+.moderation-excerpt {
+    color: #9bb0d3;
+}
+
+.moderation-author {
+    color: #8899bb;
+    margin-top: 10px;
+}
+
+/* Badges */
+.status-badge {
+    padding: 5px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+    font-size: .85rem;
+    pointer-events: none;
+}
+
+.status-approved { background: #2e7f4e; }
+.status-pending  { background: #b89400; }
+.status-rejected { background: #9b2929; }
+.status-draft    { background: #555; }
+.status-unknown  { background: #444; }
+
+/* Acciones */
+.moderation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+/* Botones base */
+.btn-mod {
+    padding: 7px 20px;
+    border-radius: 8px;
+    font-size: .85rem;
+    font-weight: 500;
+    color: #fff !important;
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: .2s ease;
+    cursor: pointer;
+}
+
+/* Hover */
+.btn-mod:hover {
+    transform: scale(1.06);
+}
+
+/* Botón ver */
+.btn-view { 
+    background:#1f2638;
+    border-color:#334;
+}
+.btn-view:hover {
+    background:#293046;
+}
+
+/* Aprobar */
+.btn-approve { 
+    background:#1f7cff; 
+    border-color:#3ca2ff; 
+}
+.btn-approve:hover { 
+    background:#3ca2ff; 
+}
+
+/* Rechazar */
+.btn-reject { 
+    background:#b53131; 
+    border-color:#d65050;
+}
+.btn-reject:hover {
+    background:#d65050;
+}
+
+/* Borrar */
+.btn-delete { 
+    background:#444; 
+    border-color:#777; 
+}
+.btn-delete:hover { 
+    background:#555; 
+}
+
+
+/* ==========================
+      PROFILE BLUE ROOM
+   ========================== */
+
+.profile-title {
+    text-align: center;
+    font-size: 2.4rem;
+    color: #9fbdff;
+    margin-bottom: 5px;
+    text-shadow: 0 0 12px rgba(120,160,255,0.35);
+}
+
+.profile-subtitle {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 1.1rem;
+    color: #a8b8d8;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.profile-wrapper {
+    display: grid;
+    grid-template-columns: minmax(280px, 340px) 1fr;
+    gap: 40px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* COLUMNA IZQUIERDA ---------------------- */
+
+.profile-left {
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(120,160,255,0.15);
+    padding: 25px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}

@@ -112,8 +112,82 @@ class PanelController {
             "users" => $users
         ]);
     }
+    // ==========================================================
+    //   ELIMINAR USUARIOS
+    // ==========================================================
+    public function deleteUser() {
+    $this->requireAdmin();
 
+    if (!isset($_GET['id'])) {
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+        exit;
+    }
+
+    $id = intval($_GET['id']);
+
+        // Proteger al ADMIN
+        if ($id === 1) {
+            die("No puedes borrar al usuario administrador principal.");
+        }
+
+        $userModel = new User();
+        $userModel->deleteUserById($id);
+
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+        exit;
+    }
     
+    // ==========================================================
+    //   EDITAR USUARIOS
+    // ==========================================================
+    public function editUser()
+{
+    $this->requireAdmin();
+
+    if (!isset($_GET['id'])) {
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+        exit;
+    }
+
+    $id = intval($_GET['id']);
+
+    $userModel = new User();
+    $user = $userModel->findById($id);
+
+    if (!$user) {
+        echo "<script>alert('Usuario no encontrado'); history.back();</script>";
+        exit;
+    }
+
+    $this->render("layout_private.php", "panel/edit_user.php", [
+        "user" => $user
+    ]);
+    }
+
+    // ==========================================================
+    //   ACTUALIZAR USUARIOS
+    // ==========================================================
+    public function updateUser()
+    {
+    $this->requireAdmin();
+
+    if (!isset($_POST['id'])) {
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+        exit;
+    }
+
+    $id = intval($_POST['id']);
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $role = $_POST['role'];
+
+    $userModel = new User();
+    $userModel->updateUserAdmin($id, $username, $email, $role);
+
+    header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+    exit;   
+    }
+
     // ==========================================================
     //   NOTIFICACIONES DE SOLICITUDES DE EDITOR
     // ==========================================================
@@ -150,6 +224,46 @@ class PanelController {
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=editorRequests");
     }
 
+    // ==========================================================
+    //   ACTIVAR / DESACTIVAR USUARIOS
+    // ==========================================================
+    public function disableUser()
+    {
+        $this->requireAdmin();
+
+        if (!isset($_GET['id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+            exit;
+        }
+
+        $id = intval($_GET['id']);
+        if ($id === 1) {  
+            die("No puedes suspender al administrador principal.");
+        }
+
+        $userModel = new User();
+        $userModel->toggleActive($id, 0);
+
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+    }
+
+        public function enableUser()
+    {
+        $this->requireAdmin();
+
+        if (!isset($_GET['id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+            exit;
+        }
+
+        $id = intval($_GET['id']);
+
+        $userModel = new User();
+        $userModel->toggleActive($id, 1);
+
+        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+    }
+
 
     // ==========================================================
     //   MOTOR DE RENDER
@@ -164,4 +278,5 @@ class PanelController {
 
         require __DIR__ . '/../views/layout/' . $layout;
     }
+
 }

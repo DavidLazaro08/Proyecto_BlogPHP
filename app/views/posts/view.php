@@ -1,29 +1,52 @@
-<article class="post-full">
+<article class="post-full-wrapper">
 
-    <h1 style="color:#8fbaff; text-align:center; margin-bottom:10px;">
-        <?= htmlspecialchars($post['title']) ?>
-    </h1>
+    <div class="post-full-card">
 
-    <?php if (!empty($post['subtitle'])): ?>
-        <h3 style="text-align:center; color:#9bb0d3; margin-bottom:25px;">
-            <em><?= htmlspecialchars($post['subtitle']) ?></em>
-        </h3>
-    <?php endif; ?>
+        <!-- TÍTULO -->
+        <h1 class="post-full-title">
+            <?= htmlspecialchars($post['title']) ?>
+        </h1>
 
-    <?php if (!empty($post['image'])): ?>
-        <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>"
-             class="post-full-image">
-    <?php endif; ?>
+        <!-- SUBTÍTULO -->
+        <?php if (!empty($post['subtitle'])): ?>
+            <h3 class="post-full-subtitle">
+                <?= htmlspecialchars($post['subtitle']) ?>
+            </h3>
+        <?php endif; ?>
+                
+        <!-- AUTOR -->
+        <p class="post-full-author" style="display:flex; align-items:center; gap:8px; justify-content:center; margin-top:20px; opacity:0.85;">
+        <img src="/Proyecto_BlogPHP/public/avatars/<?= htmlspecialchars($post['avatar']) ?>"
+            style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:1px solid rgba(120,160,255,0.35);">
+        <span>Escrito por <strong><?= htmlspecialchars($post['username']) ?></strong></span>
+        </p>
 
-    <p class="post-full-content">
-        <?= nl2br(htmlspecialchars($post['content'])) ?>
+        <!-- IMAGEN -->
+        <?php if (!empty($post['image'])): ?>
+            <div class="post-full-image-wrapper">
+                <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>"
+                     class="post-full-image"
+                     alt="Imagen del post">
+            </div>
+        <?php endif; ?>
+
+        <!-- VISUALIZACIONES -->
+        <p class="post-full-views">
+            👁 <?= $post['views'] ?> visualizaciones
+        </p>
+        
+        <!-- CONTENIDO -->
+        <div class="post-full-content">
+            <?= nl2br(htmlspecialchars($post['content'])) ?>
+        </div>
+
+    </div>
+
+    <!-- ENLACE VOLVER -->
+    <p class="post-back-link">
+        <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index">
+            ← Volver al archivo completo
+        </a>
     </p>
 
 </article>
-
-<p style="text-align:center; margin-top:30px;">
-    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index"
-       style="color:#66b3ff;">
-       ← Volver al archivo completo
-    </a>
-</p>

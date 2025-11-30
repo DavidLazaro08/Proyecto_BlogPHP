@@ -4,7 +4,7 @@
 
 .home-public-body,
 .home-public-wrapper {
-    transform: scale(0.78);
+    /*transform: scale(0.78);*/
     transform-origin: top center;
     width: 100%;
 }
@@ -147,6 +147,7 @@
    ===================================================== */
 
 .home-post-card {
+    transform: scale(0.90);
     background: rgba(0,0,0,0.22);
     padding: 18px;
     border-radius: 10px;

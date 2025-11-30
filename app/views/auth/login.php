@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/Proyecto_BlogPHP/public/css/style.css">
 </head>
 <body class="auth-body">
+        <canvas id="blueRoomCanvas"></canvas>
 
     <div class="auth-container">
         <h1>Hidden Sound Atlas</h1>
@@ -42,6 +43,7 @@
         </p>
 
     </div>
+<script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
 
 </body>
 </html>

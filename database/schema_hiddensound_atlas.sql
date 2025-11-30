@@ -211,3 +211,6 @@ VALUES
 )
 
 ON DUPLICATE KEY UPDATE title = VALUES(title);
+
+ALTER TABLE posts ADD views INT DEFAULT 0;
+

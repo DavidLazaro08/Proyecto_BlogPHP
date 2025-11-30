@@ -1,39 +1,65 @@
-<h2 class="posts-title">Solicitudes de nuevos editores</h2>
+<?php
+// ============================================================
+// NORMALIZAR AVATAR (igual que en gestión de usuarios)
+// ============================================================
+function normalizeAvatar($avatar)
+{
+    if (!$avatar) {
+        return "/Proyecto_BlogPHP/public/avatars/Default.jpg";
+    }
+
+    if (strpos($avatar, "/avatars/") !== 0) {
+        $avatar = "/avatars/" . ltrim($avatar, "/");
+    }
+
+    return "/Proyecto_BlogPHP/public" . $avatar;
+}
+?>
+
+<div class="mod-header">
+    <a href="javascript:history.back()" class="btn-back">← Volver</a>
+    <h2 class="posts-title">Solicitudes de nuevos editores</h2>
+</div>
 
 <?php if (empty($requests)): ?>
-    <p style="text-align:center; opacity:.7; margin-top:40px;">
+
+    <p style="color:#9bb0d3; text-align:center; margin-top:40px;">
         No hay solicitudes pendientes.
     </p>
+
 <?php else: ?>
 
     <?php foreach ($requests as $req): ?>
-        <article class="moderation-card">
+        <div class="moderation-card">
 
-            <img src="/Proyecto_BlogPHP/public/avatars/<?= $req['avatar'] ?>"
-                 class="moderation-cover">
+            <!-- AVATAR -->
+            <img src="<?= normalizeAvatar($req['avatar']) ?>"
+                 class="moderation-cover"
+                 style="width:130px; height:130px; object-fit:cover;">
 
+            <!-- INFORMACIÓN -->
             <div class="moderation-body">
-                <h3 class="moderation-title"><?= $req['username'] ?></h3>
+                <h3 class="moderation-title"><?= htmlspecialchars($req['username']) ?></h3>
                 <p class="moderation-subtitle">
                     Solicita permiso para publicar contenido.
                 </p>
             </div>
 
+            <!-- ACCIONES -->
             <div class="moderation-actions">
 
-                <a class="btn-mod btn-approve"
-                   href="/Proyecto_BlogPHP/public/?controller=panel&action=approveEditor&id=<?= $req['id'] ?>">
-                   ✓ Aprobar
+                <a href="/Proyecto_BlogPHP/public/?controller=panel&action=approveEditor&id=<?= $req['id'] ?>"
+                   class="btn-mod btn-approve">
+                    ✓ Aprobar
                 </a>
 
-                <a class="btn-mod btn-reject"
-                   href="/Proyecto_BlogPHP/public/?controller=panel&action=rejectEditor&id=<?= $req['id'] ?>">
-                   ✖ Rechazar
+                <a href="/Proyecto_BlogPHP/public/?controller=panel&action=rejectEditor&id=<?= $req['id'] ?>"
+                   class="btn-mod btn-reject">
+                    ✗ Rechazar
                 </a>
 
             </div>
-
-        </article>
+        </div>
     <?php endforeach; ?>
 
 <?php endif; ?>

@@ -9,30 +9,35 @@ class AuthController {
     }
 
     public function login() {
-        session_start();
+    session_start();
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-            $email = trim($_POST['email']);
-            $password = trim($_POST['password']);
+        $email = trim($_POST['email']);
+        $password = trim($_POST['password']);
 
-            $userModel = new User();
-            $user = $userModel->findByEmail($email);
+        $userModel = new User();
+        $user = $userModel->findByEmail($email);
 
-            $passwordCheck = $user && password_verify($password, $user['password']);
+        // 🔥 1) Usuario existe pero está suspendido
+        if ($user && $user['active'] == 0) {
+            echo "<script>alert('Tu cuenta está suspendida.'); history.back();</script>";
+            exit;
+        }
 
-            if ($passwordCheck) {
+        // 2) Comprobar contraseña
+        $passwordCheck = $user && password_verify($password, $user['password']);
 
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
-                $_SESSION['role'] = $user['role'];
+        if ($passwordCheck) {
 
-                // Guardamos el avatar en la sesión
-                $_SESSION['avatar'] = $user['avatar'];
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+            $_SESSION['avatar'] = $user['avatar'];
 
-                header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");
-                exit;
-            }
+            header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");
+            exit;
+        }
 
             $error = "Correo o contraseña incorrectos.";
             require __DIR__ . '/../views/auth/login.php';

@@ -7,6 +7,7 @@
 </head>
 
 <body class="auth-body">
+        <canvas id="blueRoomCanvas"></canvas>
 
 <div class="home-public-wrapper">
 
@@ -107,6 +108,7 @@
     © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room | Explorando lo oculto    </footer>
 
 </div>
+<script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
 
 </body>
 </html>

@@ -280,7 +280,6 @@ footer {
 
 /* ============================================================
    WRAPPER DE ESCALADO PARA HOME PÚBLICA
-   (evita espacio inferior causado por transform en body)
    ============================================================ */
 .home-public-wrapper {
     transform: scale(0.80);
@@ -403,15 +402,15 @@ footer {
    ============================================================ */
 
 .post-card {
-    background: rgba(0,0,0,0.18);                     /* más fino, menos tocho */
-    border-radius: 18px;                               /* premium */
+    background: rgba(0,0,0,0.18);
+    border-radius: 18px;
     border: 1px solid rgba(255,255,255,0.04);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 340px;                                 /* altura ligera */
+    min-height: 340px;
     backdrop-filter: blur(4px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.35);            /* sombra suave */
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
     transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
@@ -425,10 +424,10 @@ footer {
 
 .post-card-image-wrap {
     width: 100%;
-    aspect-ratio: 16 / 9;                              /* proporción fija */
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     background: #0b0e15;
-    border-radius: 14px 14px 0 0;                      /* borde más delicado */
+    border-radius: 14px 14px 0 0;
 }
 
 .post-card-image {
@@ -447,7 +446,7 @@ footer {
 
 .post-card-body {
     flex: 1;
-    padding: 14px 18px;                                /* menos padding */
+    padding: 14px 18px;
     display: flex;
     flex-direction: column;
 }
@@ -455,14 +454,14 @@ footer {
 .post-card-title {
     color: #dce6ff;
     margin-bottom: 4px;
-    font-size: 16px;                                   /* más fino */
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: .3px;
 }
 
 .post-card-subtitle {
     color: #9bb0d3;
-    font-size: 13px;                                   /* más estilizado */
+    font-size: 13px;
     margin-bottom: 8px;
     font-style: italic;
 }

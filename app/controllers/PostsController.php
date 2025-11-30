@@ -94,20 +94,35 @@ $visibility = $_POST['visibility'] ?? 'public';
 
 
     // VER POST
-    public function view() {
-        session_start();
-
-        if (!isset($_GET['id'])) {
-            die("ID de post no especificado");
-        }
-
-        $postModel = new Post();
-        $post = $postModel->getPostById($_GET['id']);
-
-        $this->render("layout_private.php", "posts/view.php", [
-            "post" => $post
-        ]);
+    public function view()
+{
+    if (!isset($_GET['id']) || empty($_GET['id'])) {
+        die("ID no proporcionado.");
     }
+
+    $id = intval($_GET['id']);
+
+    $postModel = new Post();
+
+    // Primero cargamos el post
+    $post = $postModel->getPostById($id);
+
+    if (!$post) {
+        die("Publicación no encontrada.");
+    }
+
+    // Luego aumentamos las visitas
+    $postModel->incrementViews($id);
+
+    // Importante: recargar el post por si quieres reflejar la visita
+    $post['views']++;
+
+    // Renderizar la vista
+    $this->render("layout_public.php", "posts/view.php", [
+        "post" => $post
+    ]);
+}
+
 
     // MOTOR DE RENDER
     private function render($layout, $view, $data = []) {

@@ -85,10 +85,16 @@ class Post {
     //   Obtener un post por ID
     // ============================================================
     public function getPostById($id) {
-        $stmt = $this->conn->prepare("SELECT * FROM posts WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
+    $sql = "SELECT posts.*, users.username, users.avatar
+            FROM posts
+            JOIN users ON posts.author_id = users.id
+            WHERE posts.id = ?";
+    
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+    // ============================================================
 
     public function getPostsByUser($userId) {
         $sql = "SELECT * FROM posts WHERE author_id = :uid ORDER BY created_at DESC";
@@ -229,6 +235,14 @@ class Post {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function incrementViews($id)
+{
+    $sql = "UPDATE posts SET views = views + 1 WHERE id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$id]);
+}
+
 
 
 }
