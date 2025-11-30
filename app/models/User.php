@@ -156,4 +156,15 @@ public function create($username, $email, $password, $role = 'user', $avatar = '
         ]);
     }
 
+    public function updateBasicData($id, $username, $email) {
+    $sql = "UPDATE users SET username = :u, email = :e WHERE id = :id";
+
+    $stmt = $this->conn->prepare($sql);
+    return $stmt->execute([
+        ':u' => $username,
+        ':e' => $email,
+        ':id' => $id
+    ]);
+}
+
 }

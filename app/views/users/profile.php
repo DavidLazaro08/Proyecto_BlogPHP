@@ -3,15 +3,12 @@
 // NORMALIZAR RUTA DEL AVATAR DEL USUARIO
 // ============================================================
 
-// Avatar guardado en la BD o default
 $avatar = $user['avatar'] ?: "/avatars/Default.jpg";
 
-// Asegurar que siempre empiece por /avatars/
 if (strpos($avatar, "/avatars/") !== 0) {
     $avatar = "/avatars/" . ltrim($avatar, "/");
 }
 
-// Ruta absoluta para mostrarlo en el navegador
 $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
 
 
@@ -24,8 +21,14 @@ $postModel = new Post();
 $posts = $postModel->getPostsByUser($user['id']);
 ?>
 
-<h2 class="profile-title">Mi perfil</h2>
+<div class="edit-header">
+    <a href="javascript:history.back()" class="btn-back">← Volver</a>
+
+    <h2 class="profile-title">Mi perfil</h2>
+</div>
+
 <p class="profile-subtitle">Aquí podrás ver y modificar tus datos.</p>
+
 
 <div class="profile-wrapper">
 
@@ -56,42 +59,29 @@ $posts = $postModel->getPostsByUser($user['id']);
             </span>
         </p>
 
+        <!-- ==========================================
+             BOTONES (Avatar + Editar datos)
+        ============================================== -->
+        <div class="profile-buttons">
 
-        <!-- =======================================================
-             FORMULARIO INVISIBLE PARA CAMBIAR AVATAR DIRECTO
-        ======================================================== -->
-        <form id="avatarForm"
-              action="/Proyecto_BlogPHP/public/?controller=users&action=updateAvatar"
-              method="POST"
-              enctype="multipart/form-data">
-
-            <input type="file"
-                   id="avatarInput"
-                   name="avatar"
-                   accept="image/*"
-                   style="display:none;">
-
-            <!-- Botón visible (solo dispara el selector) -->
+            <!-- BOTÓN QUE ABRE EL SELECTOR DE ARCHIVOS -->
             <button type="button"
                     class="btn-small"
                     onclick="document.getElementById('avatarInput').click()">
                 Cambiar avatar
             </button>
-        </form>
 
-        <script>
-        // Cuando el usuario selecciona un archivo → auto-subir
-        document.getElementById('avatarInput').addEventListener('change', function () {
-            if (this.files.length > 0) {
-                document.getElementById('avatarForm').submit();
-            }
-        });
-        </script>
+            <!-- EDITAR DATOS -->
+            <a href="/Proyecto_BlogPHP/public/?controller=users&action=editProfileForm"
+               class="btn-small">
+                Editar datos
+            </a>
 
+        </div>
 
-        <!-- =======================================================
+        <!-- ==========================================
              SOLICITUD PARA SER EDITOR
-        ======================================================== -->
+        ============================================== -->
         <?php if ($_SESSION['role'] === 'user'): ?>
 
             <?php $pending = (new User())->hasPendingEditorRequest($_SESSION['user_id']); ?>
@@ -107,11 +97,11 @@ $posts = $postModel->getPostsByUser($user['id']);
 
         <?php endif; ?>
 
-    </div>
+    </div> <!-- CIERRE REAL DE profile-left -->
 
 
     <!-- =======================================================
-         COLUMNA DERECHA — LISTA DE PUBLICACIONES
+         COLUMNA DERECHA — POSTS DEL USUARIO
     ======================================================== -->
     <div class="profile-right">
 
@@ -124,7 +114,6 @@ $posts = $postModel->getPostsByUser($user['id']);
         <?php else: ?>
 
             <?php
-            // Traducciones bonitas para estado
             $statusLabels = [
                 'approved' => 'Aprobado',
                 'pending'  => 'Pendiente',
@@ -169,6 +158,31 @@ $posts = $postModel->getPostsByUser($user['id']);
 
         <script src="/Proyecto_BlogPHP/public/js/avatar-modal.js"></script>
 
-    </div>
+    </div> <!-- FIN COLUMNA DERECHA -->
 
-</div>
+</div> <!-- FIN profile-wrapper -->
+
+
+<!-- =======================================================
+     FORMULARIO OCULTO PARA SUBIR AVATAR
+     (FUERA DE TODO, AQUÍ SÍ CORRECTO)
+=========================================================== -->
+<form id="avatarForm"
+      action="/Proyecto_BlogPHP/public/?controller=users&action=changeAvatar"
+      method="POST"
+      enctype="multipart/form-data"
+      style="display:none;">
+
+    <input type="file"
+           id="avatarInput"
+           name="avatar"
+           accept="image/*">
+</form>
+
+<script>
+document.getElementById('avatarInput').addEventListener('change', function () {
+    if (this.files.length > 0) {
+        document.getElementById('avatarForm').submit();
+    }
+});
+</script>

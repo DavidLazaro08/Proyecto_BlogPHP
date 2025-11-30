@@ -78,15 +78,15 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
                             Inicio
                         </a>
 
+                        <a href="/Proyecto_BlogPHP/public/?controller=users&action=profile">
+                            Mi perfil
+                        </a>
+
                         <?php if ($_SESSION['role'] === 'editor' || $_SESSION['role'] === 'admin'): ?>
                             <a href="/Proyecto_BlogPHP/public/?controller=post&action=createForm">
                                 Nuevo post
                             </a>
                         <?php endif; ?>
-
-                        <a href="/Proyecto_BlogPHP/public/?controller=users&action=profile">
-                            Mi perfil
-                        </a>
 
                         <?php if ($_SESSION['role'] === 'admin'): ?>
                             <a href="/Proyecto_BlogPHP/public/?controller=panel&action=dashboard">
