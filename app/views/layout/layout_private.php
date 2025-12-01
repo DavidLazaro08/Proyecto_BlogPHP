@@ -74,70 +74,75 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
 
                 <div class="user-wrapper">
 
-                    <!-- Icono hamburguesa -->
-                    <div class="user-menu-icon" id="menuToggle">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+            <!-- Icono hamburguesa -->
+            <div class="user-menu-icon" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
-                    <!-- Burbujita del usuario -->
-                    <div class="user-bubble">
-                        <img src="<?= $avatarPath ?>" class="user-avatar-mini">
+            <!-- Burbujita del usuario -->
+            <div class="user-bubble">
+                <img src="<?= $avatarPath ?>" class="user-avatar-mini">
+                <span class="user-status-dot"></span>
+                <span class="user-name-mini">
+                    <?= htmlspecialchars($_SESSION['username']) ?>
+                </span>
+            </div>
 
-                        <span class="user-status-dot"></span>
+            <!-- Menú dropdown (DEBE estar aquí mismo, sin nada entre medias) -->
+            <div class="user-dropdown">
 
-                        <span class="user-name-mini">
-                            <?= htmlspecialchars($_SESSION['username']) ?>
-                        </span>
-                    </div>
+                <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index">Inicio</a>
 
-                    <!-- Menú dropdown -->
-                    <div class="user-dropdown">
+                <a href="/Proyecto_BlogPHP/public/?controller=users&action=profile">
+                    Mi perfil
+                </a>
 
-                        <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index">
-                            Inicio
-                        </a>
+                <?php if ($_SESSION['role'] === 'editor' || $_SESSION['role'] === 'admin'): ?>
+                    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm">
+                        Nuevo post
+                    </a>
+                <?php endif; ?>
 
-                        <a href="/Proyecto_BlogPHP/public/?controller=users&action=profile">
-                            Mi perfil
-                        </a>
+                <?php if ($_SESSION['role'] === 'admin'): ?>
+                    <a href="/Proyecto_BlogPHP/public/?controller=panel&action=dashboard">
+                        Panel de moderación
+                    </a>
 
-                        <?php if ($_SESSION['role'] === 'editor' || $_SESSION['role'] === 'admin'): ?>
-                            <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm">
-                                Nuevo post
-                            </a>
-                        <?php endif; ?>
+                    <a href="/Proyecto_BlogPHP/public/?controller=panel&action=users">
+                        Gestión de usuarios
+                    </a>
+                <?php endif; ?>
 
-                        <?php if ($_SESSION['role'] === 'admin'): ?>
-                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=dashboard">
-                                Panel de moderación
-                            </a>
+                <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                <a href="/Proyecto_BlogPHP/public/?controller=panel&action=editorRequests">
+                    Solicitudes de editor
+                </a>
+                <?php endif; ?>
 
-                            <a href="/Proyecto_BlogPHP/public/?controller=panel&action=users">
-                                Gestión de usuarios
-                            </a>
-                        <?php endif; ?>
+                <?php if ($_SESSION['role'] === 'user'): ?>
+                    <a href="/Proyecto_BlogPHP/public/?controller=users&action=requestEditor">
+                        Ser editor
+                    </a>
+                <?php endif; ?>
 
-                        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <a href="/Proyecto_BlogPHP/public/?controller=panel&action=editorRequests">
-                            Solicitudes de editor
-                        </a>
-                        <?php endif; ?>
+                <a href="/Proyecto_BlogPHP/public/?controller=auth&action=logout"
+                style="color:#ff8c8c;">
+                    Salir
+                </a>
+            </div>
 
-                        <?php if ($_SESSION['role'] === 'user'): ?>
-                            <a href="/Proyecto_BlogPHP/public/?controller=users&action=requestEditor">
-                                Ser editor
-                            </a>
-                        <?php endif; ?>
+        </div>
 
-                        <a href="/Proyecto_BlogPHP/public/?controller=auth&action=logout"
-                           style="color:#ff8c8c;">
-                            Salir
-                        </a>
-                    </div>
+        <!-- BOTÓN DE SONIDO (fuera del user-wrapper) -->
+        <div class="sound-toggle" id="soundToggle">🎧</div>
 
-                </div>
+        <!-- AUDIO AMBIENT -->
+        <audio id="ambientAudio" loop>
+            <source src="/assets/audio/ambient-blue-room.mp3" type="audio/mp3">
+        </audio>
+
 
             <?php else: ?>
 
@@ -164,6 +169,8 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
 <script src="/Proyecto_BlogPHP/public/js/user-menu.js"></script>
 <script src="/Proyecto_BlogPHP/public/js/avatar-upload.js"></script>
 <script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
+<script src="/public/js/blue-room-audio.js"></script>
+
 
 </body>
 
