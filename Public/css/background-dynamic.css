@@ -1,21 +1,21 @@
 /* ============================================================
-   BLUE ROOM — BACKGROUND DYNAMIC SYSTEM (FINAL EDITION)
+   BLUE ROOM — BACKGROUND DYNAMIC SYSTEM (PRO EDITION)
    ------------------------------------------------------------
-   • Fondo oscuro y profundo
-   • Fog sutil, sin quemar
-   • Partículas ambientales azuladas
-   • Ondas suaves integradas
-   • Scroll-reactive
-   • Sin imágenes externas
+   • Fondo oscuro profundo con azul eléctrico elegante
+   • Fog sutil (sin quemar)
+   • Partículas en 3 planos: micro, normal y difusas
+   • Ondas atmosféricas
+   • Grain cinematográfico digital
    ============================================================ */
 
-/* ==== Configuración ==== */
+/* ==== ROOT ==== */
 body {
     --scroll: 0;
 }
 
+
 /* ============================================================
-   1) CAPA BASE — DEGRADADO OSCURO ANIMADO (nivel cinematográfico)
+   1) CAPA BASE — Degradado oscuro + azul eléctrico
    ============================================================ */
 
 body::before {
@@ -24,25 +24,27 @@ body::before {
     inset: 0;
 
     background: radial-gradient(circle at 40% 0%,
-        #0c1523 0%,    /* azul oscuro profundo */
-        #04060a 55%,   /* zona media casi negra */
-        #000000 100%   /* base negra */
+        #0a1630 0%,   /* azul profundo */
+        #03050a 45%,  /* gris-negruzco */
+        #000000 100%  /* negro absoluto */
     );
 
-    background-position-y: calc(50% + var(--scroll) * 0.4%);
-    animation: brGradient 40s ease-in-out infinite alternate;
-    z-index: -3;
+    background-position-y: calc(50% + var(--scroll) * 0.35%);
+    animation: brGradient 38s ease-in-out infinite alternate;
+
+    z-index: -4;
     pointer-events: none;
 }
 
 @keyframes brGradient {
-    0%   { filter: brightness(0.95) hue-rotate(0deg); }
-    50%  { filter: brightness(1.02) hue-rotate(6deg); }
-    100% { filter: brightness(0.94) hue-rotate(-4deg); }
+    0%   { filter: brightness(0.92) hue-rotate(0deg); }
+    50%  { filter: brightness(1.05) hue-rotate(12deg); } /* azul eléctrico */
+    100% { filter: brightness(0.90) hue-rotate(-8deg); }
 }
 
+
 /* ============================================================
-   2) CAPA FOG — NIEBLA SUAVE AZULADA (ahora mucho más sutil)
+   2) CAPA FOG — Niebla azul sutil (perfil ambiental)
    ============================================================ */
 
 body::after {
@@ -51,73 +53,149 @@ body::after {
     inset: 0;
 
     background:
-        radial-gradient(circle at 15% 20%, rgba(80,120,255,0.14), transparent 60%),
+        radial-gradient(circle at 15% 20%, rgba(80,130,255,0.10), transparent 60%),
         radial-gradient(circle at 80% 75%, rgba(120,160,255,0.12), transparent 60%);
 
-    opacity: 0.25; /* antes 0.55 → ahora equilibrado */
-    animation: brFogMove 55s ease-in-out infinite;
-    z-index: -2;
+    opacity: 0.22; /* más equilibrado */
+
+    animation: fogMove 60s ease-in-out infinite;
+    z-index: -3;
     pointer-events: none;
 }
 
-@keyframes brFogMove {
+@keyframes fogMove {
     0%   { transform: translate3d(0,0,0) scale(1.03); }
-    50%  { transform: translate3d(-10px,-8px,0) scale(1.06); }
-    100% { transform: translate3d(8px,10px,0) scale(1.03); }
+    50%  { transform: translate3d(-14px,-10px,0) scale(1.07); }
+    100% { transform: translate3d(8px,10px,0)  scale(1.03); }
 }
 
+
 /* ============================================================
-   3) PARTÍCULAS — POLVO LUMINOSO AZULADO (integradas)
+   3) GRAIN — Textura cinematográfica
+   ============================================================ */
+
+.grain-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.015) 0px,
+        rgba(255,255,255,0.015) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+
+    opacity: 0.06;  /* suave pero presente */
+    mix-blend-mode: overlay;
+
+    z-index: -2;
+}
+
+
+/* ============================================================
+   4) PARTÍCULAS — 3 PLANO (micro, normal, difusa)
    ============================================================ */
 
 .stars-layer {
     position: fixed;
     inset: 0;
     pointer-events: none;
-    z-index: 1; /* encima del fog y waves */
+    z-index: -1; /* encima de fog/grain, debajo del contenido */
 }
 
-.star {
+
+/* --- Partículas micro (polvo muy fino) --- */
+.star.micro {
     position: absolute;
-    width: 12px;
-    height: 12px;
+    width: 4px;
+    height: 4px;
 
     background: radial-gradient(circle,
-        rgba(150,190,255,0.65) 0%,
-        rgba(150,190,255,0.08) 45%,
+        rgba(120,160,255,0.35),
+        transparent 70%
+    );
+
+    filter: blur(3px);
+    opacity: 0.35;
+    animation: microFloat 26s ease-in-out infinite;
+}
+
+@keyframes microFloat {
+    0%   { transform: translateY(0px) translateX(0px); }
+    50%  { transform: translateY(-20px) translateX(10px); }
+    100% { transform: translateY(0px) translateX(0px); }
+}
+
+
+/* --- Partículas normales --- */
+.star.normal {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+
+    background: radial-gradient(circle,
+        rgba(150,190,255,0.65),
+        rgba(150,190,255,0.08),
         transparent 100%
     );
 
-    border-radius: 50%;
     filter: blur(3px);
     opacity: 0.55;
-    animation: starFloat 22s ease-in-out infinite;
+    animation: normalFloat 22s ease-in-out infinite;
 }
 
-@keyframes starFloat {
-    0%   { transform: translateY(0px)     translateX(0px); }
-    50%  { transform: translateY(-35px)  translateX(16px); }
-    100% { transform: translateY(0px)     translateX(0px); }
+@keyframes normalFloat {
+    0%   { transform: translateY(0px) translateX(0px); }
+    50%  { transform: translateY(-35px) translateX(16px); }
+    100% { transform: translateY(0px) translateX(0px); }
 }
+
+
+/* --- Partículas difusas (halo, profundidad) --- */
+.star.glow {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+
+    background: radial-gradient(circle,
+        rgba(100,140,255,0.25),
+        transparent 90%
+    );
+
+    filter: blur(12px);
+    opacity: 0.45;
+    animation: glowFloat 30s ease-in-out infinite;
+}
+
+@keyframes glowFloat {
+    0%   { transform: translateY(0px) translateX(0px); }
+    50%  { transform: translateY(-25px) translateX(12px); }
+    100% { transform: translateY(0px) translateX(0px); }
+}
+
 
 /* ============================================================
-   4) ONDAS ATMOSFÉRICAS — MÚSICA VISUAL
+   5) ONDAS ATMOSFÉRICAS — movimiento sutil
    ============================================================ */
 
 .waves-layer {
     position: fixed;
     inset: 0;
+
     background: radial-gradient(circle at 50% 60%,
-        rgba(80,120,255,0.10),  /* más suave */
-        transparent 60%
+        rgba(80,130,255,0.10),
+        transparent 65%
     );
-    animation: wavesAnim 28s ease-in-out infinite;
+
+    animation: wavesAnim 26s ease-in-out infinite;
     z-index: 0;
     pointer-events: none;
 }
 
 @keyframes wavesAnim {
-    0%   { transform: scale(1)       translateY(0px); }
-    50%  { transform: scale(1.14)    translateY(12px); }
-    100% { transform: scale(1)       translateY(0px); }
+    0%   { transform: scale(1)     translateY(0px); }
+    50%  { transform: scale(1.14)  translateY(12px); }
+    100% { transform: scale(1)     translateY(0px); }
 }

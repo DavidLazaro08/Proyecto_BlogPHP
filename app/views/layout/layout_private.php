@@ -10,14 +10,25 @@
 <body class="private-body">
     <canvas id="blueRoomCanvas"></canvas>
 
-        <div class="stars-layer">
-    <div class="star" style="top:20%; left: 25%; animation-delay:0s;"></div>
-    <div class="star" style="top:60%; left: 45%; animation-delay:3s;"></div>
-    <div class="star" style="top:35%; left: 70%; animation-delay:6s;"></div>
-    <div class="star" style="top:80%; left: 10%; animation-delay:9s;"></div>
-    </div>
+<div class="stars-layer">
+    <!-- Micro (polvo finísimo) -->
+    <div class="star micro"  style="top:12%; left:18%;"></div>
+    <div class="star micro"  style="top:55%; left:72%;"></div>
+    <div class="star micro"  style="top:78%; left:30%;"></div>
+
+    <!-- Normales -->
+    <div class="star normal" style="top:25%; left:40%;"></div>
+    <div class="star normal" style="top:45%; left:15%;"></div>
+    <div class="star normal" style="top:70%; left:65%;"></div>
+
+    <!-- Glow (difusas) -->
+    <div class="star glow"   style="top:32%; left:62%;"></div>
+    <div class="star glow"   style="top:82%; left:22%;"></div>
+</div>
 
 <div class="waves-layer"></div>
+<div class="grain-layer"></div>
+
 
 <?php
 
