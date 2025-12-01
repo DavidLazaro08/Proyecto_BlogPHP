@@ -14,7 +14,7 @@
 
 /* CONTENEDOR PRINCIPAL */
 .auth-container {
-    transform: scale(0.90);
+    transform: scale(0.95);
     background: rgba(5, 5, 10, 0.92);
     border: 1px solid rgba(120,160,255,0.10);
     box-shadow: 0 0 28px rgba(0,0,0,0.65);
@@ -22,7 +22,7 @@
     padding: 40px 46px;
     max-width: 460px;
     width: 100%;
-    transition: 0.35s ease;
+    transition: 1.35s ease;
 }
 
 .auth-container:hover {

@@ -1,6 +1,10 @@
+// Efecto de aurora dinámica para el fondo de The Blue Room.
+// Genera ondas de luz azuladas en movimiento continuo usando un canvas 2D.
+
 const canvas = document.getElementById("blueRoomCanvas");
 const ctx = canvas.getContext("2d");
 
+// Ajusta el lienzo al tamaño de la ventana
 function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -8,9 +12,8 @@ function resize() {
 resize();
 window.addEventListener("resize", resize);
 
-// -------------- AURORA BLUE ROOM — V6.5 ------------------
-// Azul frío + negro profundo + movimiento más perceptible
-
+// ---------------- AURORA BLUE ROOM — V6.5 ----------------
+// Tonos fríos, movimiento suave y luminiscencia azul.
 let t = 0;
 
 function drawAurora() {
@@ -28,18 +31,16 @@ function drawAurora() {
             canvas.width * 1.1
         );
 
-        // Tonos tipo Blue Room originales + más contraste
-        gradient.addColorStop(0, "rgba(60, 120, 255, 0.16)");   // azul vivo (más fuerte)
+        gradient.addColorStop(0, "rgba(60, 120, 255, 0.16)");   // azul vivo
         gradient.addColorStop(0.45, "rgba(30, 60, 140, 0.10)"); // azul profundo
-        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");           // desaparición limpia
+        gradient.addColorStop(1, "rgba(0, 0, 0, 0)");           // desvanecido limpio
 
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 
-    t += 0.0014;  // movimiento suave pero visible (antes era 0.0008)
+    t += 0.0014; // velocidad del movimiento
     requestAnimationFrame(drawAurora);
 }
 
 drawAurora();
-

@@ -3,12 +3,13 @@
 require_once __DIR__ . '/../models/Post.php';
 require_once __DIR__ . '/../models/User.php';
 
-class PanelController {
-
+class PanelController
+{
     // ==========================================================
-    //   SOLO ADMIN
+    //   CONTROL DE ACCESO — SOLO ADMIN
     // ==========================================================
-    private function requireAdmin() {
+    private function requireAdmin()
+    {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
@@ -20,208 +21,216 @@ class PanelController {
     }
 
     // ==========================================================
-    //   PANEL PRINCIPAL - MODERACIÓN COMPLETA
+    //   PANEL PRINCIPAL — MODERACIÓN COMPLETA
     // ==========================================================
-    public function dashboard() {
+    public function dashboard()
+    {
         $this->requireAdmin();
 
         $postModel = new Post();
-        $posts = $postModel->getAllPostsForModeration();
+        $posts     = $postModel->getAllPostsForModeration();
 
-        $this->render("layout_private.php", "panel/dashboard.php", [
-            "posts" => $posts,
-            "title" => "Panel de moderación"
-        ]);
+        $this->render(
+            "layout_private.php",
+            "panel/dashboard.php",
+            [
+                "posts" => $posts,
+                "title" => "Panel de moderación"
+            ]
+        );
     }
-
 
     // ==========================================================
     //   (ARCHIVADO) POSTS PENDIENTES
-    //   -> NO SE MUESTRA EN EL MENÚ, pero queda por si lo quieres usar
     // ==========================================================
-    public function pendingPosts() {
+    public function pendingPosts()
+    {
         $this->requireAdmin();
 
         $postModel = new Post();
-        $pending = $postModel->getPendingPosts();
+        $pending   = $postModel->getPendingPosts();
 
-        $this->render("layout_private.php", "panel/pending_posts.php", [
-            "pending" => $pending
-        ]);
+        $this->render(
+            "layout_private.php",
+            "panel/pending_posts.php",
+            ["pending" => $pending]
+        );
     }
 
-
     // ==========================================================
-    //   APROBAR
+    //   APROBAR POST
     // ==========================================================
-    public function approve() {
+    public function approve()
+    {
         $this->requireAdmin();
 
         if (!empty($_GET['id'])) {
-            $postModel = new Post();
-            $postModel->approvePost($_GET['id']);
+            (new Post())->approvePost($_GET['id']);
         }
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=dashboard&msg=approved");
         exit;
     }
 
-
     // ==========================================================
-    //   RECHAZAR
+    //   RECHAZAR POST
     // ==========================================================
-    public function reject() {
+    public function reject()
+    {
         $this->requireAdmin();
 
         if (!empty($_GET['id'])) {
-            $postModel = new Post();
-            $postModel->rejectPost($_GET['id']);
+            (new Post())->rejectPost($_GET['id']);
         }
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=dashboard&msg=rejected");
         exit;
     }
 
-
     // ==========================================================
-    //   BORRAR
+    //   BORRAR POST
     // ==========================================================
-    public function delete() {
+    public function delete()
+    {
         $this->requireAdmin();
 
         if (!empty($_GET['id'])) {
-            $postModel = new Post();
-            $postModel->deletePost($_GET['id']);
+            (new Post())->deletePost($_GET['id']);
         }
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=dashboard&msg=deleted");
         exit;
     }
 
-
     // ==========================================================
-    //   GESTIÓN DE USUARIOS
+    //   GESTIÓN DE USUARIOS — LISTADO
     // ==========================================================
-    public function users() {
+    public function users()
+    {
         $this->requireAdmin();
 
         $userModel = new User();
-        $users = $userModel->getAllUsers();
+        $users     = $userModel->getAllUsers();
 
-        $this->render("layout_private.php", "panel/users.php", [
-            "users" => $users
-        ]);
-    }
-    // ==========================================================
-    //   ELIMINAR USUARIOS
-    // ==========================================================
-    public function deleteUser() {
-    $this->requireAdmin();
-
-    if (!isset($_GET['id'])) {
-        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
-        exit;
+        $this->render(
+            "layout_private.php",
+            "panel/users.php",
+            ["users" => $users]
+        );
     }
 
-    $id = intval($_GET['id']);
+    // ==========================================================
+    //   ELIMINAR USUARIO (excepto admin principal)
+    // ==========================================================
+    public function deleteUser()
+    {
+        $this->requireAdmin();
 
-        // Proteger al ADMIN
+        if (!isset($_GET['id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+            exit;
+        }
+
+        $id = intval($_GET['id']);
+
         if ($id === 1) {
             die("No puedes borrar al usuario administrador principal.");
         }
 
-        $userModel = new User();
-        $userModel->deleteUserById($id);
+        (new User())->deleteUserById($id);
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
         exit;
     }
-    
+
     // ==========================================================
-    //   EDITAR USUARIOS
+    //   EDITAR USUARIO
     // ==========================================================
     public function editUser()
-{
-    $this->requireAdmin();
+    {
+        $this->requireAdmin();
 
-    if (!isset($_GET['id'])) {
-        header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
-        exit;
-    }
+        if (!isset($_GET['id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+            exit;
+        }
 
-    $id = intval($_GET['id']);
+        $id   = intval($_GET['id']);
+        $user = (new User())->findById($id);
 
-    $userModel = new User();
-    $user = $userModel->findById($id);
+        if (!$user) {
+            echo "<script>alert('Usuario no encontrado'); history.back();</script>";
+            exit;
+        }
 
-    if (!$user) {
-        echo "<script>alert('Usuario no encontrado'); history.back();</script>";
-        exit;
-    }
-
-    $this->render("layout_private.php", "panel/edit_user.php", [
-        "user" => $user
-    ]);
+        $this->render(
+            "layout_private.php",
+            "panel/edit_user.php",
+            ["user" => $user]
+        );
     }
 
     // ==========================================================
-    //   ACTUALIZAR USUARIOS
+    //   ACTUALIZAR USUARIO
     // ==========================================================
     public function updateUser()
     {
-    $this->requireAdmin();
+        $this->requireAdmin();
 
-    if (!isset($_POST['id'])) {
+        if (!isset($_POST['id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+            exit;
+        }
+
+        $id       = intval($_POST['id']);
+        $username = trim($_POST['username']);
+        $email    = trim($_POST['email']);
+        $role     = $_POST['role'];
+
+        (new User())->updateUserAdmin($id, $username, $email, $role);
+
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
         exit;
     }
 
-    $id = intval($_POST['id']);
-    $username = trim($_POST['username']);
-    $email = trim($_POST['email']);
-    $role = $_POST['role'];
+    // ==========================================================
+    //   SOLICITUDES DE ROL EDITOR
+    // ==========================================================
+    public function editorRequests()
+    {
+        $this->requireAdmin();
 
-    $userModel = new User();
-    $userModel->updateUserAdmin($id, $username, $email, $role);
+        $requests = (new User())->getEditorRequests();
 
-    header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
-    exit;   
+        $this->render(
+            "layout_private.php",
+            "panel/editor_requests.php",
+            ["requests" => $requests]
+        );
     }
 
-    // ==========================================================
-    //   NOTIFICACIONES DE SOLICITUDES DE EDITOR
-    // ==========================================================
-    public function editorRequests() {
-    $this->requireAdmin();
-
-    $userModel = new User();
-    $requests = $userModel->getEditorRequests();
-
-    $this->render("layout_private.php", "panel/editor_requests.php", [
-        "requests" => $requests
-    ]);
-}
-
-    public function approveEditor() {
+    public function approveEditor()
+    {
         $this->requireAdmin();
 
         if (!empty($_GET['id'])) {
-            $userModel = new User();
-            $userModel->approveEditorRequest($_GET['id']);
+            (new User())->approveEditorRequest($_GET['id']);
         }
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=editorRequests");
+        exit;
     }
 
-    public function rejectEditor() {
+    public function rejectEditor()
+    {
         $this->requireAdmin();
 
         if (!empty($_GET['id'])) {
-            $userModel = new User();
-            $userModel->rejectEditorRequest($_GET['id']);
+            (new User())->rejectEditorRequest($_GET['id']);
         }
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=editorRequests");
+        exit;
     }
 
     // ==========================================================
@@ -237,17 +246,18 @@ class PanelController {
         }
 
         $id = intval($_GET['id']);
-        if ($id === 1) {  
+
+        if ($id === 1) {
             die("No puedes suspender al administrador principal.");
         }
 
-        $userModel = new User();
-        $userModel->toggleActive($id, 0);
+        (new User())->toggleActive($id, 0);
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+        exit;
     }
 
-        public function enableUser()
+    public function enableUser()
     {
         $this->requireAdmin();
 
@@ -258,18 +268,17 @@ class PanelController {
 
         $id = intval($_GET['id']);
 
-        $userModel = new User();
-        $userModel->toggleActive($id, 1);
+        (new User())->toggleActive($id, 1);
 
         header("Location: /Proyecto_BlogPHP/public/?controller=panel&action=users");
+        exit;
     }
-
 
     // ==========================================================
     //   MOTOR DE RENDER
     // ==========================================================
-    private function render($layout, $view, $data = []) {
-
+    private function render($layout, $view, $data = [])
+    {
         extract($data);
 
         ob_start();
@@ -278,5 +287,4 @@ class PanelController {
 
         require __DIR__ . '/../views/layout/' . $layout;
     }
-
 }

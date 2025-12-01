@@ -1,4 +1,3 @@
-
 <div class="mod-header">
     <a href="javascript:history.back()" class="btn-back">← Volver</a>
 
@@ -7,14 +6,13 @@
     </h2>
 </div>
 
-
 <?php foreach ($posts as $post): ?>
 
-    <?php 
-        // Normalizamos estado
+    <?php
+        // Normalizar estado
         $status = strtolower(trim($post['status']));
-        
-        // Traducción
+
+        // Traducción visible
         $statusText = [
             'approved' => 'Aprobado',
             'pending'  => 'Pendiente',
@@ -24,28 +22,30 @@
 
         $displayText = $statusText[$status] ?? 'Desconocido';
 
-        // Clase CSS correspondiente
-        $badgeClass = "status-unknown";
+        // Clase visual correspondiente
         switch ($status) {
             case 'approved': $badgeClass = "status-approved"; break;
             case 'pending':  $badgeClass = "status-pending";  break;
             case 'rejected': $badgeClass = "status-rejected"; break;
             case 'draft':    $badgeClass = "status-draft";    break;
+            default:         $badgeClass = "status-unknown";
         }
     ?>
 
     <article class="moderation-card">
 
-        <!-- IMAGEN -->
+        <!-- Imagen del post -->
         <?php if (!empty($post['image'])): ?>
             <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>"
                  class="moderation-cover">
         <?php endif; ?>
 
-        <!-- CONTENIDO -->
+        <!-- Contenido del post -->
         <div class="moderation-body">
 
-            <h3 class="moderation-title"><?= htmlspecialchars($post['title']) ?></h3>
+            <h3 class="moderation-title">
+                <?= htmlspecialchars($post['title']) ?>
+            </h3>
 
             <?php if (!empty($post['subtitle'])): ?>
                 <p class="moderation-subtitle">
@@ -58,25 +58,27 @@
             </p>
 
             <p class="moderation-author">
-                Autor: <strong><?= htmlspecialchars($post['username']) ?></strong>
+                Autor:
+                <strong><?= htmlspecialchars($post['username']) ?></strong>
             </p>
 
-            <!-- ESTADO -->
+            <!-- Badge de estado -->
             <span class="status-badge <?= $badgeClass ?>">
                 <?= $displayText ?>
             </span>
 
         </div>
 
-        <!-- ACCIONES -->
+        <!-- Acciones de moderación -->
         <div class="moderation-actions">
 
-            <!-- Ver post -->
+            <!-- Ver -->
             <a href="/Proyecto_BlogPHP/public/?controller=posts&action=view&id=<?= $post['id'] ?>"
                class="btn-mod btn-view">
                 👁 Ver
             </a>
 
+            <!-- Aprobar -->
             <?php if ($status !== 'approved'): ?>
                 <a href="/Proyecto_BlogPHP/public/?controller=panel&action=approve&id=<?= $post['id'] ?>"
                    class="btn-mod btn-approve">
@@ -84,6 +86,7 @@
                 </a>
             <?php endif; ?>
 
+            <!-- Rechazar -->
             <?php if ($status !== 'rejected'): ?>
                 <a href="/Proyecto_BlogPHP/public/?controller=panel&action=reject&id=<?= $post['id'] ?>"
                    class="btn-mod btn-reject">
@@ -91,6 +94,7 @@
                 </a>
             <?php endif; ?>
 
+            <!-- Borrar -->
             <a href="/Proyecto_BlogPHP/public/?controller=panel&action=delete&id=<?= $post['id'] ?>"
                class="btn-mod btn-delete">
                 🗑 Borrar

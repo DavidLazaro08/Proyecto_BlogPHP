@@ -1,3 +1,6 @@
+// Oculta y muestra la barra superior privada según el desplazamiento.
+// Al bajar se esconde la cabecera; al subir vuelve a aparecer.
+
 let lastScroll = 0;
 const header = document.querySelector(".private-header-bar");
 const dropdown = document.querySelector(".user-dropdown");
@@ -6,16 +9,16 @@ const menuIcon = document.querySelector(".user-menu-icon");
 window.addEventListener("scroll", () => {
     const current = window.pageYOffset;
 
+    // Si se hace scroll hacia abajo y ya se ha pasado cierto punto → ocultar cabecera
     if (current > lastScroll && current > 80) {
-        // Bajando → ocultar cabecera
         header.classList.add("private-header-hidden");
 
-        // Cerrar menú si está abierto
+        // Cerrar menú si estaba abierto
         dropdown.classList.remove("open");
         menuIcon.classList.remove("active");
 
     } else {
-        // Subiendo → mostrar cabecera
+        // Si se sube → mostrar cabecera nuevamente
         header.classList.remove("private-header-hidden");
     }
 

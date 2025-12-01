@@ -1,3 +1,9 @@
+
+// Control del audio ambiental de The Blue Room.
+// Gestiona el estado del sonido, el botón de activación
+// y los efectos de entrada y salida del volumen.
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const audio  = document.getElementById("ambientAudio");

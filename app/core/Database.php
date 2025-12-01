@@ -1,34 +1,48 @@
 <?php
 
-class Database {
-
+class Database
+{
     private $connection;
 
-    public function __construct() {
-        // Cargamos configuración desde /config/config.php
+    public function __construct()
+    {
+        // ================================
+        //  Cargar configuración
+        // ================================
         $config = require __DIR__ . '/../../config/config.php';
 
-        $host = $config['db_host'];
+        $host   = $config['db_host'];
         $dbname = $config['db_name'];
-        $user = $config['db_user'];
-        $pass = $config['db_pass'];
+        $user   = $config['db_user'];
+        $pass   = $config['db_pass'];
 
         try {
+            // ================================
+            //  Crear conexión PDO
+            // ================================
             $this->connection = new PDO(
                 "mysql:host=$host;dbname=$dbname;charset=utf8",
                 $user,
                 $pass
             );
 
-            // Opciones recomendadas
+            // ================================
+            //  Opciones recomendadas
+            // ================================
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         } catch (PDOException $e) {
+
+            // Error crítico - detener ejecución
             die("Error de conexión a la base de datos: " . $e->getMessage());
         }
     }
 
-    public function getConnection() {
+    // ================================
+    //  Obtener la conexión activa
+    // ================================
+    public function getConnection()
+    {
         return $this->connection;
     }
 }

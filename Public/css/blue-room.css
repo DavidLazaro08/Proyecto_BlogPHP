@@ -169,6 +169,8 @@ body,
 
 .post-back-link a:hover {
     color: #c3d9ff;
+    transition: 1.35s ease;
+
 }
 
 
@@ -186,7 +188,7 @@ body,
     top: 0;
     z-index: 999;
     backdrop-filter: blur(6px);
-    transition: transform .35s ease;
+    transition: transform 1.35s ease;
 }
 
 .private-header-hidden {

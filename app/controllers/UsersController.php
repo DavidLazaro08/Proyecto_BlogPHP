@@ -2,12 +2,13 @@
 
 require_once __DIR__ . '/../models/User.php';
 
-class UsersController {
-
+class UsersController
+{
     // ========================================================
     //  PERFIL DEL USUARIO (Mi Perfil)
     // ========================================================
-    public function profile() {
+    public function profile()
+    {
         session_start();
 
         if (!isset($_SESSION['user_id'])) {
@@ -18,7 +19,7 @@ class UsersController {
         $userModel = new User();
         $user = $userModel->findById($_SESSION['user_id']);
 
-        // 🔥 CARGAR POSTS DEL USUARIO (sólo si es editor o admin)
+        // Cargar posts solo si es editor o admin
         $posts = [];
         if ($_SESSION['role'] !== 'user') {
             require_once __DIR__ . '/../models/Post.php';
@@ -26,18 +27,22 @@ class UsersController {
             $posts = $postModel->getPostsByUser($_SESSION['user_id']);
         }
 
-        $this->render("layout_private.php", "users/profile.php", [
-            "title" => "Mi perfil",
-            "user" => $user,
-            "posts" => $posts   // ⬅⬅⬅ ESTA LÍNEA FALTABA
-        ]);
+        $this->render(
+            "layout_private.php",
+            "users/profile.php",
+            [
+                "title" => "Mi perfil",
+                "user"  => $user,
+                "posts" => $posts
+            ]
+        );
     }
 
-
     // ========================================================
-    //  ENVIAR SOLICITUD PARA SER EDITOR
+    //  SOLICITAR SER EDITOR
     // ========================================================
-    public function requestEditor() {
+    public function requestEditor()
+    {
         session_start();
 
         if (!isset($_SESSION['user_id'])) {
@@ -47,7 +52,7 @@ class UsersController {
 
         $userModel = new User();
 
-        // Solo si NO hay otra pendiente
+        // Solo enviar si no existe otra solicitud pendiente
         if (!$userModel->hasPendingEditorRequest($_SESSION['user_id'])) {
             $userModel->requestEditorRole($_SESSION['user_id']);
         }
@@ -57,7 +62,7 @@ class UsersController {
     }
 
     // ========================================================
-    //  PROCESAR CAMBIO DE AVATAR
+    //  CAMBIO DE AVATAR
     // ========================================================
     public function updateAvatar()
     {
@@ -68,6 +73,7 @@ class UsersController {
             exit;
         }
 
+        // Archivo no recibido o error
         if (!isset($_FILES['avatar']) || $_FILES['avatar']['error'] !== 0) {
             header("Location: /Proyecto_BlogPHP/public/?controller=users&action=profile");
             exit;
@@ -81,6 +87,7 @@ class UsersController {
 
         $target = __DIR__ . "/../../public/avatars/" . $newName;
 
+        // Guardar fichero
         move_uploaded_file($file['tmp_name'], $target);
 
         // Guardar en BD
@@ -94,62 +101,66 @@ class UsersController {
         exit;
     }
 
-        // ========================================================
-        //  EDITAR PERFIL USUARIO
-        // ========================================================
+    // ========================================================
+    //  FORMULARIO DE EDICIÓN DE PERFIL
+    // ========================================================
+    public function editProfileForm()
+    {
+        session_start();
 
-        public function editProfileForm() {
-            session_start();
-
-            if (!isset($_SESSION['user_id'])) {
-                header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
-                exit;
-            }
-
-            $userModel = new User();
-            $user = $userModel->findById($_SESSION['user_id']);
-
-            $this->render("layout_private.php", "users/edit_profile.php", [
-                "user" => $user
-            ]);
-        }
-
-        public function updateProfile() {
-            session_start();
-
-            if (!isset($_SESSION['user_id'])) {
-                header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
-                exit;
-            }
-
-            $username = trim($_POST['username']);
-            $email = trim($_POST['email']);
-
-            $userModel = new User();
-            $userModel->updateBasicData($_SESSION['user_id'], $username, $email);
-
-            // Actualizar sesión
-            $_SESSION['username'] = $username;
-
-            header("Location: /Proyecto_BlogPHP/public/?controller=users&action=profile");
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
             exit;
         }
 
+        $userModel = new User();
+        $user = $userModel->findById($_SESSION['user_id']);
+
+        $this->render(
+            "layout_private.php",
+            "users/edit_profile.php",
+            ["user" => $user]
+        );
+    }
 
     // ========================================================
-    //  RENDER — VERSIÓN CORRECTA PARA TU PROYECTO
+    //  ACTUALIZAR PERFIL (username + email)
     // ========================================================
-    private function render($layout, $view, $data = []) {
+    public function updateProfile()
+    {
+        session_start();
+
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: /Proyecto_BlogPHP/public/?controller=auth&action=loginForm");
+            exit;
+        }
+
+        $username = trim($_POST['username']);
+        $email    = trim($_POST['email']);
+
+        $userModel = new User();
+        $userModel->updateBasicData($_SESSION['user_id'], $username, $email);
+
+        // Actualizar sesión
+        $_SESSION['username'] = $username;
+
+        header("Location: /Proyecto_BlogPHP/public/?controller=users&action=profile");
+        exit;
+    }
+
+    // ========================================================
+    //  RENDER GENERAL DEL PROYECTO
+    // ========================================================
+    private function render($layout, $view, $data = [])
+    {
         extract($data);
 
-        // Capturamos la vista
+        // Capturar contenido
         ob_start();
         require __DIR__ . "/../views/$view";
         $content = ob_get_clean();
 
-        // Cargamos el layout
+        // Cargar layout
         require __DIR__ . "/../views/layout/$layout";
     }
-
-    
 }

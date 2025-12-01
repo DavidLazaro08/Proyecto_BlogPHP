@@ -1,8 +1,7 @@
 <?php
 // ============================================================
-// NORMALIZAR RUTA DEL AVATAR DEL USUARIO
+// NORMALIZAR AVATAR
 // ============================================================
-
 $avatar = $user['avatar'] ?: "/avatars/Default.jpg";
 
 if (strpos($avatar, "/avatars/") !== 0) {
@@ -15,7 +14,6 @@ $avatarPath = "/Proyecto_BlogPHP/public" . $avatar;
 // ============================================================
 // CARGAR POSTS DEL USUARIO
 // ============================================================
-
 require_once __DIR__ . "/../../models/Post.php";
 $postModel = new Post();
 $posts = $postModel->getPostsByUser($user['id']);
@@ -23,7 +21,6 @@ $posts = $postModel->getPostsByUser($user['id']);
 
 <div class="edit-header">
     <a href="javascript:history.back()" class="btn-back">← Volver</a>
-
     <h2 class="profile-title">Mi perfil</h2>
 </div>
 
@@ -32,18 +29,15 @@ $posts = $postModel->getPostsByUser($user['id']);
 
 <div class="profile-wrapper">
 
-    <!-- =======================================================
+    <!-- =============================================
          COLUMNA IZQUIERDA — DATOS DEL USUARIO
-    ======================================================== -->
+    ============================================== -->
     <div class="profile-left">
 
-        <!-- AVATAR PRINCIPAL -->
-        <img src="<?= $avatarPath ?>"
-             alt="avatar"
-             class="profile-avatar"
-             id="profileAvatar">
+        <!-- AVATAR -->
+        <img src="<?= $avatarPath ?>" alt="avatar" class="profile-avatar" id="profileAvatar">
 
-        <!-- MODAL PARA AMPLIAR AVATAR -->
+        <!-- MODAL AVATAR -->
         <div class="avatar-modal" id="avatarModal">
             <span class="avatar-close" id="avatarClose">✕</span>
             <img src="<?= $avatarPath ?>" class="avatar-modal-img">
@@ -59,9 +53,8 @@ $posts = $postModel->getPostsByUser($user['id']);
             </span>
         </p>
 
-        <!-- BOTONES PRINCIPALES -->
+        <!-- BOTONES -->
         <div class="profile-buttons">
-
             <button type="button"
                     class="btn-small"
                     onclick="document.getElementById('avatarInput').click()">
@@ -72,19 +65,14 @@ $posts = $postModel->getPostsByUser($user['id']);
                class="btn-small">
                 Editar datos
             </a>
-
         </div>
 
-        <!-- ❌ AQUÍ NO HAY NADA MÁS PARA USER NORMAL -->
-    </div>
-    <!-- FIN COLUMNA IZQUIERDA -->
+    </div> <!-- /left -->
 
 
-
-    <!-- =======================================================
-         COLUMNA DERECHA — SOLO EDITORES Y ADMIN
-    ======================================================== -->
-
+    <!-- =============================================
+         COLUMNA DERECHA — EDITOR / ADMIN
+    ============================================== -->
     <?php if ($_SESSION['role'] !== 'user'): ?>
 
         <div class="profile-right">
@@ -144,13 +132,13 @@ $posts = $postModel->getPostsByUser($user['id']);
 
         </div>
 
+
+    <!-- =============================================
+         COLUMNA DERECHA — USER NORMAL
+    ============================================== -->
     <?php else: ?>
 
-        <!-- =======================================================
-             COLUMNA DERECHA — MENSAJE PARA USER NORMAL
-        ======================================================== -->
-
-        <div class="profile-right" 
+        <div class="profile-right"
              style="display:flex; justify-content:center; align-items:center; text-align:center; padding:40px;">
 
             <div>
@@ -183,18 +171,13 @@ $posts = $postModel->getPostsByUser($user['id']);
 </div>
 
 
-
-<!-- =======================================================
-     FORMULARIO OCULTO PARA SUBIR AVATAR
-=========================================================== -->
+<!-- =============================================
+     FORMULARIO OCULTO AVATAR
+============================================== -->
 <form id="avatarForm"
-      action="/Proyecto_BlogPHP/public/?controller=users&action=changeAvatar"
+      action="/Proyecto_BlogPHP/public/?controller=users&action=updateAvatar"
       method="POST"
       enctype="multipart/form-data"
       style="display:none;">
-
-    <input type="file"
-           id="avatarInput"
-           name="avatar"
-           accept="image/*">
+    <input type="file" id="avatarInput" name="avatar" accept="image/*">
 </form>

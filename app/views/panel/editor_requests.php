@@ -1,7 +1,5 @@
 <?php
-// ============================================================
-// NORMALIZAR AVATAR (igual que en gestión de usuarios)
-// ============================================================
+// Normaliza la ruta del avatar para mostrarla correctamente.
 function normalizeAvatar($avatar)
 {
     if (!$avatar) {
@@ -32,20 +30,25 @@ function normalizeAvatar($avatar)
     <?php foreach ($requests as $req): ?>
         <div class="moderation-card">
 
-            <!-- AVATAR -->
-            <img src="<?= normalizeAvatar($req['avatar']) ?>"
-                 class="moderation-cover"
-                 style="width:130px; height:130px; object-fit:cover;">
+            <!-- Avatar -->
+            <img
+                src="<?= normalizeAvatar($req['avatar']) ?>"
+                class="moderation-cover"
+                style="width:130px; height:130px; object-fit:cover;"
+            >
 
-            <!-- INFORMACIÓN -->
+            <!-- Información del usuario -->
             <div class="moderation-body">
-                <h3 class="moderation-title"><?= htmlspecialchars($req['username']) ?></h3>
+                <h3 class="moderation-title">
+                    <?= htmlspecialchars($req['username']) ?>
+                </h3>
+
                 <p class="moderation-subtitle">
                     Solicita permiso para publicar contenido.
                 </p>
             </div>
 
-            <!-- ACCIONES -->
+            <!-- Acciones -->
             <div class="moderation-actions">
 
                 <a href="/Proyecto_BlogPHP/public/?controller=panel&action=approveEditor&id=<?= $req['id'] ?>"

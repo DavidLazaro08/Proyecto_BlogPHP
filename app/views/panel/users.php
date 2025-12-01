@@ -1,19 +1,15 @@
-
 <?php
-// Función global para normalizar avatar (misma lógica que en el perfil)
+// Normaliza la ruta del avatar para que siempre cargue bien.
 function normalizeAvatar($avatar)
 {
-    // Si no hay avatar → usar Default
     if (!$avatar) {
         return "/Proyecto_BlogPHP/public/avatars/Default.jpg";
     }
 
-    // Si NO empieza por "/avatars/" lo añadimos
     if (strpos($avatar, "/avatars/") !== 0) {
         $avatar = "/avatars/" . ltrim($avatar, "/");
     }
 
-    // Devolver ruta correcta absoluta
     return "/Proyecto_BlogPHP/public" . $avatar;
 }
 ?>
@@ -39,48 +35,48 @@ function normalizeAvatar($avatar)
         <?php foreach ($users as $u): ?>
             <tr>
                 <td><?= $u['id'] ?></td>
+
                 <td><?= htmlspecialchars($u['username']) ?></td>
+
                 <td><?= htmlspecialchars($u['email']) ?></td>
+
                 <td><?= ucfirst($u['role']) ?></td>
 
                 <td>
                     <img src="<?= normalizeAvatar($u['avatar']) ?>"
-                        style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+                         style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
                 </td>
 
-                <!-- ACCIONES (TODO JUNTO EN UNA CELDA) -->
                 <td style="display:flex; gap:10px;">
 
-                    <!-- EDITAR -->
+                    <!-- Editar -->
                     <a href="/Proyecto_BlogPHP/public/?controller=panel&action=editUser&id=<?= $u['id'] ?>"
-                    class="btn-mod btn-view">
+                       class="btn-mod btn-view">
                         Editar
                     </a>
 
-                    <!-- ELIMINAR -->
+                    <!-- Eliminar -->
                     <a href="/Proyecto_BlogPHP/public/?controller=panel&action=deleteUser&id=<?= $u['id'] ?>"
-                    class="btn-mod btn-delete"
-                    onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">
+                       class="btn-mod btn-delete"
+                       onclick="return confirm('¿Seguro que deseas eliminar este usuario?')">
                         Eliminar
                     </a>
 
-                    <!-- ACTIVAR / SUSPENDER -->
+                    <!-- Activar / Suspender -->
                     <?php if ($u['active'] == 1): ?>
                         <a href="/Proyecto_BlogPHP/public/?controller=panel&action=disableUser&id=<?= $u['id'] ?>"
-                        class="btn-mod btn-reject">
+                           class="btn-mod btn-reject">
                             Suspender
                         </a>
                     <?php else: ?>
                         <a href="/Proyecto_BlogPHP/public/?controller=panel&action=enableUser&id=<?= $u['id'] ?>"
-                        class="btn-mod btn-approve">
+                           class="btn-mod btn-approve">
                             Activar
                         </a>
                     <?php endif; ?>
 
                 </td>
-
             </tr>
         <?php endforeach; ?>
     </tbody>
-
 </table>

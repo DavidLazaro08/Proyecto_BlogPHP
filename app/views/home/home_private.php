@@ -1,7 +1,6 @@
 <div class="private-container">
 
     <h2 class="private-title">The Blue Room</h2>
-
     <p class="private-subtitle">Acceso exclusivo al archivo completo del mapa sonoro.</p>
 
     <?php if ($_SESSION['role'] === "editor" || $_SESSION['role'] === "admin"): ?>
@@ -15,7 +14,7 @@
         <article class="private-post-card">
 
             <?php if (!empty($post['image'])): ?>
-                <img src="/Proyecto_BlogPHP/public<?= $post['image'] ?>"
+                <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>"
                      class="private-post-thumb">
             <?php endif; ?>
 

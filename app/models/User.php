@@ -2,96 +2,94 @@
 
 require_once __DIR__ . '/../core/Database.php';
 
-class User {
-
+class User
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $db = new Database();
         $this->conn = $db->getConnection();
     }
 
+    /* ============================================================
+       LOGIN / BÚSQUEDAS
+       ============================================================ */
 
-    // ============================================================
-    //  LOGIN
-    // ============================================================
-
-    public function findByEmail($email) {
-        $query = "SELECT * FROM users WHERE email = :email LIMIT 1";
-        $stmt = $this->conn->prepare($query);
+    public function findByEmail($email)
+    {
+        $sql = "SELECT * FROM users WHERE email = :email LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function verifyPassword($passwordIntroducida, $hashGuardado) {
+    public function verifyPassword($passwordIntroducida, $hashGuardado)
+    {
         return password_verify($passwordIntroducida, $hashGuardado);
     }
 
-
-    // ============================================================
-    //  BÚSQUEDA DE USUARIO POR ID
-    // ============================================================
-
-    public function findById($id) {
+    public function findById($id)
+    {
         $sql = "SELECT * FROM users WHERE id = :id LIMIT 1";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    /* ============================================================
+       CREACIÓN DE USUARIO
+       ============================================================ */
 
-// ============================================================
-//  CREAR USUARIO (con avatar y devolución de ID)
-// ============================================================
+    public function create($username, $email, $password, $role = 'user', $avatar = '/avatars/default.jpg')
+    {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
 
-public function create($username, $email, $password, $role = 'user', $avatar = '/avatars/default.jpg') {
+        $sql = "INSERT INTO users (username, email, password, role, avatar)
+                VALUES (:username, :email, :password, :role, :avatar)";
 
-    $hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->conn->prepare($sql);
 
-    $query = "INSERT INTO users (username, email, password, role, avatar)
-              VALUES (:username, :email, :password, :role, :avatar)";
-    
-    $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $hash);
+        $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':avatar', $avatar);
 
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $hash);
-    $stmt->bindParam(':role', $role);
-    $stmt->bindParam(':avatar', $avatar);
+        $stmt->execute();
 
-    $stmt->execute();
+        return $this->conn->lastInsertId();
+    }
 
-    // Devuelve el ID del nuevo usuario
-    return $this->conn->lastInsertId();
-}
+    /* ============================================================
+       LISTADO COMPLETO DE USUARIOS
+       ============================================================ */
 
-
-    // ============================================================
-    //  LISTAR USUARIOS
-    // ============================================================
-
-    public function getAllUsers() {
+    public function getAllUsers()
+    {
         $sql = "SELECT * FROM users ORDER BY created_at DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /* ============================================================
+       SOLICITUDES PARA SER EDITOR
+       ============================================================ */
 
-    // ============================================================
-    //  SOLICITUDES PARA SER EDITOR
-    // ============================================================
-
-    public function requestEditorRole($userId) {
+    public function requestEditorRole($userId)
+    {
         $sql = "INSERT INTO editor_requests (user_id) VALUES (:uid)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':uid' => $userId]);
     }
 
-    public function hasPendingEditorRequest($userId) {
-        $sql = "SELECT * FROM editor_requests 
-                WHERE user_id = :uid AND status='pending'
+    public function hasPendingEditorRequest($userId)
+    {
+        $sql = "SELECT *
+                FROM editor_requests
+                WHERE user_id = :uid AND status = 'pending'
                 LIMIT 1";
 
         $stmt = $this->conn->prepare($sql);
@@ -99,11 +97,12 @@ public function create($username, $email, $password, $role = 'user', $avatar = '
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getEditorRequests() {
-        $sql = "SELECT editor_requests.*, users.username, users.avatar 
+    public function getEditorRequests()
+    {
+        $sql = "SELECT editor_requests.*, users.username, users.avatar
                 FROM editor_requests
                 JOIN users ON users.id = editor_requests.user_id
-                WHERE status='pending'
+                WHERE status = 'pending'
                 ORDER BY created_at DESC";
 
         $stmt = $this->conn->prepare($sql);
@@ -111,8 +110,10 @@ public function create($username, $email, $password, $role = 'user', $avatar = '
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function approveEditorRequest($requestId) {
-        $stmt = $this->conn->prepare("SELECT user_id FROM editor_requests WHERE id=?");
+    public function approveEditorRequest($requestId)
+    {
+        // obtener solicitud
+        $stmt = $this->conn->prepare("SELECT user_id FROM editor_requests WHERE id = ?");
         $stmt->execute([$requestId]);
         $req = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -120,60 +121,76 @@ public function create($username, $email, $password, $role = 'user', $avatar = '
 
         $uid = $req['user_id'];
 
-        $this->conn->prepare("UPDATE users SET role='editor' WHERE id=?")
-                   ->execute([$uid]);
+        // actualizar rol
+        $this->conn
+            ->prepare("UPDATE users SET role = 'editor' WHERE id = ?")
+            ->execute([$uid]);
 
-        return $this->conn->prepare("UPDATE editor_requests SET status='approved' WHERE id=?")
-                          ->execute([$requestId]);
+        // marcar solicitud como aprobada
+        return $this->conn
+            ->prepare("UPDATE editor_requests SET status = 'approved' WHERE id = ?")
+            ->execute([$requestId]);
     }
 
-    public function rejectEditorRequest($requestId) {
-        $sql = "UPDATE editor_requests SET status='rejected' WHERE id=?";
+    public function rejectEditorRequest($requestId)
+    {
+        $sql = "UPDATE editor_requests SET status = 'rejected' WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$requestId]);
     }
 
+    /* ============================================================
+       PERFIL DEL USUARIO
+       ============================================================ */
 
-    // ============================================================
-    //  NUEVOS MÉTODOS PARA PERFIL
-    // ============================================================
-
-    public function updateAvatar($userId, $path) {
+    public function updateAvatar($userId, $path)
+    {
         $sql = "UPDATE users SET avatar = :avatar WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
+
         return $stmt->execute([
             ':avatar' => $path,
-            ':id' => $userId
+            ':id'     => $userId
         ]);
     }
 
-    public function updateRole($userId, $newRole) {
+    public function updateRole($userId, $newRole)
+    {
         $sql = "UPDATE users SET role = :role WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
+
         return $stmt->execute([
             ':role' => $newRole,
-            ':id' => $userId
+            ':id'   => $userId
         ]);
     }
 
-    public function updateBasicData($id, $username, $email) {
-    $sql = "UPDATE users SET username = :u, email = :e WHERE id = :id";
+    public function updateBasicData($id, $username, $email)
+    {
+        $sql = "UPDATE users
+                SET username = :u,
+                    email = :e
+                WHERE id = :id";
 
-    $stmt = $this->conn->prepare($sql);
-    return $stmt->execute([
-        ':u' => $username,
-        ':e' => $email,
-        ':id' => $id
-    ]);
-}
+        $stmt = $this->conn->prepare($sql);
 
-    // ============================================================
+        return $stmt->execute([
+            ':u'  => $username,
+            ':e'  => $email,
+            ':id' => $id
+        ]);
+    }
+
+    /* ============================================================
+       ADMIN - Actualizar usuario completo
+       ============================================================ */
+
     public function updateUserAdmin($id, $username, $email, $role)
     {
-        $sql = "UPDATE users 
+        $sql = "UPDATE users
                 SET username = :username,
-                    email = :email,
-                    role = :role
+                    email    = :email,
+                    role     = :role
                 WHERE id = :id";
 
         $stmt = $this->conn->prepare($sql);
@@ -186,22 +203,26 @@ public function create($username, $email, $password, $role = 'user', $avatar = '
         ]);
     }
 
+    /* ============================================================
+       ELIMINAR USUARIO
+       ============================================================ */
 
-    // ============================================================
-    //  ELIMINAR USUARIO
-    // ============================================================
     public function deleteUserById($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM users WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
-    // ============================================================
-    //  ACTIVAR /DESACTIVAR
-    // ============================================================
+    /* ============================================================
+       ACTIVAR / DESACTIVAR
+       ============================================================ */
+
     public function toggleActive($id, $newState)
     {
-        $sql = "UPDATE users SET active = :state WHERE id = :id";
+        $sql = "UPDATE users
+                SET active = :state
+                WHERE id = :id";
+
         $stmt = $this->conn->prepare($sql);
 
         return $stmt->execute([
@@ -209,7 +230,4 @@ public function create($username, $email, $password, $role = 'user', $avatar = '
             ':id'    => $id
         ]);
     }
-
-
-
 }

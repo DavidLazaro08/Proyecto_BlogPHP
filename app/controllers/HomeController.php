@@ -2,30 +2,33 @@
 
 require_once __DIR__ . '/../models/Post.php';
 
-class HomeController {
-
+class HomeController
+{
     // ==========================
-    //  HOME PÚBLICA
+    //  HOME PÚBLICA (visitantes)
     // ==========================
-    public function publicHome() {
+    public function publicHome()
+    {
         session_start();
 
+        // Si ya está logueado, lo mandamos directo a The Blue Room
         if (isset($_SESSION['user_id'])) {
             header("Location: /Proyecto_BlogPHP/public/?controller=home&action=index");
             exit;
         }
 
-        $postModel = new Post();
+        $postModel   = new Post();
         $publicPosts = $postModel->getPublicPostsLimited(2);
 
-        // Vista PUBLICA
+        // Vista pública sin layout (home_public.php ya incluye el HTML completo)
         require __DIR__ . '/../views/home/home_public.php';
     }
 
     // ==========================
-    //  BLUE ROOM (PRIVADO)
+    //  BLUE ROOM (zona privada)
     // ==========================
-    public function index() {
+    public function index()
+    {
         session_start();
 
         if (!isset($_SESSION['user_id'])) {
@@ -34,16 +37,19 @@ class HomeController {
         }
 
         $postModel = new Post();
-        $posts = $postModel->getAllPosts();
+        $posts     = $postModel->getAllPosts();
 
-        // Cargar contenido dentro del layout privado "bonito"
+        // Cargar contenido dentro del layout privado
         $this->renderPrivate("posts/index.php", [
             'posts' => $posts
         ]);
     }
 
-
-    private function renderPrivate($view, $data = []) {
+    // ==========================
+    //  MOTOR DE RENDER PRIVADO
+    // ==========================
+    private function renderPrivate($view, $data = [])
+    {
         extract($data);
 
         ob_start();

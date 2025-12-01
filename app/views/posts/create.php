@@ -1,10 +1,12 @@
 <!-- FORMULARIO BLUE ROOM -->
 <div class="br-post-form-wrapper">
+
     <div class="br-post-form-card">
 
         <h2 class="br-post-title">Crear nueva publicación</h2>
 
-        <form method="POST" enctype="multipart/form-data"
+        <form method="POST"
+              enctype="multipart/form-data"
               action="/Proyecto_BlogPHP/public/?controller=posts&action=store">
 
             <label>Título</label>
@@ -32,11 +34,16 @@
         </form>
 
     </div>
-    <!-- BOTÓN VOLVER ARRIBA (fuera del cuadro) -->
-<div class="mod-header" style="max-width:1200px; margin:25px auto 10px auto; padding:0 20px;">
-    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index" class="btn-back">
-    ← Volver
-</a>
 
-</div>
+    <!-- BOTÓN VOLVER ARRIBA -->
+    <div class="mod-header"
+         style="max-width:1200px; margin:25px auto 10px; padding:0 20px;">
+
+        <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index"
+           class="btn-back">
+            ← Volver
+        </a>
+
+    </div>
+
 </div>

@@ -1,5 +1,5 @@
 <?php
-// Vista sólo para ADMIN: edición de cualquier usuario
+// Vista para el administrador: edición de datos básicos de un usuario.
 ?>
 
 <div class="edit-header">
@@ -9,7 +9,7 @@
 </div>
 
 <p class="profile-subtitle">
-    Modifica el nombre, correo y rol de este usuario.
+    Modifica el nombre, el correo y el rol asignado.
 </p>
 
 <form action="/Proyecto_BlogPHP/public/?controller=panel&action=updateUser"
@@ -20,16 +20,20 @@
     <input type="hidden" name="id" value="<?= $user['id'] ?>">
 
     <label>Nombre de usuario</label>
-    <input type="text"
-           name="username"
-           value="<?= htmlspecialchars($user['username']) ?>"
-           required>
+    <input
+        type="text"
+        name="username"
+        value="<?= htmlspecialchars($user['username']) ?>"
+        required
+    >
 
     <label>Correo electrónico</label>
-    <input type="email"
-           name="email"
-           value="<?= htmlspecialchars($user['email']) ?>"
-           required>
+    <input
+        type="email"
+        name="email"
+        value="<?= htmlspecialchars($user['email']) ?>"
+        required
+    >
 
     <label>Rol</label>
     <select name="role" class="edit-select">

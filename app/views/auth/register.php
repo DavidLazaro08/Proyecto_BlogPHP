@@ -5,20 +5,28 @@
     <title>Hidden Sound Atlas - Registro</title>
     <link rel="stylesheet" href="/Proyecto_BlogPHP/public/css/style.css">
 </head>
+
 <body class="auth-body">
-        <canvas id="blueRoomCanvas"></canvas>
+
+    <!-- Fondo dinámico Blue Room -->
+    <canvas id="blueRoomCanvas"></canvas>
 
     <div class="auth-container">
-        
+
+        <!-- Títulos -->
         <h1>Hidden Sound Atlas</h1>
         <h2>Crear cuenta</h2>
 
+        <!-- Mensaje de error -->
         <?php if (isset($error)) : ?>
-            <p class="auth-error"><?php echo htmlspecialchars($error); ?></p>
+            <p class="auth-error"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
 
-        <form method="POST" action="/Proyecto_BlogPHP/public/?controller=register&action=register" class="auth-form">
-            
+        <!-- Formulario -->
+        <form method="POST"
+              action="/Proyecto_BlogPHP/public/?controller=register&action=register"
+              class="auth-form">
+
             <label for="username">Nombre de usuario</label>
             <input type="text" name="username" id="username" required>
 
@@ -34,15 +42,17 @@
             <button type="submit">Crear cuenta</button>
         </form>
 
+        <!-- Enlace a login -->
         <p class="auth-footnote">
-            ¿Ya tienes cuenta?  
+            ¿Ya tienes cuenta?
             <a href="/Proyecto_BlogPHP/public/?controller=auth&action=loginForm" class="auth-link">
                 Inicia sesión aquí
             </a>
         </p>
 
     </div>
-<script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
+
+    <script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
 
 </body>
 </html>

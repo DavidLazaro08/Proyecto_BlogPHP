@@ -1,27 +1,31 @@
+// Controla el menú del usuario (hamburguesa + burbuja del avatar).
+// Permite abrir/cerrar el menú y lo oculta al hacer clic fuera.
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const menuIcon = document.querySelector(".user-menu-icon");
-    const bubble = document.querySelector(".user-bubble");
+    const bubble   = document.querySelector(".user-bubble");
     const dropdown = document.querySelector(".user-dropdown");
 
+    // Abre/cierra el menú
     function toggleMenu() {
         dropdown.classList.toggle("open");
         menuIcon.classList.toggle("active");
     }
 
-    // CLIC EN LA HAMBURGUESA
+    // Clic en el icono "hamburguesa"
     menuIcon.addEventListener("click", (e) => {
         e.stopPropagation();
         toggleMenu();
     });
 
-    // CLIC EN EL BUBBLE (nombre + avatar)
+    // Clic en la burbuja (avatar + nombre)
     bubble.addEventListener("click", (e) => {
         e.stopPropagation();
         toggleMenu();
     });
 
-    // CERRAR AL HACER CLICK FUERA
+    // Cerrar al hacer clic fuera del menú
     document.addEventListener("click", () => {
         dropdown.classList.remove("open");
         menuIcon.classList.remove("active");

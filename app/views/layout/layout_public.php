@@ -8,9 +8,8 @@
 
 <body class="auth-body home-public-body">
 
-<main>
+    <!-- Aquí metemos TODO el contenido del home -->
     <?= $content ?>
-</main>
 
 </body>
 </html>

@@ -2,134 +2,143 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hidden Sound Atlas</title>
+
     <link rel="stylesheet" href="/Proyecto_BlogPHP/public/css/style.css">
 </head>
 
 <body class="auth-body">
-        <canvas id="blueRoomCanvas"></canvas>
 
-<div class="stars-layer">
-    <!-- Micro (polvo finísimo) -->
-    <div class="star micro"  style="top:12%; left:18%;"></div>
-    <div class="star micro"  style="top:55%; left:72%;"></div>
-    <div class="star micro"  style="top:78%; left:30%;"></div>
+    <canvas id="blueRoomCanvas"></canvas>
 
-    <!-- Normales -->
-    <div class="star normal" style="top:25%; left:40%;"></div>
-    <div class="star normal" style="top:45%; left:15%;"></div>
-    <div class="star normal" style="top:70%; left:65%;"></div>
+    <div class="stars-layer">
+        <!-- EXTRA STARS (Blue Room Boost Pack ✨) -->
+        <!-- Micro -->
+        <div class="star micro" style="top:10%; left:88%;"></div>
+        <div class="star micro" style="top:40%; left:52%;"></div>
+        <div class="star micro" style="top:63%; left:12%;"></div>
+        <div class="star micro" style="top:83%; left:78%;"></div>
 
-    <!-- Glow (difusas) -->
-    <div class="star glow"   style="top:32%; left:62%;"></div>
-    <div class="star glow"   style="top:82%; left:22%;"></div>
-</div>
+        <!-- Normal -->
+        <div class="star normal" style="top:18%; left:32%;"></div>
+        <div class="star normal" style="top:51%; left:85%;"></div>
+        <div class="star normal" style="top:73%; left:45%;"></div>
 
-<div class="waves-layer"></div>
-<div class="grain-layer"></div>
-
-
-
-<div class="home-public-wrapper">
-
-    <!-- CUADRO CENTRAL -->
-    <div class="auth-container home-welcome-box">
-
-        <div class="welcome-header">
-            <img src="/Proyecto_BlogPHP/public/img_posts/logo_hsa.png"
-                 alt="Hidden Sound Atlas Logo"
-                 class="hsa-logo">
-
-            <div class="welcome-titles">
-                <h1>Hidden Sound Atlas</h1>
-                <h2>Mapa Sonoro · Zona Pública</h2>
-            </div>
-        </div>
-
-        <p class="welcome-text">
-            Bienvenido al portal. Aquí descubrirás sonidos ocultos, artistas alternativos 
-            y rincones oscuros del panorama musical.
-        </p>
-
-        <p class="welcome-text">
-            Una invitación a explorar mapas sonoros que no aparecen en ningún algoritmo.
-        </p>
-
-        <div class="home-welcome-buttons">
-            <a href="/Proyecto_BlogPHP/public/?controller=auth&action=loginForm" class="welcome-btn">
-                Entrar en The Blue Room
-            </a>
-
-            <a href="/Proyecto_BlogPHP/public/?controller=register&action=registerForm" class="welcome-btn">
-                Crear cuenta nueva
-            </a>
-        </div>
-
-        <p class="welcome-footnote">
-            The Blue Room es la zona privada donde podrás leer los posts completos.
-        </p>
-
+        <!-- Glow -->
+        <div class="star glow" style="top:27%; left:72%;"></div>
+        <div class="star glow" style="top:66%; left:28%;"></div>
+        <div class="star glow" style="top:88%; left:55%;"></div>
     </div>
 
+    <div class="waves-layer"></div>
+    <div class="grain-layer"></div>
 
-    <!-- LISTA DE POSTS -->
-    <section class="home-posts-section">
+    <div class="home-public-wrapper">
 
-        <h3 class="section-title">Últimos descubrimientos del mapa sonoro</h3>
+        <!-- CUADRO CENTRAL -->
+        <div class="auth-container home-welcome-box">
 
-        <?php if (!empty($publicPosts)) : ?>
+            <div class="welcome-header">
+                <img src="/Proyecto_BlogPHP/public/img_posts/logo_hsa.png"
+                     alt="Hidden Sound Atlas Logo"
+                     class="hsa-logo">
 
-            <?php foreach ($publicPosts as $post): ?>
-                <article class="home-post-card">
+                <div class="welcome-titles">
+                    <h1>Hidden Sound Atlas</h1>
+                    <h2>Mapa Sonoro · Zona Pública</h2>
+                </div>
+            </div>
 
-                    <?php if (!empty($post['image'])) : ?>
-                        <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>" 
-                             alt="cover"
-                             class="home-post-image">
-                    <?php endif; ?>
-
-                    <div class="home-post-content">
-
-                        <h4 class="post-title">
-                            <?= htmlspecialchars($post['title']) ?>
-                        </h4>
-
-                        <?php if (!empty($post['subtitle'])) : ?>
-                            <p class="post-subtitle">
-                                <em><?= htmlspecialchars($post['subtitle']) ?></em>
-                            </p>
-                        <?php endif; ?>
-
-                        <p class="post-extract">
-                            <?= htmlspecialchars(mb_substr($post['content'], 0, 150)) ?>...
-                        </p>
-
-                        <a href="/Proyecto_BlogPHP/public/?controller=auth&action=loginForm"
-                           class="post-readmore">
-                            Seguir leyendo →
-                        </a>
-
-                    </div>
-
-                </article>
-            <?php endforeach; ?>
-
-        <?php else: ?>
-
-            <p class="no-posts-msg">
-                Aún no hay descubrimientos publicados.
+            <p class="welcome-text">
+                Bienvenido al portal. Aquí descubrirás sonidos ocultos, artistas alternativos 
+                y rincones oscuros del panorama musical.
             </p>
 
-        <?php endif; ?>
+            <p class="welcome-text">
+                Una invitación a explorar mapas sonoros que no aparecen en ningún algoritmo.
+            </p>
 
-    </section>
+            <div class="home-welcome-buttons">
+                <a href="/Proyecto_BlogPHP/public/?controller=auth&action=loginForm"
+                   class="welcome-btn">
+                    Entrar en The Blue Room
+                </a>
 
-    <!-- FOOTER -->
-    <footer class="public-footer">
-    © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room | Explorando lo oculto    </footer>
+                <a href="/Proyecto_BlogPHP/public/?controller=register&action=registerForm"
+                   class="welcome-btn">
+                    Crear cuenta nueva
+                </a>
+            </div>
 
-</div>
-<script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
+            <p class="welcome-footnote">
+                The Blue Room es la zona privada donde podrás leer los posts completos.
+            </p>
+
+        </div> <!-- /home-welcome-box -->
+
+
+        <!-- LISTA DE POSTS -->
+        <section class="home-posts-section">
+
+            <h3 class="section-title">Últimos descubrimientos del mapa sonoro</h3>
+
+            <?php if (!empty($publicPosts)) : ?>
+
+                <?php foreach ($publicPosts as $post): ?>
+                    <article class="home-post-card">
+
+                        <?php if (!empty($post['image'])) : ?>
+                            <img src="/Proyecto_BlogPHP/public<?= htmlspecialchars($post['image']) ?>" 
+                                 alt="cover"
+                                 class="home-post-image">
+                        <?php endif; ?>
+
+                        <div class="home-post-content">
+
+                            <h4 class="post-title">
+                                <?= htmlspecialchars($post['title']) ?>
+                            </h4>
+
+                            <?php if (!empty($post['subtitle'])) : ?>
+                                <p class="post-subtitle">
+                                    <em><?= htmlspecialchars($post['subtitle']) ?></em>
+                                </p>
+                            <?php endif; ?>
+
+                            <p class="post-extract">
+                                <?= htmlspecialchars(mb_substr($post['content'], 0, 150)) ?>...
+                            </p>
+
+                            <a href="/Proyecto_BlogPHP/public/?controller=auth&action=loginForm"
+                               class="post-readmore">
+                                Seguir leyendo →
+                            </a>
+
+                        </div>
+
+                    </article>
+                <?php endforeach; ?>
+
+            <?php else: ?>
+
+                <p class="no-posts-msg">
+                    Aún no hay descubrimientos publicados.
+                </p>
+
+            <?php endif; ?>
+
+        </section> <!-- /home-posts-section -->
+
+
+        <!-- FOOTER -->
+        <footer class="public-footer">
+            © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room | Explorando lo oculto
+        </footer>
+
+    </div> <!-- /home-public-wrapper -->
+
+    <script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
 
 </body>
 </html>

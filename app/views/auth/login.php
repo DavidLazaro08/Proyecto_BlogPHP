@@ -1,27 +1,35 @@
 <?php  
-// Pantalla de inicio de sesión del proyecto Hidden Sound Atlas.
-// Aquí los usuarios acceden a su cuenta antes de entrar en The Blue Room.
-// Si hay problemas con el login, mostramos el aviso correspondiente.
+// Vista de inicio de sesión de Hidden Sound Atlas.
+// Permite a los usuarios acceder a The Blue Room.
+// Si existe un error, se muestra un mensaje en pantalla.
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hidden Sound Atlas - Access</title>
     <link rel="stylesheet" href="/Proyecto_BlogPHP/public/css/style.css">
 </head>
+
 <body class="auth-body">
-        <canvas id="blueRoomCanvas"></canvas>
+
+    <!-- FONDO ANIMADO -->
+    <canvas id="blueRoomCanvas"></canvas>
 
     <div class="auth-container">
+
         <h1>Hidden Sound Atlas</h1>
         <h2>The Blue Room Access</h2>
 
         <?php if (isset($error)) : ?>
-            <p class="auth-error"><?php echo htmlspecialchars($error); ?></p>
+            <p class="auth-error"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
 
-        <form method="POST" action="/Proyecto_BlogPHP/public/?controller=auth&action=login" class="auth-form">
+        <form method="POST"
+              action="/Proyecto_BlogPHP/public/?controller=auth&action=login"
+              class="auth-form">
+
             <label for="email">Correo</label>
             <input type="email" name="email" id="email" required>
 
@@ -32,9 +40,10 @@
         </form>
 
         <p class="auth-footnote">
-            ¿No tienes cuenta?  
-            <a href="/Proyecto_BlogPHP/public/?controller=register&action=registerForm" class="auth-link">
-                Crear cuenta
+            ¿No tienes cuenta?
+            <a href="/Proyecto_BlogPHP/public/?controller=register&action=registerForm"
+               class="auth-link">
+               Crear cuenta
             </a>
         </p>
 
@@ -43,7 +52,8 @@
         </p>
 
     </div>
-<script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
+
+    <script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
 
 </body>
 </html>

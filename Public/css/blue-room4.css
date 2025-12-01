@@ -273,7 +273,7 @@
     color: #9dc2ff;
     text-decoration: none;
     position: relative;
-    transition: .3s ease;
+    transition: 1.35s ease;
 }
 
 .br-create-link::after {
@@ -286,7 +286,7 @@
     background: linear-gradient(90deg,#8ab6ff,#bcd7ff);
     border-radius: 100px;
     transform: translateX(-50%);
-    transition: .3s ease;
+    transition: 1.35s ease;
     box-shadow: 0 0 12px rgba(150,200,255,0.6);
 }
 
