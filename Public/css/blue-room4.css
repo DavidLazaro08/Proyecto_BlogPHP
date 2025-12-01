@@ -380,7 +380,7 @@
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 0 20px rgba(80,140,255,0.25);
-    transition: .3s ease;
+    transition: 1.35s ease;
 }
 
 .br-submit-btn:hover {

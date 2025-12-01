@@ -72,35 +72,70 @@ class PostsController
         // Estado inicial según rol
         $status = ($role === 'admin') ? 'approved' : 'pending';
 
-        // Imagen
+        // ========================================================
+        //  SUBIDA DE IMAGEN (VALIDADA + NOMBRE ÚNICO)
+        // ========================================================
         $imagePath = null;
 
         if (!empty($_FILES['image']['name'])) {
-            $fileName = time() . "_" . basename($_FILES['image']['name']);
-            $target   = __DIR__ . "/../../public/img_posts/" . $fileName;
 
-            move_uploaded_file($_FILES['image']['tmp_name'], $target);
+            $tmpFile = $_FILES['image']['tmp_name'];
+            $origName = $_FILES['image']['name'];
+
+            // Obtener extensión real
+            $extension = strtolower(pathinfo($origName, PATHINFO_EXTENSION));
+
+            // Extensiones permitidas
+            $allowedExt = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            if (!in_array($extension, $allowedExt)) {
+                die("Formato no permitido. Solo JPG, PNG, GIF o WEBP.");
+            }
+
+            // Validación MIME real (no confiar solo en la extensión)
+            $mime = mime_content_type($tmpFile);
+            $allowedMime = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+            if (!in_array($mime, $allowedMime)) {
+                die("El archivo subido no es una imagen válida.");
+            }
+
+            // Crear nombre único
+            $fileName = uniqid('img_', true) . '.' . $extension;
+
+            // Ruta física donde se guardará
+            $target = __DIR__ . "/../../public/img_posts/" . $fileName;
+
+            // Mover archivo físico
+            move_uploaded_file($tmpFile, $target);
+
+            // Ruta accesible desde el navegador
             $imagePath = "/img_posts/" . $fileName;
         }
 
-        // Slug único
-        $slug = strtolower(str_replace(" ", "-", $title)) . "-" . time();
+    // ========================================================
+    //  SLUG ÚNICO
+    // ========================================================
+    $slug = strtolower(str_replace(" ", "-", $title)) . "-" . time();
 
-        $postModel = new Post();
-        $postModel->createPost(
-            $title,
-            $subtitle,
-            $slug,
-            $content,
-            $visibility,
-            $author_id,
-            $imagePath,
-            $status
-        );
+    // ========================================================
+    //  GUARDAR EN BD
+    // ========================================================
+    $postModel = new Post();
+    $postModel->createPost(
+        $title,
+        $subtitle,
+        $slug,
+        $content,
+        $visibility,
+        $author_id,
+        $imagePath,
+        $status
+    );
 
-        header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");
-        exit;
-    }
+    header("Location: /Proyecto_BlogPHP/public/?controller=posts&action=index");
+    exit;
+}
+
 
     // ========================================================
     //  VER POST PÚBLICO (modo Public)
