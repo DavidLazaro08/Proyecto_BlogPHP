@@ -42,3 +42,4 @@ function drawAurora() {
 }
 
 drawAurora();
+

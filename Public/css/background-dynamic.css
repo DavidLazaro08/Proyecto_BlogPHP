@@ -132,8 +132,8 @@ body::after {
 /* --- Partículas normales --- */
 .star.normal {
     position: absolute;
-    width: 10px;
-    height: 10px;
+    width: 13px;
+    height: 13px;
 
     background: radial-gradient(circle,
         rgba(150,190,255,0.65),
