@@ -17,6 +17,8 @@
         <div class="star micro"  style="top:12%; left:18%;"></div>
         <div class="star micro"  style="top:55%; left:72%;"></div>
         <div class="star micro"  style="top:78%; left:30%;"></div>
+        <div class="star micro" style="top:63%; left:12%;"></div>
+        <div class="star micro" style="top:83%; left:78%;"></div>
 
         <div class="star normal" style="top:25%; left:40%;"></div>
         <div class="star normal" style="top:45%; left:15%;"></div>
@@ -24,6 +26,7 @@
 
         <div class="star glow" style="top:32%; left:62%;"></div>
         <div class="star glow" style="top:82%; left:22%;"></div>
+        <div class="star glow" style="top:88%; left:55%;"></div>
     </div>
 
     <div class="waves-layer"></div>
