@@ -1,3 +1,20 @@
+
+/* ============================================================
+   BLUE ROOM - FONDO BASE UNIFICADO
+   Se aplica a todo el proyecto
+   ============================================================ */
+
+body,
+.auth-body,
+.home-public-body,
+.private-body {
+    background: transparent !important;
+    color: #e0e0e0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+
 /* ============================================================
    0) ZONA PRIVADA — THE BLUE ROOM (FONDO + LAYOUT GENERAL)
    ============================================================ */
@@ -14,6 +31,8 @@
     max-width: 1000px;
     margin: 40px auto;
     padding: 10px 25px;
+    transform: scale(0.95);
+    transform-origin: top center;
 }
 
 /* Vista de post completo */
@@ -28,18 +47,129 @@
 }
 
 .post-full-image {
-    width: 100%;
-    border-radius: 8px;
+    width: 65%;
+    max-width: 500px;
+    border-radius: 14px;
     margin: 25px 0;
+    box-shadow: 0 0 20px rgba(0,0,0,.45);
 }
 
+/* Autor en post completo */
+.post-full-author {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    opacity: .85;
+}
+
+.post-full-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(120,160,255,0.35);
+    box-shadow: 0 0 12px rgba(80,120,255,0.25);
+}
+
+/* ================================
+   POST MODE PREMIUM – BLUE ROOM
+   ================================ */
+
+.post-full-wrapper {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 15px;
+}
+
+.post-full-card {
+    background: rgba(10,15,25,0.55);
+    padding: 40px 55px;
+    border-radius: 18px;
+    box-shadow: 0 0 18px rgba(0,0,0,.45);
+    backdrop-filter: blur(8px);
+}
+
+/* TITULO */
+.post-full-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #b7d2ff;
+    text-shadow: 0 0 6px rgba(100,150,255,0.35);
+}
+
+/* SUBTITULO */
+.post-full-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #d0dcf7;
+    margin-bottom: 30px;
+    opacity: .85;
+    font-style: italic;
+}
+
+/* IMAGEN */
+.post-full-image-wrapper {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+/* VISUALIZACIONES */
+.post-full-views {
+    text-align: center;
+    color: #8fbaff;
+    margin: 10px 0 25px 0;
+    font-size: 0.9rem;
+}
+
+/* AUTOR */
+.post-full-author {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-top:10px;
+    margin-bottom:25px;
+    opacity:0.85;
+}
+
+.post-full-author-avatar {
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid rgba(120,160,255,0.35);
+}
+
+/* CONTENIDO */
 .post-full-content {
-    color: #dce6ff;
-    line-height: 1.6rem;
+    max-width: 620px;
+    margin: 0 auto;
+    color: #e7ecff;
+    font-size: 1.05rem;
+    line-height: 1.68rem;
+    text-align: left;
+    padding: 0 5px;
     white-space: pre-line;
 }
 
+/* VOLVER */
+.post-back-link {
+    text-align: center;
+    margin-top: 30px;
+}
 
+.post-back-link a {
+    color: #7fb4ff;
+    text-decoration: none;
+}
+
+.post-back-link a:hover {
+    color: #c3d9ff;
+}
 
 
 /* ============================================================
@@ -105,8 +235,6 @@
     letter-spacing: 3px;
     opacity: 0.75;
 }
-
-
 
 
 /* ============================================================
@@ -195,15 +323,29 @@
 .user-dropdown {
     position: absolute;
     top: 60px;
-    right: 25px;
-    width: 210px;
+    right: 5px;
+    width: 220px;
+
     background: rgba(10,15,25,0.95);
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid #05070d;
     backdrop-filter: blur(6px);
     padding: 12px 0;
     border-radius: 12px;
-    display: none;
+
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: 
+        opacity 0.80s ease,
+        transform 0.80s ease;
+
     box-shadow: 0 6px 25px rgba(0,0,0,0.45);
+}
+
+.user-dropdown.active {
+    opacity: 1;
+    transform: translateY(6px);
+    pointer-events: auto;
 }
 
 .user-dropdown a {
@@ -213,338 +355,48 @@
     text-decoration: none;
 }
 .user-dropdown a:hover {
-    background: rgba(255,255,255,0.08);
+    background: #05070d;
     color: white;
 }
 
 .user-bubble.active + .user-dropdown,
 .user-menu-icon.active + .user-bubble + .user-dropdown {
-    display: block;
-}
-
-
-
-
-/* ============================================================
-   3) GRID GENERAL DE POSTS PRIVADOS (The Blue Room)
-   ============================================================ */
-
-.posts-title {
-    text-align: center;
-    color: #8fbaff;
-    font-size: 28px;
-    margin-bottom: 5px;
-}
-
-.posts-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-    padding: 20px;
-    max-width: 1300px;
-    margin: auto;
-}
-
-
-
-
-
-/* ============================================================
-   4) TARJETA DE POST PRIVADO
-   ============================================================ */
-
-.post-card {
-    background: rgba(0,0,0,0.18);
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.04);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 340px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
-    transition: .28s ease;
-}
-
-.post-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.55);
-    border-color: rgba(104,159,255,0.5);
-}
-
-.post-card-image-wrap {
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-    background: #0b0e15;
-}
-
-.post-card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: .45s ease;
-}
-
-.post-card:hover .post-card-image {
-    transform: scale(1.06);
-    filter: brightness(1.08);
-}
-
-.post-card-body {
-    flex: 1;
-    padding: 14px 18px;
-    display: flex;
-    flex-direction: column;
-}
-
-.post-card-title {
-    color: #dce6ff;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.post-card-subtitle {
-    color: #9bb0d3;
-    margin-bottom: 8px;
-    font-style: italic;
-    font-size: 13px;
-}
-
-.post-card-excerpt {
-    color: #a9b8d8;
-    font-size: 13px;
-    margin-bottom: 14px;
-    flex-grow: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.post-card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 8px;
-}
-
-.post-card-author {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.post-card-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid rgba(255,255,255,0.15);
-}
-
-.post-status {
-    padding: 3px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-}
-
-.status-approved {
-    color: #a8ffc2;
-    background: rgba(0,255,120,0.12);
-}
-.status-pending {
-    color: #ffe9a8;
-    background: rgba(255,200,0,0.12);
-}
-
-
-
-
-/* ============================================================
-   5) PANEL DE MODERACIÓN (all_posts → moderation-card)
-   ============================================================ */
-
-.moderation-card {
-    display: flex;
-    gap: 25px;
-    padding: 25px;
-    background: linear-gradient(145deg, #0d1118, #0f141d);
-    border: 1px solid #1e2635;
-    border-radius: 12px;
-    margin-bottom: 30px;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-    transition: .25s ease;
-    position: relative;
-}
-
-.moderation-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 0 22px rgba(72,121,255,.35),
-                0 0 40px rgba(72,121,255,.1);
-    border-color: #3d64ff;
-}
-
-.moderation-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1px;
-    background: linear-gradient(135deg,
-        rgba(76,125,255,0.5),
-        rgba(130,160,255,0),
-        rgba(76,125,255,0.5)
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box,
-                   linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-    opacity: 0;
-    transition: opacity .3s;
-}
-
-.moderation-card:hover::before {
     opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
-.moderation-cover {
-    width: 130px;
-    height: 130px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid #2a3142;
-}
+/* Contenedor del botón Volver + título */
+.mod-header {
+    max-width: 1200px;
+    margin: 0 auto 25px auto;
+    padding: 0 10px;
 
-.moderation-body {
-    flex: 1;
-}
-
-.moderation-title {
-    color: #dce6ff;
-    font-size: 1.3rem;
-    font-weight: 600;
-}
-.moderation-subtitle {
-    color: #9bb0d3;
-    font-style: italic;
-}
-.moderation-excerpt {
-    color: #9bb0d3;
-}
-
-.moderation-author {
-    color: #8899bb;
-    margin-top: 10px;
-}
-
-/* Estado */
-.status-badge {
-    padding: 5px 12px;
-    border-radius: 6px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: #fff;
-    font-size: .85rem;
-}
-
-.status-approved { background: #3e8f3e; }
-.status-pending  { background: #b89400; }
-.status-rejected { background: #9b1e1e; }
-.status-draft    { background: #666; }
-.status-unknown  { background: #444; }
-
-.status-badge::before {
-    animation: pulse 1.4s infinite ease-in-out;
-}
-.status-approved::before { content: "✔"; }
-.status-pending::before  { content: "⧗"; }
-.status-rejected::before { content: "✖"; }
-.status-draft::before    { content: "✎"; }
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity:.95; }
-    50% { transform: scale(1.2); opacity:1; }
-    100% { transform: scale(1); opacity:.95; }
-}
-
-/* Botones moderación */
-.moderation-actions {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-end;
+    align-items: center;
+    gap: 20px;
 }
 
-.btn-mod {
-    padding: 7px 18px;
-    border-radius: 8px;
-    font-size: .85rem;
-    color: #fff !important;
-    border: 1px solid transparent;
+/* Botón Volver */
+.btn-back {
+    color: #9db6ff;
     text-decoration: none;
-    transition: .2s ease;
+    font-size: 0.95rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(120,160,255,0.25);
+    transition: .25s ease;
 }
 
-.btn-mod:hover {
-    transform: scale(1.05);
+.btn-back:hover {
+    background: rgba(255,255,255,0.12);
+    color: #c8d9ff;
+    transform: translateX(-3px);
 }
 
-.btn-approve { background:#1f7cff; border-color:#3ca2ff; }
-.btn-approve:hover { background:#3ca2ff; }
-
-.btn-reject { background:#c62828; border-color:#ff4b4b; }
-.btn-reject:hover { background:#ff4b4b; }
-
-.btn-delete { background:#444; border-color:#777; }
-.btn-delete:hover { background:#555; }
-
-
-
-
-/* ============================================================
-   6) RESPONSIVE
-   ============================================================ */
-
-@media (max-width:1100px) {
-    .posts-grid {
-        grid-template-columns: repeat(2,1fr);
-    }
+/* Ajuste del título para alinearse mejor */
+.mod-header .posts-title {
+    margin: 0;
+    flex-grow: 1;
 }
-
-@media (max-width:700px) {
-
-    .posts-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .moderation-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .moderation-actions {
-        align-items: flex-start;
-    }
-}
-
-
-
-
-/* ============================================================
-   7) *** LEGACY — SISTEMA ANTIGUO DE PENDIENTES ***
-   ——— NO SE USA ———
-   ——— SOLO LO CONSERVO POR SI ALGÚN DÍA LO QUIERES RECUPERAR ———
-   ============================================================ */
-
-/*
-.pending-list { ... }
-.pending-item { ... }
-.pending-left { ... }
-.pending-thumb { ... }
-.pending-actions a { ... }
-.btn-approve { ... }
-.btn-reject { ... }
-.no-pending { ... }
-*/

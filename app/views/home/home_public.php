@@ -7,6 +7,28 @@
 </head>
 
 <body class="auth-body">
+        <canvas id="blueRoomCanvas"></canvas>
+
+<div class="stars-layer">
+    <!-- Micro (polvo finísimo) -->
+    <div class="star micro"  style="top:12%; left:18%;"></div>
+    <div class="star micro"  style="top:55%; left:72%;"></div>
+    <div class="star micro"  style="top:78%; left:30%;"></div>
+
+    <!-- Normales -->
+    <div class="star normal" style="top:25%; left:40%;"></div>
+    <div class="star normal" style="top:45%; left:15%;"></div>
+    <div class="star normal" style="top:70%; left:65%;"></div>
+
+    <!-- Glow (difusas) -->
+    <div class="star glow"   style="top:32%; left:62%;"></div>
+    <div class="star glow"   style="top:82%; left:22%;"></div>
+</div>
+
+<div class="waves-layer"></div>
+<div class="grain-layer"></div>
+
+
 
 <div class="home-public-wrapper">
 
@@ -104,10 +126,10 @@
 
     <!-- FOOTER -->
     <footer class="public-footer">
-        Hidden Sound Atlas — 2025 · Explorando lo oculto
-    </footer>
+    © <?= date("Y") ?> Hidden Sound Atlas — The Blue Room | Explorando lo oculto    </footer>
 
 </div>
+<script src="/Proyecto_BlogPHP/public/js/blueRoomAurora.js"></script>
 
 </body>
 </html>

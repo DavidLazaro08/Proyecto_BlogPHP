@@ -1,6 +1,5 @@
 /* Archivo principal de estilos: solo importa los bloques necesarios */
 
-
 /* --- Estilos base y reglas generales compartidas --- */
 @import url("general.css");
 
@@ -10,12 +9,11 @@
 /* --- Home pública del proyecto (The Blue Room) --- */
 @import url("home-public.css");
 
-/* --- Zona privada completa: posts, cabecera, panel de moderación --- */
+/* --- Zona privada completa: posts, cabecera, panel de moderación 
+DIVIDIDO en 4 bloques CSS para repartir la densidad de este --- */
 @import url("blue-room.css");
+@import url("blue-room2.css");
+@import url("blue-room3.css");
+@import url("blue-room4.css");
 
-/* --- Estilos específicos del administrador (si en algún momento existen) --- */
-/* @import url("admin.css"); */
-
-/* --- Copia antigua para referencia (NO SE CARGA) ---
-   legacy.css permanece en la carpeta pero NO se importa.
-*/
+@import url("background-dynamic.css");

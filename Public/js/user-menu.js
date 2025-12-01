@@ -1,30 +1,29 @@
-
-//  MENÚ PRO: AVATAR + HAMBURGUESA + CLIC FUERA
-
 document.addEventListener("DOMContentLoaded", () => {
+
+    const menuIcon = document.querySelector(".user-menu-icon");
     const bubble = document.querySelector(".user-bubble");
     const dropdown = document.querySelector(".user-dropdown");
-    const burger = document.querySelector(".user-menu-icon");
 
-    if (!bubble || !dropdown) return;
+    function toggleMenu() {
+        dropdown.classList.toggle("open");
+        menuIcon.classList.toggle("active");
+    }
 
-    // ---- PULSAR AVATAR ----
+    // CLIC EN LA HAMBURGUESA
+    menuIcon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMenu();
+    });
+
+    // CLIC EN EL BUBBLE (nombre + avatar)
     bubble.addEventListener("click", (e) => {
         e.stopPropagation();
-        bubble.classList.toggle("active");
-        burger.classList.remove("active");
+        toggleMenu();
     });
 
-    // ---- PULSAR HAMBURGUESA ----
-    burger.addEventListener("click", (e) => {
-        e.stopPropagation();
-        burger.classList.toggle("active");
-        bubble.classList.toggle("active");
-    });
-
-    // ---- CLIC FUERA (CIERRA TODO) ----
+    // CERRAR AL HACER CLICK FUERA
     document.addEventListener("click", () => {
-        bubble.classList.remove("active");
-        burger.classList.remove("active");
+        dropdown.classList.remove("open");
+        menuIcon.classList.remove("active");
     });
 });

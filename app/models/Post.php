@@ -85,9 +85,22 @@ class Post {
     //   Obtener un post por ID
     // ============================================================
     public function getPostById($id) {
-        $stmt = $this->conn->prepare("SELECT * FROM posts WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    $sql = "SELECT posts.*, users.username, users.avatar
+            FROM posts
+            JOIN users ON posts.author_id = users.id
+            WHERE posts.id = ?";
+    
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+    // ============================================================
+
+    public function getPostsByUser($userId) {
+        $sql = "SELECT * FROM posts WHERE author_id = :uid ORDER BY created_at DESC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':uid' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // ============================================================
@@ -198,6 +211,38 @@ class Post {
 
         return $stmt->execute([$postId]);
     }
+
+    // ============================================================
+    //   Obtener TODOS los posts para moderación (ordenados)
+    //   Pendientes → Borradores → Aprobados → Rechazados
+    // ============================================================
+    public function getAllPostsForModeration() {
+
+        $sql = "SELECT posts.*, users.username, users.avatar
+                FROM posts
+                JOIN users ON posts.author_id = users.id
+                ORDER BY 
+                    CASE 
+                        WHEN posts.status = 'pending' THEN 1
+                        WHEN posts.status = 'draft' THEN 2
+                        WHEN posts.status = 'approved' THEN 3
+                        WHEN posts.status = 'rejected' THEN 4
+                        ELSE 5
+                    END,
+                    posts.created_at DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function incrementViews($id)
+{
+    $sql = "UPDATE posts SET views = views + 1 WHERE id = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$id]);
+}
+
 
 
 }

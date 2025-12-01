@@ -1,26 +1,42 @@
-<h2 style="color:#8fbaff; text-align:center;">Crear nueva publicación</h2>
+<!-- FORMULARIO BLUE ROOM -->
+<div class="br-post-form-wrapper">
+    <div class="br-post-form-card">
 
-<form method="POST" enctype="multipart/form-data"
-      action="/Proyecto_BlogPHP/public/?controller=posts&action=store"
-      class="auth-form">
+        <h2 class="br-post-title">Crear nueva publicación</h2>
 
-    <label>Título</label>
-    <input type="text" name="title" required>
+        <form method="POST" enctype="multipart/form-data"
+              action="/Proyecto_BlogPHP/public/?controller=posts&action=store">
 
-    <label>Subtítulo</label>
-    <input type="text" name="subtitle">
+            <label>Título</label>
+            <input type="text" name="title" required class="br-input">
 
-    <label>Contenido</label>
-    <textarea name="content" rows="8" style="padding:10px; background:#111; color:#e0e0e0; border:1px solid #333;"></textarea>
+            <label>Subtítulo</label>
+            <input type="text" name="subtitle" class="br-input">
 
-    <label>Imagen (opcional)</label>
-    <input type="file" name="image">
+            <label>Contenido</label>
+            <textarea name="content" class="br-textarea"></textarea>
 
-        <label>Visibilidad</label>
-    <select name="visibility" required>
-        <option value="public">Público</option>
-        <option value="private">Privado</option>
-    </select>
+            <label>Imagen</label>
+            <input type="file" name="image" class="br-input">
 
-    <button type="submit">Publicar</button>
-</form>
+            <label>Visibilidad</label>
+            <select name="visibility" required class="br-select">
+                <option value="public">Público</option>
+                <option value="private">Privado</option>
+            </select>
+
+            <button type="submit" class="br-submit-btn">
+                Publicar
+            </button>
+
+        </form>
+
+    </div>
+    <!-- BOTÓN VOLVER ARRIBA (fuera del cuadro) -->
+<div class="mod-header" style="max-width:1200px; margin:25px auto 10px auto; padding:0 20px;">
+    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index" class="btn-back">
+    ← Volver
+</a>
+
+</div>
+</div>

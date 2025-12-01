@@ -36,7 +36,7 @@ class HomeController {
         $postModel = new Post();
         $posts = $postModel->getAllPosts();
 
-        // Cargar contenido dentro del layout privado bonito
+        // Cargar contenido dentro del layout privado "bonito"
         $this->renderPrivate("posts/index.php", [
             'posts' => $posts
         ]);

@@ -20,7 +20,9 @@ class RegisterController {
             $password = trim($_POST['password']);
             $password2 = trim($_POST['password2']);
 
-            // Validaciones básicas
+            // ================================
+            // VALIDACIONES
+            // ================================
             if ($password !== $password2) {
                 $error = "Las contraseñas no coinciden.";
                 require __DIR__ . '/../views/auth/register.php';
@@ -44,15 +46,25 @@ class RegisterController {
                 return;
             }
 
-            // Crear usuario con role = user
-            $userModel->create($username, $email, $password, "user");
+            // ================================
+            // CREAR USUARIO
+            // ================================
+            // Siempre avatar default
+            $avatar = '/avatars/default.jpg';
 
-            // Iniciar sesión automáticamente
-            $_SESSION['user_id'] = $existing['id'] ?? null;
+            $newUserId = $userModel->create($username, $email, $password, "user", $avatar);
+
+            // ================================
+            // LOGIN AUTOMÁTICO
+            // ================================
+            $_SESSION['user_id'] = $newUserId;
             $_SESSION['username'] = $username;
             $_SESSION['role'] = "user";
+            $_SESSION['avatar'] = $avatar;
 
-            // Redirigir al home
+            // ================================
+            // REDIRECCIÓN
+            // ================================
             header("Location: /Proyecto_BlogPHP/public/?controller=home&action=index");
             exit;
         }

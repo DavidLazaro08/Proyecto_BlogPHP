@@ -1,10 +1,11 @@
 <h2 class="posts-title">Archivo completo del mapa sonoro</h2>
-<p class="posts-subtitle">Explora todas las publicaciones del atlas sonoro.</p>
+<p class="posts-subtitle">Explora todas las publicaciones del atlas.</p>
 
 <?php if ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'editor'): ?>
-    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm" class="btn-new-post-center">
-        + Crear nuevo post
-    </a>
+    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=createForm" class="br-create-link">
+    + Crear nuevo post
+</a>
+
 <?php endif; ?>
 
 
@@ -50,7 +51,7 @@
                 // ===================================================
                 // NORMALIZAR EL STATUS (SOLUCIÓN DEFINITIVA)
                 // ===================================================
-                $status = trim(strtolower($post['status']));   // <--- AQUÍ EL ARREGLO GORDO
+                $status = trim(strtolower($post['status']));
 
                 // ===================================================
                 // TEXTO + CLASE CSS DEL ESTADO
@@ -58,19 +59,19 @@
                 $statusText = "";
                 $statusClass = "";
 
-                switch ($status) {   // <--- AHORA SWITCH USA EL STATUS NORMALIZADO
+                switch ($status) {
                     case 'approved':
-                        $statusText = "✓ Aprobado";
+                        $statusText = "Aprobado";
                         $statusClass = "status-approved";
                         break;
 
                     case 'pending':
-                        $statusText = "⌛ Pendiente de aprobación";
+                        $statusText = "Pendiente de aprobación";
                         $statusClass = "status-pending";
                         break;
 
                     case 'rejected':
-                        $statusText = "✖ Rechazado";
+                        $statusText = "Rechazado";
                         $statusClass = "status-rejected";
                         break;
 
@@ -88,12 +89,25 @@
 
 
                 <div class="post-card-footer">
+                
+                <?php
+                $avatar = $post['avatar'] ?? "";
 
-                    <div class="post-card-author">
-                        <img src="/Proyecto_BlogPHP/public/avatars/<?= htmlspecialchars($post['avatar']) ?>"
-                             class="post-card-avatar">
-                        <span><?= htmlspecialchars($post['username']) ?></span>
-                    </div>
+                // Caso 1: viene con ruta completa "/avatars/archivo.jpg"
+                if (str_starts_with($avatar, "/avatars/")) {
+                    $avatar = substr($avatar, strlen("/avatars/"));
+                }
+
+                // Caso 2: viene vacío
+                if (!$avatar) {
+                    $avatar = "default.jpg";
+                } ?>
+                
+                <div class="post-card-author">
+                    <img src="/Proyecto_BlogPHP/public/avatars/<?= htmlspecialchars($avatar) ?>"
+                        class="post-card-avatar">
+                    <span><?= htmlspecialchars($post['username']) ?></span>
+                </div>
 
                     <a class="post-card-link"
                        href="/Proyecto_BlogPHP/public/?controller=posts&action=view&id=<?= $post['id'] ?>">

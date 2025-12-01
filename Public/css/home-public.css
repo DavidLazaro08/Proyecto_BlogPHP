@@ -4,7 +4,7 @@
 
 .home-public-body,
 .home-public-wrapper {
-    transform: scale(0.78);
+    /*transform: scale(0.78);*/
     transform-origin: top center;
     width: 100%;
 }
@@ -147,6 +147,7 @@
    ===================================================== */
 
 .home-post-card {
+    transform: scale(0.90);
     background: rgba(0,0,0,0.22);
     padding: 18px;
     border-radius: 10px;
@@ -207,23 +208,5 @@
 .no-posts-msg {
     text-align: center;
     color: #8899bb;
-}
-
-/* =====================================================
-   FOOTER
-   ===================================================== */
-
-.public-footer {
-    margin-top: 45px;
-    padding: 18px 0 32px 0;
-    text-align: center;
-
-    background: rgba(0,0,0,0.25);
-    border-top: 1px solid rgba(120,160,255,0.18);
-    box-shadow: 0 -4px 12px rgba(80,120,255,0.10);
-
-    font-size: 12px;
-    color: #8da2c7;
-    opacity: .75;
 }
 
