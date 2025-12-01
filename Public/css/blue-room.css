@@ -8,11 +8,12 @@ body,
 .auth-body,
 .home-public-body,
 .private-body {
-    background: radial-gradient(circle at top, #1a2a3a 0%, #050608 55%, #000000 100%) !important;
+    background: transparent !important;
     color: #e0e0e0;
     position: relative;
     overflow-x: hidden;
 }
+
 
 /* ============================================================
    0) ZONA PRIVADA — THE BLUE ROOM (FONDO + LAYOUT GENERAL)
@@ -51,6 +52,25 @@ body,
     border-radius: 14px;
     margin: 25px 0;
     box-shadow: 0 0 20px rgba(0,0,0,.45);
+}
+
+/* Autor en post completo */
+.post-full-author {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    opacity: .85;
+}
+
+.post-full-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(120,160,255,0.35);
+    box-shadow: 0 0 12px rgba(80,120,255,0.25);
 }
 
 /* ================================

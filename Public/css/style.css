@@ -15,3 +15,5 @@ DIVIDIDO en 4 bloques CSS para repartir la densidad de este --- */
 @import url("blue-room2.css");
 @import url("blue-room3.css");
 @import url("blue-room4.css");
+
+@import url("background-dynamic.css");

@@ -1,0 +1,123 @@
+/* ============================================================
+   BLUE ROOM — BACKGROUND DYNAMIC SYSTEM (FINAL EDITION)
+   ------------------------------------------------------------
+   • Fondo oscuro y profundo
+   • Fog sutil, sin quemar
+   • Partículas ambientales azuladas
+   • Ondas suaves integradas
+   • Scroll-reactive
+   • Sin imágenes externas
+   ============================================================ */
+
+/* ==== Configuración ==== */
+body {
+    --scroll: 0;
+}
+
+/* ============================================================
+   1) CAPA BASE — DEGRADADO OSCURO ANIMADO (nivel cinematográfico)
+   ============================================================ */
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: radial-gradient(circle at 40% 0%,
+        #0c1523 0%,    /* azul oscuro profundo */
+        #04060a 55%,   /* zona media casi negra */
+        #000000 100%   /* base negra */
+    );
+
+    background-position-y: calc(50% + var(--scroll) * 0.4%);
+    animation: brGradient 40s ease-in-out infinite alternate;
+    z-index: -3;
+    pointer-events: none;
+}
+
+@keyframes brGradient {
+    0%   { filter: brightness(0.95) hue-rotate(0deg); }
+    50%  { filter: brightness(1.02) hue-rotate(6deg); }
+    100% { filter: brightness(0.94) hue-rotate(-4deg); }
+}
+
+/* ============================================================
+   2) CAPA FOG — NIEBLA SUAVE AZULADA (ahora mucho más sutil)
+   ============================================================ */
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background:
+        radial-gradient(circle at 15% 20%, rgba(80,120,255,0.14), transparent 60%),
+        radial-gradient(circle at 80% 75%, rgba(120,160,255,0.12), transparent 60%);
+
+    opacity: 0.25; /* antes 0.55 → ahora equilibrado */
+    animation: brFogMove 55s ease-in-out infinite;
+    z-index: -2;
+    pointer-events: none;
+}
+
+@keyframes brFogMove {
+    0%   { transform: translate3d(0,0,0) scale(1.03); }
+    50%  { transform: translate3d(-10px,-8px,0) scale(1.06); }
+    100% { transform: translate3d(8px,10px,0) scale(1.03); }
+}
+
+/* ============================================================
+   3) PARTÍCULAS — POLVO LUMINOSO AZULADO (integradas)
+   ============================================================ */
+
+.stars-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1; /* encima del fog y waves */
+}
+
+.star {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+
+    background: radial-gradient(circle,
+        rgba(150,190,255,0.65) 0%,
+        rgba(150,190,255,0.08) 45%,
+        transparent 100%
+    );
+
+    border-radius: 50%;
+    filter: blur(3px);
+    opacity: 0.55;
+    animation: starFloat 22s ease-in-out infinite;
+}
+
+@keyframes starFloat {
+    0%   { transform: translateY(0px)     translateX(0px); }
+    50%  { transform: translateY(-35px)  translateX(16px); }
+    100% { transform: translateY(0px)     translateX(0px); }
+}
+
+/* ============================================================
+   4) ONDAS ATMOSFÉRICAS — MÚSICA VISUAL
+   ============================================================ */
+
+.waves-layer {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 60%,
+        rgba(80,120,255,0.10),  /* más suave */
+        transparent 60%
+    );
+    animation: wavesAnim 28s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes wavesAnim {
+    0%   { transform: scale(1)       translateY(0px); }
+    50%  { transform: scale(1.14)    translateY(12px); }
+    100% { transform: scale(1)       translateY(0px); }
+}

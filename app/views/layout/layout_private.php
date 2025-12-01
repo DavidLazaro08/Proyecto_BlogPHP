@@ -10,6 +10,15 @@
 <body class="private-body">
     <canvas id="blueRoomCanvas"></canvas>
 
+        <div class="stars-layer">
+    <div class="star" style="top:20%; left: 25%; animation-delay:0s;"></div>
+    <div class="star" style="top:60%; left: 45%; animation-delay:3s;"></div>
+    <div class="star" style="top:35%; left: 70%; animation-delay:6s;"></div>
+    <div class="star" style="top:80%; left: 10%; animation-delay:9s;"></div>
+    </div>
+
+<div class="waves-layer"></div>
+
 <?php
 
 // ==========================================================

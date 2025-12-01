@@ -1,3 +1,18 @@
+<?php
+$avatar = $post['avatar'] ?? "";
+
+// Si viene con "/avatars/archivo.jpg", lo recortamos y dejamos solo "archivo.jpg"
+if (str_starts_with($avatar, "/avatars/")) {
+    $avatar = substr($avatar, strlen("/avatars/"));
+}
+
+// Si sigue vacío → default
+if (!$avatar) {
+    $avatar = "default.jpg";
+}
+?>
+
+
 <article class="post-full-wrapper">
 
     <div class="post-full-card">
@@ -15,11 +30,13 @@
         <?php endif; ?>
                 
         <!-- AUTOR -->
-        <p class="post-full-author" style="display:flex; align-items:center; gap:8px; justify-content:center; margin-top:20px; opacity:0.85;">
-        <img src="/Proyecto_BlogPHP/public/avatars/<?= htmlspecialchars($post['avatar']) ?>"
-            style="width:32px; height:32px; border-radius:50%; object-fit:cover; border:1px solid rgba(120,160,255,0.35);">
-        <span>Escrito por <strong><?= htmlspecialchars($post['username']) ?></strong></span>
-        </p>
+        <div class="post-full-author">
+            <img src="/Proyecto_BlogPHP/public/avatars/<?= htmlspecialchars($avatar) ?>"
+                class="post-full-avatar">
+            <span>Escrito por <strong><?= htmlspecialchars($post['username']) ?></strong></span>
+        </div>
+
+
 
         <!-- IMAGEN -->
         <?php if (!empty($post['image'])): ?>

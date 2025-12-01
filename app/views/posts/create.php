@@ -34,8 +34,9 @@
     </div>
     <!-- BOTÓN VOLVER ARRIBA (fuera del cuadro) -->
 <div class="mod-header" style="max-width:1200px; margin:25px auto 10px auto; padding:0 20px;">
-    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=homePrivate" class="btn-back">
-        ← Volver
-    </a>
+    <a href="/Proyecto_BlogPHP/public/?controller=posts&action=index" class="btn-back">
+    ← Volver
+</a>
+
 </div>
 </div>
