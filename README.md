@@ -232,7 +232,7 @@ Sala principal privada donde los usuarios registrados pueden explorar el atlas s
 Este proyecto es parte de un trabajo académico para el **Grado Superior en Programación**.
 
 **Autor:** David Gutiérrez Ortiz  
-**Año:** 2024-2025
+**Año:** 2025-2026
 
 ---
 
