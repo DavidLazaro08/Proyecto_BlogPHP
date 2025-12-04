@@ -166,9 +166,7 @@ Proyecto_BlogPHP/
 
 1. **Configurar base de datos**
    ```sql
-   CREATE DATABASE hidden_sound_atlas;
-   ```
-   - Importar `database/schema.sql`
+   - Importar y ejecutar `database/schema_hiddensound_atlas.sql`
 
 2. **Configurar conexión**
    - Editar `config/config.php` con credenciales de BD
