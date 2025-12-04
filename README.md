@@ -2,9 +2,9 @@
 
 > *Un atlas sonoro oculto dedicado a la música no convencional, donde cada publicación es un viaje a través de sonidos menos mainstream de cualquier género.*
 
-**Proyecto Final - Grado Superior en Programación**  
+**Proyecto Final - Grado Superior en Desarrollo de Aplicaciones Multiplataforma**  
 **Autor:** David Gutiérrez Ortiz  
-**Curso:** 2024-2025
+**Curso:** 2025-2026
 
 ---
 
