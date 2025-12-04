@@ -1,0 +1,152 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+title Hidden Sound Atlas – UML Class Diagram (Final - Versión Mejorada)
+
+' ==========================================================
+'                   CORE LAYER
+' ==========================================================
+
+class Database {
+    - connection : PDO
+    + __construct() : void
+    + getConnection() : PDO
+}
+
+class Router {
+    + {static} route() : void
+}
+
+' ==========================================================
+'                   MODELS LAYER
+' ==========================================================
+
+class User {
+    - conn : PDO
+    + __construct() : void
+    + findByEmail(email : string) : array|false
+    + verifyPassword(passwordIntroducida : string, hashGuardado : string) : bool
+    + findById(id : int) : array|false
+    + create(username : string, email : string, password : string, role : string, avatar : string) : int
+    + getAllUsers() : array
+    + requestEditorRole(userId : int) : bool
+    + hasPendingEditorRequest(userId : int) : array|false
+    + getEditorRequests() : array
+    + approveEditorRequest(requestId : int) : bool
+    + rejectEditorRequest(requestId : int) : bool
+    + updateAvatar(userId : int, path : string) : bool
+    + updateRole(userId : int, newRole : string) : bool
+    + updateBasicData(id : int, username : string, email : string) : bool
+    + updateUserAdmin(id : int, username : string, email : string, role : string) : bool
+    + deleteUserById(id : int) : bool
+    + toggleActive(id : int, newState : bool) : bool
+}
+
+class Post {
+    - conn : PDO
+    + __construct() : void
+    + getPublicPosts() : array
+    + getPublicPostsLimited(limit : int) : array
+    + getAllPosts() : array
+    + getPostsByUser(userId : int) : array
+    + getPostsByRole(role : string, userId : int) : array
+    + createPost(title : string, subtitle : string, slug : string, content : string, visibility : string, author_id : int, image : string, status : string) : bool
+    + getPostById(id : int) : array|false
+    + getPendingPosts() : array
+    + approvePost(postId : int) : bool
+    + rejectPost(postId : int) : bool
+    + deletePost(postId : int) : bool
+    + getAllPostsForModeration() : array
+    + incrementViews(id : int) : bool
+}
+
+note right of User
+  Gestiona la tabla editor_requests
+  para solicitudes de rol Editor
+end note
+
+' ==========================================================
+'                   CONTROLLERS LAYER
+' ==========================================================
+
+class AuthController {
+    + loginForm() : void
+    + login() : void
+    + logout() : void
+}
+
+class RegisterController {
+    + registerForm() : void
+    + register() : void
+}
+
+class HomeController {
+    + publicHome() : void
+    + index() : void
+    - renderPrivate(view : string, data : array) : void
+}
+
+class PostsController {
+    + index() : void
+    + createForm() : void
+    + store() : void
+    + view() : void
+    - render(layout : string, view : string, data : array) : void
+}
+
+class UsersController {
+    + profile() : void
+    + requestEditor() : void
+    + updateAvatar() : void
+    + editProfileForm() : void
+    + updateProfile() : void
+    - render(layout : string, view : string, data : array) : void
+}
+
+class PanelController {
+    - requireAdmin() : void
+    + dashboard() : void
+    + pendingPosts() : void
+    + approve() : void
+    + reject() : void
+    + delete() : void
+    + users() : void
+    + deleteUser() : void
+    + editUser() : void
+    + updateUser() : void
+    + editorRequests() : void
+    + approveEditor() : void
+    + rejectEditor() : void
+    + disableUser() : void
+    + enableUser() : void
+    - render(layout : string, view : string, data : array) : void
+}
+
+' ==========================================================
+'                   RELATIONSHIPS
+' ==========================================================
+
+' Models → Database (Composición - crean instancia en constructor)
+User *-- Database : creates
+Post *-- Database : creates
+
+' Controllers → Models (Dependencia)
+AuthController ..> User : uses
+RegisterController ..> User : uses
+HomeController ..> Post : uses
+PostsController ..> Post : uses
+UsersController ..> User : uses
+UsersController ..> Post : uses
+PanelController ..> User : uses
+PanelController ..> Post : uses
+
+' Router → Controllers (Instanciación dinámica)
+Router ..> AuthController : instantiates
+Router ..> RegisterController : instantiates
+Router ..> HomeController : instantiates
+Router ..> PostsController : instantiates
+Router ..> UsersController : instantiates
+Router ..> PanelController : instantiates
+
+@enduml
