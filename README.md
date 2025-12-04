@@ -29,7 +29,7 @@
 | Rol | Usuario | Contraseña | Descripción |
 |-----|---------|------------|-------------|
 | **Admin** | `admin@hatlas.com` | `1234` | Acceso completo al sistema |
-| **Editor** | `Martin@hatlas` | `1234` | Puede crear posts (requieren aprobación) |
+| **Editor** | `Martin@hatlas.com` | `1234` | Puede crear posts (requieren aprobación) |
 | **User** | `try@hatlas.com` | `1234` | Usuario básico con solicitud de editor pendiente |
 
 ### 🌐 URL de Acceso
